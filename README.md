@@ -1,3 +1,3 @@
-#blanc
+# Blanc
 
 Just blanc.
