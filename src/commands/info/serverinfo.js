@@ -27,7 +27,6 @@ module.exports = class ServerInfoCommand extends Command {
         if (!server) return
         let members = await server.members.fetch(false),
         owner = await this.client.users.fetch(server.ownerID, false);
-
         const embed = new MessageEmbed()
             .setColor('#fefefe')
             .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}    ${localeEmoji(server.preferredLocale)}`)
@@ -43,7 +42,7 @@ module.exports = class ServerInfoCommand extends Command {
                 { name: `${this.client.emoji.icons['id']} Server ID:`, value: `\`\`\`${server.id}\`\`\``, inline: false },
             ]),
             embedchannels = new MessageEmbed()
-                .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}`)
+            .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}    ${localeEmoji(server.preferredLocale)}`)
                 .setColor('#fefefe')
                 .setThumbnail(server.iconURL({ dynamic: true }))
                 .addFields([
@@ -56,9 +55,21 @@ module.exports = class ServerInfoCommand extends Command {
                     { name: `${this.client.emoji.channels['rules']} Regras:`, value: `${server.rulesChannel || 'Nenhum'}`, inline: true },
                     { name: `${this.client.emoji.channels['voice']} AFK:`, value: `${server.afkChannel || 'Nenhum'}`, inline: true },
                 ]),
-            chan = new MessageButton().setEmoji('841517547588550676').setStyle('SUCCESS').setCustomID('channels').setLabel('CANAIS'),
+            embedroles = new MessageEmbed()
+            .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}    ${localeEmoji(server.preferredLocale)}`)
+            .setColor('#fefefe')
+            .setThumbnail(server.iconURL({ dynamic: true }))
+            .addFields([
+                { name: `${this.client.emoji.icons['role']} Total:`, value: `\`\`\`${server.roles.cache.size - 1}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['mod']} Mods:`, value: `\`\`\`${server.roles.cache.array().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['members']} Comuns:`, value: `\`\`\`${(server.roles.cache.size - 1) - (server.roles.cache.array().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length)}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['activity']} Cargos:`, value: this.client.utils.trimArray(server.roles.cache.sort((a, b) => b.position - a.position).array().slice(0, -1), 20).join('\n')}
+            ])
+            ,
+            chan = new MessageButton().setEmoji('841742417514332213').setStyle('SECONDARY').setCustomID('channels').setLabel('CANAIS'),
+            role = new MessageButton().setEmoji('841519139184705556').setStyle('SECONDARY').setCustomID('roles').setLabel('CARGOS'),
             back = new MessageButton().setEmoji('841742417783029822').setStyle('PRIMARY').setCustomID('back'),
-            home = new MessageActionRow().addComponents([chan]),
+            home = new MessageActionRow().addComponents([chan, role]),
             menu = new MessageActionRow().addComponents([back]);
 
         if (server.channels.cache.filter(c => (c.type === 'public_thread' || c.type === 'private_thread' || c.type === 'news_thread') && !c.archived).size > 0) {
@@ -66,7 +77,7 @@ module.exports = class ServerInfoCommand extends Command {
             putext = threads.filter(t => t.type === 'public_thread' && !guild.channels.forge(t.parentID).nsfw).size,
             prtext = threads.filter(t => t.type === 'private_thread').size,
             nsftext = threads.filter(t => t.type === 'public_thread' && guild.channels.forge(t.parentID).nsfw).size,
-            punews = threads.filter(t => t.type === 'news_thread' && !guild.channels.forge(t.parentID).nsfw).size,
+            punews = threads.filter(t => t.type === 'news_thread' && !guild.channels.forge(t.parentID).nsfw && !!channel.permissionOverwrites.filter(r => r.id === guild.roles.everyone.id ).first()?.deny.toArray().includes('VIEW_CHANNEL') === false).size,
             prnews = threads.filter(t => t.type === 'news_thread' && !!channel.permissionOverwrites.filter(r => r.id === guild.roles.everyone.id ).first()?.deny.toArray().includes('VIEW_CHANNEL')).size,
             nsfnews = threads.filter(t => t.type === 'news_thread' && guild.channels.forge(t.parentID).nsfw).size,
             field = {
@@ -91,7 +102,10 @@ module.exports = class ServerInfoCommand extends Command {
             interaction.deferUpdate()
             "back" === interaction.customID
                 ? sent.nmEdit({ embeds: [embed], components: [home] })
-                : "channels" === interaction.customID && sent.nmEdit({ embeds: [embedchannels], components: [menu] })
+                : "channels" === interaction.customID 
+                ? sent.nmEdit({ embeds: [embedchannels], components: [menu] })
+                : "roles" === interaction.customID && sent.nmEdit({ embeds: [embedroles], components: [menu] })
+                
         })
         col.on('end', () => {
             sent.nmEdit({embeds: [embed], components: []})

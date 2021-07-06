@@ -217,5 +217,22 @@ class BlancClient extends Client {
             }
         }
     }
+    get MODPERMS() {
+        return [
+            'ADMINISTRATOR',
+            'KICK_MEMBERS',
+            'BAN_MEMBERS',
+            'MANAGE_CHANNELS',
+            'MANAGE_GUILD',
+            'VIEW_AUDIT_LOG',
+            'MANAGE_MESSAGES',
+            'VIEW_GUILD_INSIGHTS',
+            'MUTE_MEMBERS',
+            'DEAFEN_MEMBERS',
+            'MOVE_MEMBERS',
+            'MANAGE_ROLES',
+            'MANAGE_THREADS'
+        ]
+    }
 }
 module.exports = BlancClient;

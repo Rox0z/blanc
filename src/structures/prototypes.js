@@ -29,5 +29,8 @@ module.exports = class Prototypes {
             this.forEach((e, i) => this.splice(i, 0, this.splice(i, chunkSize)));
             return this;
         }
+        Array.prototype.hasAny = function (array) {
+            return this.some(r=> array.indexOf(r) >= 0)
+        }
     }
 }
