@@ -1,5 +1,4 @@
-const { MessageButton } = require('discord.js')
-const { MessageEmbed, MessageSelectMenu, MessageActionRow, MessageComponentInteractionCollector } = require('discord.js-light')
+const { MessageEmbed, MessageSelectMenu, MessageActionRow, MessageComponentInteractionCollector, MessageButton } = require('discord.js-light')
 const Command = require('../../structures/command.js')
 
 module.exports = class HelpCommand extends Command {

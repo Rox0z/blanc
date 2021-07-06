@@ -66,7 +66,7 @@ module.exports = class ConfigCommand extends Command {
             mlog = new MessageButton().setCustomID('mlog').setLabel('MOD LOGS').setStyle(color).setEmoji('841519512678432778'),
             pref = new MessageButton().setCustomID('pref').setLabel('PREFIX').setStyle(color).setEmoji('841519978397040640'),
             mute = new MessageButton().setCustomID('mute').setLabel('MUTE').setStyle(color).setEmoji('841519038974656522'),
-            volt = new MessageButton().setCustomID('back').setLabel('VOLTAR').setStyle('PRIMARY').setEmoji('841742417783029822'),
+            volt = new MessageButton().setCustomID('back').setStyle('PRIMARY').setEmoji('841742417783029822'),
             home = new MessageActionRow().addComponents([pref, mute, logs, mlog]),
             back = new MessageActionRow().addComponents([volt])
 
