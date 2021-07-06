@@ -84,7 +84,7 @@ module.exports = class ServerInfoCommand extends Command {
             embedchannels.addFields([field])
         }
         let sent = await message.nmReply({ embeds: [embed], components: [home] })
-        const col = new MessageComponentInteractionCollector(sent, { time: 3e5 })
+        const col = new MessageComponentInteractionCollector(sent, { time: 18e4 })
 
         col.on('collect', async (interaction) => {
             if (interaction.user.id !== author.id) return interaction.reply({ content: 'Apenas o autor pode interagir!', ephemeral: true })
@@ -92,6 +92,9 @@ module.exports = class ServerInfoCommand extends Command {
             "back" === interaction.customID
                 ? sent.nmEdit({ embeds: [embed], components: [home] })
                 : "channels" === interaction.customID && sent.nmEdit({ embeds: [embedchannels], components: [menu] })
+        })
+        col.on('end', () => {
+            sent.nmEdit({embeds: [embed], components: []})
         })
     }
 }
