@@ -22,7 +22,7 @@ module.exports = class RemoveTmpRolesCommand extends Command {
         );
         job = job.filter(job => job.attrs.data.memberID === member.user.id && job.attrs.data.guildID === guild.id)[0]
 
-        await member.roles.remove(job.attrs.data.rolesID)
+        await member.roles.remove(job.attrs.data.rolesID).catch(() => channel.send('Não foi possivel remover os cargos!'))
         await job.remove();
         message.nmReply(`Foi removido todos os cargos temporários de ${member.user.username}.`)
     }
