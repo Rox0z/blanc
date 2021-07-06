@@ -25,7 +25,8 @@ module.exports = class ServerInfoCommand extends Command {
     async run({ message, args, guild, channel, author }) {
         let server = !isNaN(args[0]) && this.client.utils.resolveGuild(args[0], this.client.guilds.cache, true, true) || guild
         if (!server) return
-        let members = await server.members.fetch(false);
+        let members = await server.members.fetch(false),
+        owner = await this.client.users.fetch(server.ownerID, false);
 
         const embed = new MessageEmbed()
             .setColor('#fefefe')
@@ -38,7 +39,7 @@ module.exports = class ServerInfoCommand extends Command {
                 { name: `${this.client.emoji.icons['sticker']} Stickers:`, value: `\`\`\`${server?.stickers?.cache?.size || '0'}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['members']} Membros:`, value: `\`\`\`${server.memberCount}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['integration']} BOTS:`, value: `\`\`\`${members.filter(m => m.user.bot).size}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['owner']} ${await this.client.users.forge(server.ownerID).username}:`, value: `\`\`\`${server.ownerID}\`\`\``, inline: false },
+                { name: `${this.client.emoji.icons['owner']} ${owner.username}:`, value: `\`\`\`${server.ownerID}\`\`\``, inline: false },
                 { name: `${this.client.emoji.icons['id']} Server ID:`, value: `\`\`\`${server.id}\`\`\``, inline: false },
             ]),
             embedchannels = new MessageEmbed()
