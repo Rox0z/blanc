@@ -32,7 +32,7 @@ module.exports = class MessageEvent extends Event {
                 if (!(command.channel === 'both' || command.channel === channel.type)) return
                 //let data
                 //if (guild) data = await this.client.guildConfig.get(`${guild.id}`) 
-                /*else*/ data = null
+                /*else*/let data = null
                 !!command.typing && message.channel.startTyping()
                 command.run({ message: message, args: args, guild: guild, channel: channel, author: author, member: message?.member, data: data });
                 guild?.members?.cache.sweep((e) => e.user.id !== this.client.user.id)
