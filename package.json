@@ -17,6 +17,7 @@
     "byte-size": "^7.0.1",
     "canvas": "^2.8.0",
     "canvas-constructor": "^4.1.0",
+    "chroma-js": "^2.1.2",
     "discord.js": "github:discordjs/discord.js#master",
     "discord.js-light": "github:timotejroiko/discord.js-light#master",
     "dotenv": "^10.0.0",
