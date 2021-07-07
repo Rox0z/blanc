@@ -141,11 +141,12 @@ module.exports = class ConfigCommand extends Command {
                 switch (args[1]) {
                     case 'default':
                         await this.client.guildConfig.set(`${guild.id}.guildPrefix`, this.client.defaultPrefix), message.nmReply(`Prefix resetado para \`${this.client.defaultPrefix}\``)
+                        this.client.prefixes.filter(e => e.guild === guild.id)[0].prefix = this.client.defaultPrefix
                         break;
                     case 'set':
                         if (args[2]) {
-
                             await this.client.guildConfig.set(`${guild.id}.guildPrefix`, args[2]), message.nmReply(`Novo prefix escolhido, \`${args[2]}\``)
+                            this.client.prefixes.filter(e => e.guild === guild.id)[0].prefix = args[2]
                         }
                         else {
                             let filter = (m) => m.author.id === author.id;
