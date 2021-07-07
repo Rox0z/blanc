@@ -30,9 +30,9 @@ module.exports = class MessageEvent extends Event {
                 if (channel.type !== 'dm' && !this.client.canUse(command.neededPermissions, message?.member?.permissions?.toArray())) return message.channel.send('`Você não possui as permissões necessárias para executar esse comando!`')
                 if (channel.type !== 'dm' && !this.client.canUse(command.neededPermissions, message?.guild?.me?.permissions?.toArray())) return message.channel.send('`Eu não possuo as permissões necessárias para executar esse comando!`')
                 if (!(command.channel === 'both' || command.channel === channel.type)) return
-                //let data
-                //if (guild) data = await this.client.guildConfig.get(`${guild.id}`) 
-                /*else*/let data = null
+                let data
+                if (guild) data = await this.client.guildConfig.get(`${guild.id}`) 
+                else data = null
                 !!command.typing && message.channel.startTyping()
                 command.run({ message: message, args: args, guild: guild, channel: channel, author: author, member: message?.member, data: data });
                 guild?.members?.cache.sweep((e) => e.user.id !== this.client.user.id)
