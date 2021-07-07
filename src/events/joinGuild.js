@@ -9,7 +9,8 @@ module.exports = class JoinEvent extends Event {
         })
     }
     async run(guild) {
-        this.client.guildConfig.set(`${guild.id}`, {muteRole: null, logsChannel: null, modLogsChannel: null, guildPrefix: '.'})
+        this.client.guildConfig.set(`${guild.id}`, {muteRole: null, logsChannel: null, modLogsChannel: null, guildPrefix: this.client.defaultPrefix})
+        this.client.prefixes.push({guild: guild.id, prefix: this.client.defaultPrefix})
         .then(()=>console.log(`Novo servidor: ${guild.name}`))
         this.client.users.cache.sweep((e) => e.id !== this.client.user.id)
     }
