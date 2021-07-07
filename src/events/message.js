@@ -12,14 +12,14 @@ module.exports = class MessageEvent extends Event {
         const mention = RegExp(`^<@!?${this.client.user.id}>$`),
             mentionPrefix = RegExp(`^<@!?${this.client.user.id}> `);
         if (message.author.bot) return;
-        let prefix
-        //if (message.channel.type === 'text') {
-        //    message.content.match(mention) && message.reply(`Meu prefixo neste servidor é \`${await this.client.guildConfig.get(`${message.guild.id}.guildPrefix`)}\``);
-        //    prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : (this.client.defaultPrefix !== await this.client.guildConfig.get(`${message.guild.id}.guildPrefix`)) ? await this.client.guildConfig.get(`${message.guild.id}.guildPrefix`) : this.client.defaultPrefix;
-        //} else {
+        if (message.channel.type === 'text') {
+            let dbprefix = await this.client.guildConfig.get(`${message.guild.id}.guildPrefix`)
+            message.content.match(mention) && message.reply(`Meu prefixo neste servidor é \`${dbprefix}\``);
+            prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : (this.client.defaultPrefix !== dbprefix) ? dbprefix : this.client.defaultPrefix;
+        } else {
             message.content.match(mention) && message.reply(`Meu prefixo é \`${this.client.defaultPrefix}\``)
             prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : this.client.defaultPrefix
-        //}
+        }
         if (message.content.startsWith(prefix)) {
             const [cmd, ...args] = message.content.slice(prefix.length).trim().split(/ +/g),
                 command = this.client.commands.get(cmd.toLowerCase()) || this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
