@@ -29,7 +29,7 @@ module.exports = class HelpCommand extends Command {
             menu = new MessageActionRow().addComponents([back]);
 
         let sent = await message.nmReply({ embeds: [embed], components: [sele, home] })
-        let prefix = await this.client.guildConfig.get(`${guild.id}.guildPrefix`)
+        let prefix = '.'
         const col = new MessageComponentInteractionCollector(sent, { time: 3e5 })
 
         col.on('collect', async (interaction) => {
