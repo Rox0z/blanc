@@ -29,6 +29,7 @@ class BlancClient extends Client {
         this.gen = new ImgGenerator(this);
         this.agenda = new Agenda({ db: { address: process.env.MONGOURI, options: { useUnifiedTopology: true } } })
         this.guildConfig = new Database(process.env.MONGOURI, 'Guild_Config')
+        //this.lang = require('./lang')
 
         new Tasks(this, this.agenda)
 
@@ -233,6 +234,15 @@ class BlancClient extends Client {
             'MANAGE_ROLES',
             'MANAGE_THREADS'
         ]
+    }
+    /**
+     * 
+     * @param {String} lang The language to get the text 
+     * @param {String} text The text to get
+     * @returns String or object from the requested text
+     */
+    text(lang, text) {
+        return require(`../locale/${lang}.json`)[text] ? require(`../locale/${lang}.json`)[text] : require(`../locale/pt.json`)[text]
     }
 }
 module.exports = BlancClient;
