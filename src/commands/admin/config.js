@@ -28,7 +28,7 @@ module.exports = class ConfigCommand extends Command {
             prefixMenu = new MessageEmbed()
                 .setAuthor('Menu de configuração', "https://cdn.discordapp.com/emojis/841519978397040640.png")
                 .setTitle('Configurações de Prefix:')
-                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize os botões para detalhes.')
+                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize o botão para voltar.')
                 .addFields([
                     { name: "Default", value: "```ini\n[ Reseta o prefix do BOT neste servidor ]```", inline: 0 },
                     { name: "Set", value: "```ini\n[ Declare um novo prefix do BOT neste servidor ]```", inline: 0 },
@@ -36,7 +36,7 @@ module.exports = class ConfigCommand extends Command {
             muteMenu = new MessageEmbed()
                 .setAuthor('Menu de configuração', "https://cdn.discordapp.com/emojis/841519038974656522.png")
                 .setTitle('Configurações de Mute:')
-                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize os botões para detalhes.')
+                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize o botão para voltar.')
                 .addFields([
                     { name: "Create", value: "```ini\n[ Cria um cargo mute e define como padrão ]```", inline: 0 },
                     { name: "Set", value: "```ini\n[ Declare um cargo mute neste servidor ]```", inline: 0 },
@@ -45,8 +45,8 @@ module.exports = class ConfigCommand extends Command {
                 ]),
             logsMenu = new MessageEmbed()
                 .setAuthor('Menu de configuração', "https://cdn.discordapp.com/emojis/841742410337091594.png")
-                .setTitle('Configurações de Prefix:')
-                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize os botões para detalhes.')
+                .setTitle('Configurações de Logs:')
+                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize o botão para voltar.')
                 .addFields([
                     { name: "Create", value: "```ini\n[ Cria um canal de logs para uso ]```", inline: 0 },
                     { name: "Set", value: "```ini\n[ Declare um canal de logs neste servidor ]```", inline: 0 },
@@ -54,8 +54,8 @@ module.exports = class ConfigCommand extends Command {
                 ]),
             modlogsMenu = new MessageEmbed()
                 .setAuthor('Menu de configuração', "https://cdn.discordapp.com/emojis/841519512678432778.png")
-                .setTitle('Configurações de Prefix:')
-                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize os botões para detalhes.')
+                .setTitle('Configurações de ModLogs:')
+                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize o botão para voltar.')
                 .addFields([
                     { name: "Create", value: "```ini\n[ Cria um canal de logs de moderação para uso ]```", inline: 0 },
                     { name: "Set", value: "```ini\n[ Declare um canal de logs de moderação neste servidor ]```", inline: 0 },
