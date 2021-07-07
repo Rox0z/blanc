@@ -14,6 +14,6 @@ module.exports = class PingCommand extends Command{
     async run({message}){
         const sent = await message.nmReply({embeds: [new MessageEmbed().setColor('#ff0000').setAuthor('🏓  Pong!').setDescription('⏱️ **`Host`**: `???` ms\n📡 **`API `**: `???` ms').setTimestamp()]});
         //const timeDiff = (sent.editedAt || sent.createdAt) - (message.editedAt || message.createdAt);
-        return sent.nmEdit({embeds: [new MessageEmbed().setColor('#00ff00').setAuthor('🏓  Pong!').setDescription(`⏱️ **\`Host\`**: \`${(sent.editedAt || sent.createdAt) - (message.editedAt || message.createdAt)}\` ms\n📡 **\`API \`**: \`${Math.round(this.client.ws.ping)}\` ms`).setTimestamp()]});
+        return sent.edit({embeds: [new MessageEmbed().setColor('#00ff00').setAuthor('🏓  Pong!').setDescription(`⏱️ **\`Host\`**: \`${(sent.editedAt || sent.createdAt) - (message.editedAt || message.createdAt)}\` ms\n📡 **\`API \`**: \`${Math.round(this.client.ws.ping)}\` ms`).setTimestamp()]});
     }
 }
