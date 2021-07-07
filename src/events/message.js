@@ -12,6 +12,7 @@ module.exports = class MessageEvent extends Event {
         const mention = RegExp(`^<@!?${this.client.user.id}>$`),
             mentionPrefix = RegExp(`^<@!?${this.client.user.id}> `);
         if (message.author.bot) return;
+        let prefix
         if (message.channel.type === 'text') {
             let dbprefix = await this.client.guildConfig.get(`${message.guild.id}.guildPrefix`)
             message.content.match(mention) && message.reply(`Meu prefixo neste servidor é \`${dbprefix}\``);
