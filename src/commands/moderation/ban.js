@@ -11,7 +11,7 @@ module.exports = class BanCommand extends Command {
             title: 'Ban'
         });
     }
-    async run({ args, message, guild, author, data, channel }) {
+    async run({ args, message, guild, author, channel }) {
         let user = await this.client.utils.resolveUser(message, args[0])
         if (user.id === message.author.id) return message.channel.send(`Você não é o Aizeen`)
 
@@ -20,7 +20,7 @@ module.exports = class BanCommand extends Command {
             .ban(user.id, { reason: reason })
             .then(message.nmReply("Usuário punido!"));
 
-        let ch = data.modLogsChannel
+        let ch = await this.client.guildConfig.get(`${guild.id}.modLogsChannel`)
         if (typeof ch === 'string') {
             let logchannel = await this.client.utils.resolveChannel(guild, ch)
             if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, null).catch(() => null)

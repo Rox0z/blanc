@@ -20,7 +20,7 @@ module.exports = class UnbanCommand extends Command {
             .unban(user.id, { reason: reason })
             .then(message.nmReply("Usuário liberado!"));
 
-        let ch = data.modLogsChannel
+            let ch = await this.client.guildConfig.get(`${guild.id}.modLogsChannel`)
         if (typeof ch === 'string') {
             let logchannel = await this.client.utils.resolveChannel(guild, ch)
             if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, null).catch(() => null)

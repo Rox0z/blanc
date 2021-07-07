@@ -17,7 +17,7 @@ module.exports = class MuteCommand extends Command {
         if (user.id === message.author.id) return message.channel.send(`Você não é o Aizeen`)
         let member = await guild.members.fetch(user.id).catch(() => null)
         if (!member) return message.channel.send(`Usuário não é um membro!`)
-        let muterole = data.muteRole
+        let muterole = await this.client.guildConfig.get(`${guild.id}.muteRole`)
         if (muterole === null) return message.nmReply('O comando `mute` está desativado neste servidor')
         let valid = this.client.utils.resolveRole(muterole, guild.roles.cache)
         if (!valid) return (await this.client.guildConfig.set(`${guild.id}.muteRole`, null).catch(() => null), message.nmReply('O cargo `mute` está inválido. O comando foi desativado neste servidor!'))
@@ -26,7 +26,7 @@ module.exports = class MuteCommand extends Command {
         let reason = args.slice(2).join(' ')
         await this.client.agenda.schedule(Date.now() + ms(args[1]), 'unmute', { memberID: member.user.id, guildID: guild.id, muteroleID: muterole })
         message.nmReply("Usuário punido!")
-        let ch = data.modLogsChannel
+        let ch = await this.client.guildConfig.get(`${guild.id}.modLogsChannel`)
         if (typeof ch === 'string') {
             let logchannel = await this.client.utils.resolveChannel(guild, ch)
             if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, null).catch(() => null)

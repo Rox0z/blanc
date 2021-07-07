@@ -32,7 +32,7 @@ module.exports = class UnmuteCommand extends Command {
         );
         await job[0].remove();
         message.nmReply(`${member.user.username} foi desmutado.`)
-        let ch = data.modLogsChannel
+        let ch = await this.client.guildConfig.get(`${guild.id}.modLogsChannel`)
         if (typeof ch === 'string') {
             let logchannel = await this.client.utils.resolveChannel(guild, ch)
             if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, null).catch(() => null)
