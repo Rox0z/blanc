@@ -11,7 +11,7 @@ module.exports = class HelpCommand extends Command {
             usage: 'help [commandName]'
         })
     }
-    async run({ message, args, guild, channel, author }) {
+    async run({ message, prefix, author }) {
 
         let commands = this.client.isOwner(author) ? this.client.commands.map(cmd => cmd = { label: cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji }) : this.client.commands.filter(cmd => cmd.category !== 'Owner').map(cmd => cmd = { label: cmd.name, value: cmd.name, description: cmd.category, emoji: cmd.emoji })
         const embed = new MessageEmbed()
@@ -29,7 +29,6 @@ module.exports = class HelpCommand extends Command {
             menu = new MessageActionRow().addComponents([back]);
 
         let sent = await message.nmReply({ embeds: [embed], components: [sele, home] })
-        let prefix = '.'
         const col = new MessageComponentInteractionCollector(sent, { time: 3e5 })
 
         col.on('collect', async (interaction) => {
