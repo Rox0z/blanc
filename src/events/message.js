@@ -14,7 +14,7 @@ module.exports = class MessageEvent extends Event {
         if (message.author.bot) return;
         let prefix
         if (message.channel.type === 'text') {
-            let dbprefix =  this.client.prefixes.filter(e => e.guild === guild.id)[0].prefix
+            let dbprefix =  this.client.prefixes.filter(e => e.guild === message.guild.id)[0].prefix
             message.content.match(mention) && message.reply(`Meu prefixo neste servidor é \`${dbprefix}\``);
             prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : (this.client.defaultPrefix !== dbprefix) ? dbprefix : this.client.defaultPrefix;
         } else {
