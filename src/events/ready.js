@@ -17,11 +17,11 @@ module.exports = class ReadyEvent extends Event {
         //console.table(this.client.commands.map((cmd) => ({ name: cmd.name, description: cmd.description, category: cmd.category })).reduce((e, { name, ...i }) => ((e[name] = i), e), {}));
         console.log("Guilds");
         console.table(this.client.guilds.cache.sort((a,b) => b.memberCount - a.memberCount).map((guild) => ({ name: guild.name, id: guild.id, members: guild.memberCount })).reduce((e, { name, ...i }) => ((e[name] = i), e), {}))
-        let array = []
+        let prefixes = []
         for (const guild of this.client.guilds.cache.array()) {
             let prefix = await this.client.guildConfig.get(`${guild.id}.guildPrefix`)
-            array.push({guild: guild.id, prefix: prefix})
+            prefixes.push({guild: guild.id, prefix: prefix})
         }
-        this.client.prefixes = array
+        this.client.prefixes = new Collection(prefixes.map(e => [e.guild, e.prefix]));
     }
 }

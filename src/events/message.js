@@ -9,12 +9,13 @@ module.exports = class MessageEvent extends Event {
         })
     }
     async run(message) {
+        if (!!this.client?.prefixes?.size === false) return
         const mention = RegExp(`^<@!?${this.client.user.id}>$`),
             mentionPrefix = RegExp(`^<@!?${this.client.user.id}> `);
         if (message.author.bot) return;
         let prefix
         if (message.channel.type === 'text') {
-            let dbprefix =  this.client.prefixes.filter(e => e.guild === message.guild.id)[0].prefix
+            let dbprefix =  this.client.prefixes.get(message.guild.id)
             message.content.match(mention) && message.reply(`Meu prefixo neste servidor é \`${dbprefix}\``);
             prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : (this.client.defaultPrefix !== dbprefix) ? dbprefix : this.client.defaultPrefix;
         } else {
