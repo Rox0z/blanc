@@ -11,13 +11,13 @@ module.exports = class UnlockCommand extends Command {
             title: 'Unlock'
         })
     }
-    async run({ message, args, guild, channel, author }) {
+    async run({ message, guild, lang }) {
         message.channel.updateOverwrite(
             guild.roles.everyone,
             { SEND_MESSAGES: null },
             {reason: `Permissão de @everyone para enviar mensagens é DEFAULT`}
         );
 
-        message.nmReply("Este canal foi desbloqueado!");
+        message.nmReply(this.client.locale(lang, 'CHANNEL_STATUS', {custom: ['status', 'desbloqueado']}));
     }
 }

@@ -14,12 +14,12 @@ module.exports = class TemproleCommand extends Command {
         });
     }
     async run({ args, message, guild }) {
-        if (!args[2]) return message.channel.send(`Você precisa especificar os cargos!`)
+        if (!args[2]) return message.channel.send(this.client.locale(lang, 'ERROR_PROVIDE_ROLES', {custom: ['prefix', prefix]}))
         let user = await this.client.utils.resolveUser(message, args[0])
         let member = await guild.members.fetch(user.id).catch(() => null)
-        if (!member) return message.channel.send(`Usuário não é um membro!`)
+        if (!member) return message.channel.send(this.client.locale(lang, 'ERROR_INVALID_MEMBER'))
         let roles = args.slice(2).map(arg => arg = arg.match(/(<@&)?(\d{17,19})>?/)[2])
-        try { await member.roles.add(roles) } catch { return message.channel.send(`Houve um erro ao adicionar os cargos.`) }
+        try { await member.roles.add(roles) } catch { return message.channel.send(this.client.locale(lang, 'ERROR_ADD_ROLES')) }
 
         await this.client.agenda.schedule(Date.now() + ms(args[1]),
             'temprole',
@@ -28,6 +28,6 @@ module.exports = class TemproleCommand extends Command {
                 guildID: guild.id,
                 rolesID: roles
             })
-        message.nmReply(`${member.user.username} perderá os cargos <t:${Math.round(Date.now() / 1000) + Math.round(ms(args[1]) / 1000)}:R>`)
+        message.nmReply(this.client.locale(lang, 'RESPONSES_TEMPROLES', {user, custom: ['timestamp', Math.round((Date.now() + ms(args[1]))/ 1000)]}))
     }
 };

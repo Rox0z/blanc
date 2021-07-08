@@ -12,7 +12,7 @@ module.exports = class RemoveTmpRolesCommand extends Command {
             title: 'Remove temporary roles'
         });
     }
-    async run({ args, message, guild }) {
+    async run({ args, message, guild, lang }) {
         let user = await this.client.utils.resolveUser(message, args[0])
         let member = await guild.members.fetch(user.id)
         let job = await this.client.agenda.jobs(
@@ -22,8 +22,8 @@ module.exports = class RemoveTmpRolesCommand extends Command {
         );
         job = job.filter(job => job.attrs.data.memberID === member.user.id && job.attrs.data.guildID === guild.id)[0]
 
-        await member.roles.remove(job.attrs.data.rolesID).catch(() => channel.send('Não foi possivel remover os cargos!'))
+        await member.roles.remove(job.attrs.data.rolesID).catch(() => channel.send(this.client.locale(lang, 'ERROR_REMOVE_ROLES')))
         await job.remove();
-        message.nmReply(`Foi removido todos os cargos temporários de ${member.user.username}.`)
+        message.nmReply(this.client.locale(lang, 'RESPONSES_REMOVE_TEMPROLES', {user}))
     }
 };

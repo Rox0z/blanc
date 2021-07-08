@@ -11,13 +11,13 @@ module.exports = class LockCommand extends Command {
             title: 'Lock'
         })
     }
-    async run({ message, args, guild, channel, author }) {
+    async run({ message, lang, guild }) {
         message.channel.updateOverwrite(
             guild.roles.everyone,
             { SEND_MESSAGES: false },
             {reason: `Permissão de @everyone para enviar mensagens é FALSE`}
         );
 
-        message.nmReply("Este canal foi bloqueado!");
+        message.nmReply(this.client.locale(lang, 'CHANNEL_STATUS', {custom: ['status', 'bloqueado']}));
     }
 }
