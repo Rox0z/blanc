@@ -55,6 +55,18 @@
     "CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_CREATE": "```ini\n[ Cria um canal de logs de moderação para uso ]```",
     "CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_SET": "```ini\n[ Declare um canal de logs de moderação neste servidor ]```",
     "CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_DISABLE": "```ini\n[ Desabilita os logs de moderação no servidor ]```",
+    "HELP_COMMAND":{
+        "EMBED_TITLE": "Comandos",
+        "EMBED_SUBTITLE": "Comando",
+        "EMBED_DESCRIPTION": ">>> Aqui você irá encontrar todos os comandos do BOT, para vê-los basta selecionar um comando no menu abaixo e esta página automaticamente irá mudar para a página do comando.",
+        "EMBED_FIELD_LABELS": "Legendas:",
+        "EMBED_FIELD_QUANTITY": "Quantidade:",
+        "EMBED_FIELD_CATEGORIES": "Categorias:",
+        "EMBED_FIELD_ALIASES": "Alíases:",
+        "EMBED_FIELD_USAGE": "Alíases:",
+        "EMBED_FIELD_PERMISSIONS": "Permissões:",
+        "EMBED_LABELS": "```m\n<arg> = Obrigatório\n[arg] = Opcional\n<...arg> = +Obrigatórias\n[...arg] = +Opcionais```"
+    },
     "AVATAR_COMMAND_FROM": "Avatar de: %user.name%",
     "GUILD_ICON_COMMAND_FROM": "Ícone de: %guild.name%",
     "GUILD_SPLASH_COMMAND_FROM": "Splash de: %guild.name%",
