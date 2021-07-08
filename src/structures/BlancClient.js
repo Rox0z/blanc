@@ -1,5 +1,5 @@
 
-const { Client: Client, Collection: Collection, User, Guild, Channel } = require("discord.js-light"),
+const { Client: Client, Collection: Collection, User, Guild, Channel, Role } = require("discord.js-light"),
     Util = require("./ClientUtils"),
     Tasks = require("./agendaTasks"),
     ImgGenerator = require("./ImageGenerators"),
@@ -245,19 +245,20 @@ class BlancClient extends Client {
      * @param {User} options.author The author of the message.
      * @param {Channel} options.channel The the specfied channel.
      * @param {Guild} options.guild The the specfied guild.
+     * @param {Role} options.role The the specfied guild.
      * @param {Array<String>} options.custom Replace the index 0 string to the index 1.
      * @returns String.
      */
     locale(locale, text, options = {}) {
         if (!text) throw new TypeError("You must specify the string.")
         if (!locale) throw new TypeError("You must specify the locale.")
-        let string = require(`../locale/${locale}.json`)[text] ? require(`../locale/${locale}.json`)[text] : require(`../locale/pt.json`)[text] || 'Text error'
+        let string = require(`../locale/${locale}.json`)[text] ? require(`../locale/${locale}.json`)[text] : require(`../locale/pt.json`)[text] || '**!!Text error!!**'
         if (options) {
             if (options.user) {
                 string = string
                     .replace(/%user%/gi, options.user)
                     .replace(/%@user%/gi, options.user)
-                    .replace(/%user(\.username)?%/gi, options.user.username)
+                    .replace(/%user(\.name)?%/gi, options.user.username)
                     .replace(/%userTag%/gi, `${options.user.username}#${options.user.discriminator}`)
                     .replace(/%user\.id%/gi, options.user.id)
                     .replace(/%user\.discrim%/gi, options.user.discriminator)
@@ -267,7 +268,7 @@ class BlancClient extends Client {
                 string = string
                     .replace(/%author%/gi, options.user)
                     .replace(/%@author%/gi, options.user)
-                    .replace(/%author(\.username)?%/gi, options.user.username)
+                    .replace(/%author(\.name)?%/gi, options.user.username)
                     .replace(/%authorTag%/gi, `${options.user.username}#${options.user.discriminator}`)
                     .replace(/%author\.id%/gi, options.user.id)
                     .replace(/%author\.discrim%/gi, options.user.discriminator)
@@ -287,6 +288,12 @@ class BlancClient extends Client {
                     .replace(/%guild(\.name)?%/gi, options.guild.name)
                     .replace(/%guild\.id%/gi, options.guild.id)
                     .replace(/%guild\.icon%/gi, options.guild.iconURL({ dynamic: true, size: 512 }))
+            }
+            if (options.role) {
+                string = string
+                    .replace(/%role%/gi, options.role)
+                    .replace(/%role(\.name)?%/gi, options.role.name)
+                    .replace(/%role\.id%/gi, options.role.id)
             }
             if (options.custom) {
                 string = string
