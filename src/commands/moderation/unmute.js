@@ -4,11 +4,11 @@ module.exports = class UnmuteCommand extends Command {
     constructor(...args) {
         super(...args, {
             aliases: ["unmute", 'desilenciar'],
-            description: "Des-silencia um membro.",
+            description: { pt: "Des-silencia um membro.", en: "Unmutes a member." },
             category: "Moderation",
             neededPermissions: ['MANAGE_ROLES'],
-            usage: 'unmute <userID|@user> [reason]',
-            title: 'Unmute'
+            usage: { pt: "unmute <membroID|@membro> [motivo]", en: 'unmute <memberID|@member> [reason]' },
+            title: { pt: 'Des-silenciar', en: "Unmute" }
         });
     }
     async run({ author, args, message, guild, data, channel }) {

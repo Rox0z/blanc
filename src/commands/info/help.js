@@ -4,7 +4,7 @@ const Command = require('../../structures/command.js')
 module.exports = class HelpCommand extends Command {
     constructor(...args) {
         super(...args, {
-            title: 'Ajuda',
+            title: { pt: "Ajuda", en: "Help" },
             aliases: ['ajuda', 'commands', 'comandos'],
             description: { pt: "Mostra um menu para ver a descrição de cada comando.", en: "Shows a menu to see all commands description." },
             category: 'Info',

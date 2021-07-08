@@ -5,11 +5,11 @@ module.exports = class SplashCommand extends Command {
     constructor(...args) {
         super(...args, {
             aliases: ['splash', 'svs'],
-            description: 'Envia a imagem splash do server.',
+            description: { pt: 'Envia o splash do server.', en: "Sends the server splash." },
             category: 'Info',
             channel: 'text',
-            usage: 'splash [guildID]',
-            title: 'Server splash'
+            usage: 'splash [serverID]',
+            title: { pt: "Splash do servidor", en: "Server splash" }
         })
     }
     async run({ message, args, guild, lang }) {

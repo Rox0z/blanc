@@ -4,10 +4,10 @@ module.exports = class BanCommand extends Command {
     constructor(...args) {
         super(...args, {
             aliases: ["ban"],
-            description: "Bane um user.",
+            description: { pt: "Bane um usuário.", en: "Bans a user" },
             category: "Moderation",
             neededPermissions: ['BAN_MEMBERS'],
-            usage: 'ban <userID|@user> [reason]',
+            usage: { pt: "ban <usuárioID|@usuário> [motivo]", en: 'ban <userID|@user> [reason]' },
             title: 'Ban'
         });
     }

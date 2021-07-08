@@ -4,10 +4,10 @@ module.exports = class UnbanCommand extends Command {
     constructor(...args) {
         super(...args, {
             aliases: ["ban"],
-            description: "Desbane um usuário.",
+            description: { pt: "Desbane um usuário.", en: "Unbans a user" },
             category: "Moderation",
             neededPermissions: ['BAN_MEMBERS'],
-            usage: 'unban <userID|@user> [reason]',
+            usage: { pt: "unban <usuárioID|@usuário> [motivo]", en: 'unban <userID|@user> [reason]' },
             title: 'Unban'
         });
     }

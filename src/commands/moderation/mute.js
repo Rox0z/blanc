@@ -5,11 +5,11 @@ module.exports = class MuteCommand extends Command {
     constructor(...args) {
         super(...args, {
             aliases: ["mute", 'mutar', 'silenciar'],
-            description: "Silencia um membro.",
+            description: { pt: "Silencia um membro.", en: "Mutes a member." },
             category: "Moderation",
             neededPermissions: ['MANAGE_ROLES'],
-            usage: 'mute <memberID|@member> <time> [reason]',
-            title: 'Mute'
+            usage: { pt: "mute <membroID|@membro> <tempo> [motivo]", en: 'mute <memberID|@member> <time> [reason]' },
+            title: { pt: 'Silenciar', en: "Mute" }
         });
     }
     async run({ args, message, guild, author, lang, channel, prefix }) {

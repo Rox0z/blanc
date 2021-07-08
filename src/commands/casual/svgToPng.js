@@ -7,13 +7,13 @@ module.exports = class SVGCommand extends Command {
     constructor(...args) {
         super(...args, {
             aliases: ['svg', 'topng'],
-            description: 'Converte um código SVG em uma imagem PNG.',
+            description: { pt: "Converte um código SVG em uma imagem PNG.", en: "Convert a SVG code into a PNG image." },
             category: 'Casual',
-            usage: 'svg <code>',
-            title: 'SVG to PNG'
+            usage: { pt: "svg <código>", en: "svg <code>" },
+            title: { pt: "SVG para PNG", en: "SVG to PNG" }
         })
     }
-    async run({message, args}) {
+    async run({ message, args }) {
         const codeInBlock = /^```(?:svg)?\s(.+[^\\])```$/is;
         let code = args.join(' ')
 
@@ -30,11 +30,11 @@ module.exports = class SVGCommand extends Command {
         const buffer = Buffer.from(code, 'base64')
 
         let image = await resolveImage(buffer).catch(e => e)
-        if (!image.width) return message.reply({content: '`ERROR`', allowedMentions: { repliedUser: false } })
+        if (!image.width) return message.reply({ content: '`ERROR`', allowedMentions: { repliedUser: false } })
         let canvas = new ExtendedCanvas(image.width, image.height)
             .printImage(image, 0, 0, image.width, image.height)
             .toBuffer()
 
-        message.nmReply({files: [this.client.utils.attach(canvas, 'svgoutput.png')]})
+        message.nmReply({ files: [this.client.utils.attach(canvas, 'svgoutput.png')] })
     }
 }

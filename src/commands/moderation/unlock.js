@@ -3,12 +3,12 @@ const Command = require('../../structures/command.js')
 module.exports = class UnlockCommand extends Command {
     constructor(...args) {
         super(...args, {
-            aliases: ['unblock'],
-            description: 'Desbloqueia o canal atual.',
+            aliases: ['unblock', 'desbloquear'],
+            description: { pt: 'Desbloqueia o canal atual.', en: "Unlocks the current channel." },
             category: 'Moderation',
             neededPermissions: ['MANAGE_CHANNELS'],
             usage: 'unlock',
-            title: 'Unlock'
+            title: { pt: 'Desbloquear', en: "Unlock" },
         })
     }
     async run({ message, guild, lang }) {
