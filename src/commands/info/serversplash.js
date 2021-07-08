@@ -12,12 +12,12 @@ module.exports = class SplashCommand extends Command {
             title: 'Server splash'
         })
     }
-    async run({ message, args, guild }) {
+    async run({ message, args, guild, lang }) {
         let gguild = args[0] ? this.client.utils.resolveGuild(args[0], this.client.guilds.cache) : guild
-        if (!gguild.splash) return message.nmReply('Servidor não possui um splash!')
+        if (!gguild.splash) return message.nmReply(this.client.locale(lang, 'ERROR_NO_GUILD_SPLASH'))
         let splashURL = `https://cdn.discordapp.com/splashes/${gguild.id}/${gguild.splash}.png?size=1024`
         const embed = new MessageEmbed()
-            .setAuthor(`Splash from: ${gguild.name}`, splashURL)
+            .setAuthor(this.client.locale(lang, 'GUILD_SPLASH_COMMAND_FROM', {guild: gguild}), splashURL)
             .setImage(splashURL)
             .setColor('#fefefe')
         message.nmReply({ embeds: [embed] })

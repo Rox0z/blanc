@@ -22,52 +22,53 @@ module.exports = class ServerInfoCommand extends Command {
             usage: 'serverinfo [guildID]',
         })
     }
-    async run({ message, args, guild, channel, author }) {
+    async run({ message, args, guild, channel, author, lang }) {
         let server = !isNaN(args[0]) && this.client.utils.resolveGuild(args[0], this.client.guilds.cache, true, true) || guild
         if (!server) return
         let members = await server.members.fetch(false),
         owner = await this.client.users.fetch(server.ownerID, false);
+        const strings = this.client.locale(lang, 'SERVERINFO_COMMAND_FIELDS')
         const embed = new MessageEmbed()
             .setColor('#fefefe')
             .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}    ${localeEmoji(server.preferredLocale)}`)
             .setThumbnail(server.iconURL({ dynamic: true }))
-            .setDescription(`${this.client.emoji.icons['calendar']} **Desde:** <t:${Math.round(server.createdTimestamp / 1000)}:F>`)
+            .setDescription(`${this.client.emoji.icons['calendar']} **${strings.SINCE}** <t:${Math.round(server.createdTimestamp / 1000)}:F>`)
             .addFields([
-                { name: `${this.client.emoji.icons['role']} Cargos:`, value: `\`\`\`${server.roles.cache.size - 1}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['emoji']} Emojis:`, value: `\`\`\`${server.emojis.cache.size}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['sticker']} Stickers:`, value: `\`\`\`${server?.stickers?.cache?.size || '0'}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['members']} Membros:`, value: `\`\`\`${server.memberCount}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['integration']} BOTS:`, value: `\`\`\`${members.filter(m => m.user.bot).size}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['role']} ${strings.ROLES}`, value: `\`\`\`${server.roles.cache.size - 1}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['emoji']} ${strings.EMOJIS}`, value: `\`\`\`${server.emojis.cache.size}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['sticker']} ${strings.STICKERS}`, value: `\`\`\`${server?.stickers?.cache?.size || '0'}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['members']} ${strings.MEMBERS}`, value: `\`\`\`${server.memberCount}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['integration']} ${strings.BOTS}`, value: `\`\`\`${members.filter(m => m.user.bot).size}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['owner']} ${owner.username}:`, value: `\`\`\`${server.ownerID}\`\`\``, inline: false },
-                { name: `${this.client.emoji.icons['id']} Server ID:`, value: `\`\`\`${server.id}\`\`\``, inline: false },
+                { name: `${this.client.emoji.icons['id']} ${strings.SERVER_ID}`, value: `\`\`\`${server.id}\`\`\``, inline: false },
             ]),
             embedchannels = new MessageEmbed()
             .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}    ${localeEmoji(server.preferredLocale)}`)
                 .setColor('#fefefe')
                 .setThumbnail(server.iconURL({ dynamic: true }))
                 .addFields([
-                    { name: `${this.client.emoji.channels['text']} Texto:`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'text').size}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.channels['voice']} Voz:`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'voice').size}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.channels['stage']} Stages:`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'stage').size}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.channels['news']} Anuncios:`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'news').size}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.channels['store']} Lojas:`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'store').size}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.channels['thread']} Threads:`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'public_thread' || c.type === 'private_thread' || c.type === 'news_thread').size}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.channels['rules']} Regras:`, value: `${server.rulesChannel || 'Nenhum'}`, inline: true },
-                    { name: `${this.client.emoji.channels['voice']} AFK:`, value: `${server.afkChannel || 'Nenhum'}`, inline: true },
+                    { name: `${this.client.emoji.channels['text']} ${strings.TEXT_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'text').size}\`\`\``, inline: true },
+                    { name: `${this.client.emoji.channels['voice']} ${strings.VOICE_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'voice').size}\`\`\``, inline: true },
+                    { name: `${this.client.emoji.channels['stage']} ${strings.STAGE_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'stage').size}\`\`\``, inline: true },
+                    { name: `${this.client.emoji.channels['news']} ${strings.NEWS_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'news').size}\`\`\``, inline: true },
+                    { name: `${this.client.emoji.channels['store']} ${strings.STORE_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'store').size}\`\`\``, inline: true },
+                    { name: `${this.client.emoji.channels['thread']} ${strings.THREADS_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'public_thread' || c.type === 'private_thread' || c.type === 'news_thread').size}\`\`\``, inline: true },
+                    { name: `${this.client.emoji.channels['rules']} ${strings.RULES_CHANNEL}`, value: `${server.rulesChannel || this.client.locale(lang, 'NONE')}`, inline: true },
+                    { name: `${this.client.emoji.channels['voice']} AFK:`, value: `${server.afkChannel || this.client.locale(lang, 'NONE')}`, inline: true },
                 ]),
             embedroles = new MessageEmbed()
             .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}    ${localeEmoji(server.preferredLocale)}`)
             .setColor('#fefefe')
             .setThumbnail(server.iconURL({ dynamic: true }))
             .addFields([
-                { name: `${this.client.emoji.icons['role']} Total:`, value: `\`\`\`${server.roles.cache.size - 1}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['mod']} Mods:`, value: `\`\`\`${server.roles.cache.array().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['members']} Comuns:`, value: `\`\`\`${(server.roles.cache.size - 1) - (server.roles.cache.array().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length)}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['activity']} Cargos:`, value: this.client.utils.trimArray(server.roles.cache.sort((a, b) => b.position - a.position).array().slice(0, -1), 20).join('\n')}
+                { name: `${this.client.emoji.icons['role']} ${strings.TOTAL}`, value: `\`\`\`${server.roles.cache.size - 1}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['mod']} ${strings.MODS}`, value: `\`\`\`${server.roles.cache.array().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['members']} ${strings.COMMONS}`, value: `\`\`\`${(server.roles.cache.size - 1) - (server.roles.cache.array().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length)}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['activity']} ${strings.ROLES}`, value: this.client.utils.trimArray(server.roles.cache.sort((a, b) => b.position - a.position).array().slice(0, -1), 20).join('\n')}
             ])
             ,
-            chan = new MessageButton().setEmoji('841742417514332213').setStyle('SECONDARY').setCustomID('channels').setLabel('CANAIS'),
-            role = new MessageButton().setEmoji('841519139184705556').setStyle('SECONDARY').setCustomID('roles').setLabel('CARGOS'),
+            chan = new MessageButton().setEmoji('841742417514332213').setStyle('SECONDARY').setCustomID('channels').setLabel(this.client.locale(lang, 'BUTTONLABEL_CHANNELS')),
+            role = new MessageButton().setEmoji('841519139184705556').setStyle('SECONDARY').setCustomID('roles').setLabel(this.client.locale(lang, 'BUTTONLABEL_ROLES')),
             back = new MessageButton().setEmoji('841742417783029822').setStyle('PRIMARY').setCustomID('back'),
             home = new MessageActionRow().addComponents([chan, role]),
             menu = new MessageActionRow().addComponents([back]);
@@ -98,7 +99,7 @@ module.exports = class ServerInfoCommand extends Command {
         const col = new MessageComponentInteractionCollector(sent, { time: 18e4 })
 
         col.on('collect', async (interaction) => {
-            if (interaction.user.id !== author.id) return interaction.reply({ content: 'Apenas o autor pode interagir!', ephemeral: true })
+            if (interaction.user.id !== author.id) return interaction.reply({ content: this.client.locale(lang, 'ERROR_AUTHOR_ONLY'), ephemeral: true })
             interaction.deferUpdate()
             "back" === interaction.customID
                 ? sent.nmEdit({ embeds: [embed], components: [home] })

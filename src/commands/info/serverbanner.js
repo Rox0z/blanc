@@ -12,12 +12,12 @@ module.exports = class BannerCommand extends Command {
             title: 'Server banner'
         })
     }
-    async run({ message, args, guild }) {
+    async run({ message, args, guild, lang }) {
         let gguild = args[0] ? this.client.utils.resolveGuild(args[0], this.client.guilds.cache) : guild
-        if (!gguild.banner) return message.nmReply('Servidor não possui um banner!')
+        if (!gguild.banner) return message.nmReply(this.client.locale(lang, 'ERROR_NO_GUILD_BANNER'))
         let bannerURL = `https://cdn.discordapp.com/banners/${gguild.id}/${gguild.banner}.png?size=1024`
         const embed = new MessageEmbed()
-            .setAuthor(`Banner from: ${gguild.name}`, bannerURL)
+            .setAuthor(this.client.locale(lang, 'GUILD_BANNER_COMMAND_FROM', {guild: gguild}), bannerURL)
             .setImage(bannerURL)
             .setColor('#fefefe')
         message.nmReply({ embeds: [embed] })

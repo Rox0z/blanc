@@ -11,11 +11,11 @@ module.exports = class AvatarCommand extends Command {
             title: 'Avatar'
         })
     }
-    async run({ message, args }) {
+    async run({ message, args, lang }) {
         let user = await this.client.utils.resolveUser(message, args[0])
 
         const embed = new MessageEmbed()
-            .setAuthor(`Avatar from: ${user.username}`, user.displayAvatarURL({ dynamic: true, size: 128 }))
+            .setAuthor(this.client.locale(lang, 'AVATAR_COMMAND_FROM', {user}), user.displayAvatarURL({ dynamic: true, size: 128 }))
             .setImage(user.displayAvatarURL({ dynamic: true, size: 512 }))
             .setColor('#fefefe')
         message.nmReply({ embeds: [embed]})

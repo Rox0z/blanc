@@ -13,11 +13,14 @@ module.exports = class ConfigCommand extends Command {
             title: 'Configuration'
         })
     }
-    async run({ message, args, guild, channel, author }) {
+    async run({ message, args, guild, channel, author, prefix, lang }) {
+        let embedauthor = this.client.locale(lang, 'CONFIG_COMMAND_EMBED_TITLE'),
+            embedcatdesc = this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_DESCRIPTION', {custom: ['prefix', prefix]}),
+            embedstaticdesc = this.client.locale(lang, 'CONFIG_COMMAND_STATIC_DESC', {custom: ['prefix', prefix]});
         const menu = new MessageEmbed()
-            .setAuthor('Menu de configuração', "https://cdn.discordapp.com/emojis/841518870958964736.png")
-            .setTitle('Lista de argumentos:')
-            .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize os botões para detalhes das categorias.')
+            .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841518870958964736.png")
+            .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_LIST_TITLE'))
+            .setDescription(this.client.locale(lang, 'CONFIG_COMMAND_DEFAULT_DESC', {custom: ['prefix', prefix]}))
             .addFields([
                 { name: 'Prefix', value: '```md\n* default\n* set <prefix>\n\u200B\n\u200B```', inline: true },
                 { name: 'Mute', value: '```md\n* create\n* set <muteRole roleID>\n* get\n* disable```', inline: true },
@@ -26,40 +29,40 @@ module.exports = class ConfigCommand extends Command {
                 { name: 'ModLogs', value: '```md\n* create\n* set <logCH channelID>\n* disable```', inline: true },
             ]),
             prefixMenu = new MessageEmbed()
-                .setAuthor('Menu de configuração', "https://cdn.discordapp.com/emojis/841519978397040640.png")
-                .setTitle('Configurações de Prefix:')
-                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize o botão para voltar.')
+                .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841519978397040640.png")
+                .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_TITLE', {custom: ['category', 'Prefix']}))
+                .setDescription(embedcatdesc)
                 .addFields([
-                    { name: "Default", value: "```ini\n[ Reseta o prefix do BOT neste servidor ]```", inline: 0 },
-                    { name: "Set", value: "```ini\n[ Declare um novo prefix do BOT neste servidor ]```", inline: 0 },
+                    { name: "Default", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_PREFIX_DEFAULT'), inline: 0 },
+                    { name: "Set", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_PREFIX_SET'), inline: 0 },
                 ]),
             muteMenu = new MessageEmbed()
-                .setAuthor('Menu de configuração', "https://cdn.discordapp.com/emojis/841519038974656522.png")
-                .setTitle('Configurações de Mute:')
-                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize o botão para voltar.')
+                .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841519038974656522.png")
+                .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_TITLE', {custom: ['category', 'Mute']}))
+                .setDescription(embedcatdesc)
                 .addFields([
-                    { name: "Create", value: "```ini\n[ Cria um cargo mute e define como padrão ]```", inline: 0 },
-                    { name: "Set", value: "```ini\n[ Declare um cargo mute neste servidor ]```", inline: 0 },
-                    { name: "Get", value: '```ini\n[ O Bot irá procurar um cargo que tenha o nome "mute" ]```', inline: 0 },
-                    { name: "Disable", value: "```ini\n[ Desabilita o comando mute no servidor ]```", inline: 0 },
+                    { name: "Create", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MUTE_CREATE'), inline: 0 },
+                    { name: "Set", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MUTE_SET'), inline: 0 },
+                    { name: "Get", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MUTE_GET'), inline: 0 },
+                    { name: "Disable", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MUTE_DISABLE'), inline: 0 },
                 ]),
             logsMenu = new MessageEmbed()
-                .setAuthor('Menu de configuração', "https://cdn.discordapp.com/emojis/841742410337091594.png")
-                .setTitle('Configurações de Logs:')
-                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize o botão para voltar.')
+                .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841742410337091594.png")
+                .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_TITLE', {custom: ['category', 'Logs']}))
+                .setDescription(embedcatdesc)
                 .addFields([
-                    { name: "Create", value: "```ini\n[ Cria um canal de logs para uso ]```", inline: 0 },
-                    { name: "Set", value: "```ini\n[ Declare um canal de logs neste servidor ]```", inline: 0 },
-                    { name: "Disable", value: "```ini\n[ Desabilita os logs no servidor ]```", inline: 0 },
+                    { name: "Create", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_LOGS_CREATE'), inline: 0 },
+                    { name: "Set", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_LOGS_SET'), inline: 0 },
+                    { name: "Disable", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_LOGS_DISABLE'), inline: 0 },
                 ]),
             modlogsMenu = new MessageEmbed()
-                .setAuthor('Menu de configuração', "https://cdn.discordapp.com/emojis/841519512678432778.png")
-                .setTitle('Configurações de ModLogs:')
-                .setDescription('>>> Use no formato `config <categoria> <função>`\nUtilize o botão para voltar.')
+                .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841519512678432778.png")
+                .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_TITLE', {custom: ['category', 'ModLogs']}))
+                .setDescription(embedcatdesc)
                 .addFields([
-                    { name: "Create", value: "```ini\n[ Cria um canal de logs de moderação para uso ]```", inline: 0 },
-                    { name: "Set", value: "```ini\n[ Declare um canal de logs de moderação neste servidor ]```", inline: 0 },
-                    { name: "Disable", value: "```ini\n[ Desabilita os logs de moderação no servidor ]```", inline: 0 },
+                    { name: "Create", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_CREATE'), inline: 0 },
+                    { name: "Set", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_SET'), inline: 0 },
+                    { name: "Disable", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_DISABLE'), inline: 0 },
                 ])
         let color = 'SECONDARY',
             logs = new MessageButton().setCustomID('logs').setLabel('LOGS').setStyle(color).setEmoji('841742410337091594'),
@@ -74,133 +77,133 @@ module.exports = class ConfigCommand extends Command {
             case 'logs':
                 switch (args[1]) {
                     case 'create':
-                        if (typeof await this.client.guildConfig.get(`${guild.id}.logsChannel`) === 'string') return message.nmReply(`Já possuo um canal configurado, para criar um novo por favor desabilite antes com \`${await this.client.guildConfig.get(`${guild.id}.guildPrefix`)}config logs disable\``)
+                        if (typeof await this.client.guildConfig.get(`${guild.id}.logsChannel`) === 'string') return message.nmReply(this.client.locale(lang, 'RESPONSES_ALREADY_CHANNEL', {custom: ['prefix', prefix]}))
                         let logchannel = await guild.channels.create('Server-logs', { type: 'text', permissionOverwrites: [{ id: guild.roles.everyone, deny: 'VIEW_CHANNEL' }] }).catch(() => null)
-                        if (!logchannel) return message.nmReply('Algo deu errado!')
-                        await this.client.guildConfig.set(`${guild.id}.logsChannel`, logchannel.id), message.nmReply(`Canal criado, <#${logchannel.id}>`)
+                        if (!logchannel) return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOW'))
+                        await this.client.guildConfig.set(`${guild.id}.logsChannel`, logchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CREATED_CHANNEL', {channel: logchannel}))
                         break;
                     case 'set':
                         if (args[2]) {
                             logchannel = await this.client.utils.resolveChannel(guild, args[2])
-                            if (!logchannel) return message.nmReply('Canal inválido!')
-                            await this.client.guildConfig.set(`${guild.id}.logsChannel`, logchannel.id), message.nmReply(`Canal escolhido, ${logchannel}`)
+                            if (!logchannel) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_CHANNEL'))
+                            await this.client.guildConfig.set(`${guild.id}.logsChannel`, logchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_CHANNEL', {channel: logchannel}))
                         }
                         else {
                             let filter = (m) => m.author.id === author.id;
-                            message.nmReply(`Escolha um canal:`)
+                            message.nmReply(this.client.locale(lang, 'CHOOSE_CHANNEL'))
                             let col = channel.createMessageCollector({ filter, time: 60000, max: 1 })
                             col.on('collect', async (msg) => {
                                 let logchannel = await this.client.utils.resolveChannel(guild, `${msg.content.trim().split(/ +/g)[0]}`)
-                                if (!logchannel) return message.nmReply('Canal inválido!')
-                                await this.client.guildConfig.set(`${guild.id}.logsChannel`, logchannel.id), message.nmReply(`Canal escolhido, ${logchannel}`)
+                                if (!logchannel) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_CHANNEL'))
+                                await this.client.guildConfig.set(`${guild.id}.logsChannel`, logchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_CHANNEL', {channel: logchannel}))
                             })
                         }
                         break;
                     case 'disable':
-                        await this.client.guildConfig.set(`${guild.id}.logsChannel`, null), message.nmReply('Logs de servidor desativado.')
+                        await this.client.guildConfig.set(`${guild.id}.logsChannel`, null), message.nmReply(this.client.locale(lang, 'RESPONSES_DISABLE', {custom: ['category', 'LOGS']}))
                         break;
                     default:
-                        message.nmReply({ embeds: [logsMenu.setDescription('> Use no formato `config <categoria> <função>`')] })
+                        message.nmReply({ embeds: [logsMenu.setDescription(embedstaticdesc)] })
                         break;
                 }
                 break;
             case 'modlogs':
                 switch (args[1]) {
                     case 'create':
-                        if (typeof await this.client.guildConfig.get(`${guild.id}.modLogsChannel`) === 'string') return message.nmReply(`Já possuo um canal configurado, para criar um novo por favor desabilite antes com \`${await this.client.guildConfig.get(`${guild.id}.guildPrefix`)}config logs disable\``)
+                        if (typeof await this.client.guildConfig.get(`${guild.id}.modLogsChannel`) === 'string') return message.nmReply(this.client.locale(lang, 'RESPONSES_ALREADY_CHANNEL', {custom: ['prefix', prefix]}))
                         let modlogchannel = await guild.channels.create('moderation-logs', { type: 'text', permissionOverwrites: [{ id: guild.roles.everyone, deny: 'VIEW_CHANNEL' }] })
-                        if (!modlogchannel) return message.nmReply('Algo deu errado!')
-                        await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, modlogchannel.id), message.nmReply(`Canal criado, ${modlogchannel}`)
+                        if (!modlogchannel) return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOW'))
+                        await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, modlogchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CREATED_CHANNEL', {channel: modlogchannel}))
                         break;
                     case 'set':
                         if (args[2]) {
                             let modlogchannel = await this.client.utils.resolveChannel(guild, args[2])
-                            if (!modlogchannel) return message.nmReply('Canal inválido!')
-                            await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, modlogchannel.id), message.nmReply(`Canal escolhido, ${modlogchannel}`)
+                            if (!modlogchannel) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_CHANNEL'))
+                            await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, modlogchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_CHANNEL', {channel: modlogchannel}))
                         }
                         else {
                             let filter = (m) => m.author.id === author.id;
-                            message.nmReply(`Escolha um canal:`)
+                            message.nmReply(this.client.locale(lang, 'CHOOSE_CHANNEL'))
                             let col = channel.createMessageCollector({ filter, time: 60000, max: 1 })
                             col.on('collect', async (msg) => {
                                 let modlogchannel = await this.client.utils.resolveChannel(guild, `${msg.content.trim().split(/ +/g)[0]}`)
-                                if (!modlogchannel) return message.nmReply('Canal inválido!')
-                                await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, modlogchannel.id), message.nmReply(`Canal escolhido, ${modlogchannel}`)
+                                if (!modlogchannel) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_CHANNEL'))
+                                await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, modlogchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_CHANNEL', {channel: modlogchannel}))
                             })
                         }
                         break;
                     case 'disable':
-                        await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, null), message.nmReply('Logs de moderação desativado.')
+                        await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, null), message.nmReply(this.client.locale(lang, 'RESPONSES_DISABLE', {custom: ['category', 'MODLOGS']}))
                         break;
                     default:
-                        message.nmReply({ embeds: [modlogsMenu.setDescription('> Use no formato `config <categoria> <função>`')] })
+                        message.nmReply({ embeds: [modlogsMenu.setDescription(embedstaticdesc)] })
                         break;
                 }
                 break;
             case 'prefix':
                 switch (args[1]) {
                     case 'default':
-                        await this.client.guildConfig.set(`${guild.id}.guildPrefix`, this.client.defaultPrefix), message.nmReply(`Prefix resetado para \`${this.client.defaultPrefix}\``)
+                        await this.client.guildConfig.set(`${guild.id}.guildPrefix`, this.client.defaultPrefix), message.nmReply(this.client.locale(lang, 'RESPONSES_RESET_PREFIX', {custom: ['prefix', this.client.defaultPrefix]}))
                         this.client.prefixes.set(guild.id, this.client.defaultPrefix)
                         break;
                     case 'set':
                         if (args[2]) {
-                            await this.client.guildConfig.set(`${guild.id}.guildPrefix`, args[2]), message.nmReply(`Novo prefix escolhido, \`${args[2]}\``)
+                            await this.client.guildConfig.set(`${guild.id}.guildPrefix`, args[2]), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_PREFIX', {custom: ['prefix', args[2]]}))
                             this.client.prefixes.set(guild.id, args[2])
                         }
                         else {
                             let filter = (m) => m.author.id === author.id;
-                            message.nmReply(`Escolha um prefix:`)
+                            message.nmReply(this.client.locale(lang, 'CHOOSE_PREFIX'))
                             let col = channel.createMessageCollector({ filter, time: 60000, max: 1 })
                             col.on('collect', async (msg) => {
-                                if (!msg.content) return message.nmReply(`Envie um prefixo válido!`)
+                                if (!msg.content) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_PREFIX'))
                                 let newprefix = `${msg.content.trim().split(/ +/g)[0]}`
-                                await this.client.guildConfig.set(`${guild.id}.guildPrefix`, newprefix), message.nmReply(`Novo prefix escolhido, \`${newprefix}\``)
+                                await this.client.guildConfig.set(`${guild.id}.guildPrefix`, newprefix), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_PREFIX', {custom: ['prefix', newprefix]}))
                                 this.client.prefixes.set(guild.id, newprefix)
                             })
                         }
                         break;
                     default:
-                        message.nmReply({ embeds: [prefixMenu.setDescription('> Use no formato `config <categoria> <função>`')] })
+                        message.nmReply({ embeds: [prefixMenu.setDescription(embedstaticdesc)] })
                         break;
                 }
                 break;
             case 'mute':
                 switch (args[1]) {
                     case 'create':
-                        if (typeof await this.client.guildConfig.get(`${guild.id}.muteRole`) === 'string') return message.nmReply(`Já possuo um cargo mute configurado, para criar um novo por favor desabilite antes com \`${await this.client.guildConfig.get(`${guild.id}.guildPrefix`)}config mute disable\``)
+                        if (typeof await this.client.guildConfig.get(`${guild.id}.muteRole`) === 'string') return message.nmReply(this.client.locale(lang, 'RESPONSES_ALREADY_ROLE', {custom: ['prefix', prefix]}))
                         let muterole = await guild.roles.create({ name: 'muted', mentionable: false, color: '#202050', reason: 'Create mute role.', permissions: ['VIEW_CHANNELS'] });
-                        if (!muterole) return message.nmReply('Algo deu errado!')
-                        await this.client.guildConfig.set(`${guild.id}.muteRole`, muterole.id), message.nmReply(`Cargo criado, ${muterole}.\nPor favor agora configure o cargo para posição necessária e ajuste o cargo.`);
+                        if (!muterole) return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOW'))
+                        await this.client.guildConfig.set(`${guild.id}.muteRole`, muterole.id), message.nmReply(this.client.locale(lang, 'RESPONSES_NEW_ROLE', {role: muterole}))
                         break;
                     case 'get':
-                        if (typeof await this.client.guildConfig.get(`${guild.id}.muteRole`) === 'string') return message.nmReply(`Já possuo um cargo mute configurado, para procurar um novo por favor desabilite antes com \`${await this.client.guildConfig.get(`${guild.id}.guildPrefix`)}config mute disable\``)
+                        if (typeof await this.client.guildConfig.get(`${guild.id}.muteRole`) === 'string') return message.nmReply(this.client.locale(lang, 'RESPONSES_ALREADY_ROLE', {custom: ['prefix', prefix]}))
                         let muter = this.client.utils.resolveRole(`mute`, guild.roles.cache);
-                        if (!muter) return message.nmReply('Não encontrado!')
-                        await this.client.guildConfig.set(`${guild.id}.muteRole`, muter.id), message.nmReply(`Cargo encontrado, ${muter}`);
+                        if (!muter) return message.nmReply(this.client.locale(lang, 'ERROR_NOT_FOUND'))
+                        await this.client.guildConfig.set(`${guild.id}.muteRole`, muter.id), message.nmReply(this.client.locale(lang, 'RESPONSES_FOUND_ROLE', {role: muter}))
                         break;
                     case 'set':
                         if (args[2]) {
                             let muterole = this.client.utils.resolveRole(`${args[2]}`, guild.roles.cache, false, true)
-                            if (!muterole) return message.nmReply('Cargo inválido!')
-                            await this.client.guildConfig.set(`${guild.id}.muteRole`, muterole.id), message.nmReply(`Novo cargo mute escolhido, ${muterole}`)
+                            if (!muterole) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_ROLE'))
+                            await this.client.guildConfig.set(`${guild.id}.muteRole`, muterole.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_ROLE', {role: muterole}))
                         }
                         else {
                             let filter = (m) => m.author.id === author.id;
-                            message.nmReply(`Escolha um cargo:`)
+                            message.nmReply(this.client.locale(lang, 'CHOOSE_ROLE'))
                             let col = channel.createMessageCollector({ filter, time: 60000, max: 1 })
                             col.on('collect', async (msg) => {
                                 let muterole = this.client.utils.resolveRole(`${msg.content.trim().split(/ +/g)[0]}`, guild.roles.cache, false, true)
-                                if (!muterole) return message.nmReply('Cargo inválido!')
-                                await this.client.guildConfig.set(`${guild.id}.muteRole`, muterole.id), message.nmReply(`Novo cargo mute escolhido, ${muterole}`)
+                                if (!muterole) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_ROLE'))
+                                await this.client.guildConfig.set(`${guild.id}.muteRole`, muterole.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_ROLE', {role: muterole}))
                             })
                         }
                         break;
                     case 'disable':
-                        await this.client.guildConfig.set(`${guild.id}.muteRole`, null), message.nmReply('Função mute desativado.')
+                        await this.client.guildConfig.set(`${guild.id}.muteRole`, null), message.nmReply(this.client.locale(lang, 'RESPONSES_DISABLE', {custom: ['category', 'MUTE']}))
                         break;
                     default:
-                        message.nmReply({ embeds: [muteMenu.setDescription('> Use no formato `config <categoria> <função>`')] })
+                        message.nmReply({ embeds: [muteMenu.setDescription(embedstaticdesc)] })
                         break;
                 }
                 break;
@@ -209,7 +212,7 @@ module.exports = class ConfigCommand extends Command {
                 let collector = new MessageComponentInteractionCollector(sent, { time: 300000 })
 
                 collector.on("collect", async (interaction) => {
-                    if (interaction.user.id !== author.id) return interaction.reply({ content: 'Apenas o autor pode interagir!', ephemeral: true })
+                    if (interaction.user.id !== author.id) return interaction.reply({ content: this.client.locale(lang, 'ERROR_AUTHOR_ONLY'), ephemeral: true })
                     interaction.deferUpdate()
                     "back" === interaction.customID
                         ? sent.nmEdit({ embeds: [menu], components: [home] })
@@ -222,7 +225,7 @@ module.exports = class ConfigCommand extends Command {
                         : "mlog" === interaction.customID && sent.nmEdit({ embeds: [modlogsMenu], components: [back] });
                 })
                 collector.on('end', async () => {
-                    sent.nmEdit({ embeds: [menu.setDescription('> Use no formato `config <categoria> <função>`')], components: [] })
+                    sent.nmEdit({ embeds: [menu.setDescription(embedstaticdesc)], components: [] })
                 })
                 break;
         }
