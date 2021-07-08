@@ -3,6 +3,6 @@
     "ADMIN_ONLY_ERROR": "`Only an admin can run this command!`",
     "USER_PERM_ERROR": "`You don't have the needed perms to run this command!`",
     "CLIENT_PERM_ERROR": "`I don't have the needed perms to run this command!`",
-    "GUILD_PREFIX": "My prefix in this server is: `%%prefix%%`",
-    "BOT_PREFIX": "My prefix is: `%%prefix%%`"
+    "GUILD_PREFIX": "My prefix in this server is: `%prefix%`",
+    "BOT_PREFIX": "My prefix is: `%prefix%`"
 }

@@ -3,15 +3,15 @@
     "ADMIN_ONLY_ERROR": "`Apenas um adminstrador pode executar esse comando!`",
     "USER_PERM_ERROR": "`Você não possui as permissões necessárias para executar esse comando!`",
     "CLIENT_PERM_ERROR": "`Eu não possuo as permissões necessárias para executar esse comando!`",
-    "GUILD_PREFIX": "Meu prefixo neste servidor é `%%prefix%%`",
-    "BOT_PREFIX": "Meu prefixo é `%%prefix%%`",
+    "GUILD_PREFIX": "Meu prefixo neste servidor é `%prefix%`",
+    "BOT_PREFIX": "Meu prefixo é `%prefix%`",
     "CONFIG_COMMAND": {
         "EMBED_TITLE": "Menu de Configuração",
         "LIST_TITLE": "Lista de Argumentos: ",
         "DEFAULT_DESC": ">>> Use no formato `config <categoria> <função>`\nUtilize os botões para detalhes das categorias.",
         "CATEGORY_EMBED": {
             "DESCRIPTION": ">>> Use no formato `config <categoria> <função>`\nUtilize o botão para voltar.",
-            "TITLE": "Configurações de %%category%%: ",
+            "TITLE": "Configurações de %category%: ",
             "FIELDS": {
                 "PREFIX": {
                     "DEFAULT": "```ini\n[ Reseta o prefix do BOT neste servidor ]```",
