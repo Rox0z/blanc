@@ -4,7 +4,7 @@ module.exports = class Logger {
     constructor(client) {
         this.client = client
     }
-    modLog(guild, author, userMember, reason, type, time = null) {
+    modLog(guild, author, userMember, reason, type, lang, time = null) {
         let color
         switch (type) {
             case 'BAN':
@@ -22,36 +22,30 @@ module.exports = class Logger {
             default:
                 break;
         }
-        let iconURL;
-        if (guild.icon.startsWith("a_")) {
-            iconURL = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.gif?size=128`;
-        } else {
-            iconURL = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`;
-        }
         const embed = new MessageEmbed()
             .setTitle(`${userMember.username} | ${type}`)
             .setColor(color)
             .setThumbnail(author.displayAvatarURL({ dynamic: true, size: 256 }))
-            .setFooter(guild.name, iconURL)
+            .setFooter(guild.name, guild.iconURL({ dynamic: true, }).catch(()=>null))
             .setTimestamp()
             .addFields([
                 {
                     name: 'Membro:',
-                    value: `NOME: \`${userMember.username}#${userMember.discriminator}\`\nID: \`${userMember.id}\``,
+                    value: `${this.client.emoji.icons['members']}: \`${userMember.username}#${userMember.discriminator}\`\n${this.client.emoji.icons['id']}: \`${userMember.id}\``,
                     inline: false
                 },
                 {
                     name: 'Moderador:',
-                    value: `NOME: \`${author.username}#${author.discriminator}\`\nID: \`${author.id}\``,
+                    value: `${this.client.emoji.icons['mod']}: \`${author.username}#${author.discriminator}\`\n${this.client.emoji.icons['id']}: \`${author.id}\``,
                     inline: false
                 },
                 {
-                    name: 'Motivo:',
+                    name: `${this.client.emoji['activity']} ${this.client.locale(lang, 'REASON')}`,
                     value: `\`\`\`${reason}\`\`\``,
                     inline: false
                 },
             ])
-        if (time) { embed.addField('Terminará:', `<t:${time}:R>`, false) }
+        if (time) { embed.addField(`${this.client.emoji.icons['clock']} ${this.client.locale(lang, 'ENDING_IN')}`, `<t:${time}:R>`, false) }
         return embed
     }
 }

@@ -3,6 +3,8 @@
     "BOT_PREFIX": "Meu prefixo é `%prefix%`",
     "NONE": "Nenhum",
     "NO_REASON": "Sem motivo.",
+    "REASON": "Motivo: ",
+    "ENDING_IN": "Terminará: ",
     "USER_PUNISHED": "`Usuário punido!`",
     "USER_UNMUTED": "`%user.name% foi des-silenciado!`",
     "CHANNEL_STATUS": "Este canal foi `%status%`!",
