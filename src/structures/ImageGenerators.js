@@ -7,6 +7,7 @@ const RegExpURL = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,
 
 registerFont("src/assets/fonts/Whitney Regular.ttf", { family: "Whitney Regular" })
 registerFont("src/assets/fonts/Whitney Bold.ttf", { family: "Whitney Bold" })
+registerFont("src/assets/fonts/Arial_Unicode.ttf", { family: "Arial Unicode" })
 
 module.exports = class ImgGenerator {
     constructor(client) {
@@ -68,20 +69,20 @@ module.exports = class ImgGenerator {
             .printCircle(188.5, height === 512 ? 191.5 : 319.5, 27.5)
             .printImage(status, 171, height === 512 ? 174 : 302, 35, 35)
             .setColor('white')
-            .setTextFont('43px Whitney Bold, arial unicode ms')
+            .setTextFont('43px Whitney Bold, Arial Unicode')
             .setTextBaseline('top').setColor(background === 'white' ? '#060607' : '#fff')
             .printEmojiText(name, 35, height === 512 ? 256 : 384);
         await canvas
             .setColor(background === 'white' ? '#4f5660' : '#b9bbbe')
             .printText('#' + discrim, canvas.measureText(name).width + 35, height === 512 ? 256 : 384)
-            .setTextFont(`${customStatus?.length > 0 ? 38 : 80}px arial unicode ms`).printEmojiText(emojiText, 35, height === 512 ? 256 + 64 : 384 + 64);
+            .setTextFont(`${customStatus?.length > 0 ? 38 : 80}px Arial Unicode`).printEmojiText(emojiText, 35, height === 512 ? 256 + 64 : 384 + 64);
         await canvas.setColor(background === 'white' ? '#2e3338' : '#fff')
-            .setTextFont('30px Whitney Regular, arial unicode ms')
+            .setTextFont('30px Whitney Regular, Arial Unicode')
             .printEmojiText(`${emojiText?.length > 0 ? ' ' : ''}`.repeat(7) + customStatus, 35, height === 512 ? 256 + 64 + 8 : 384 + 64 + 8, 640 - 90);
         if (botType) {
             bot = await resolveImage(this.client.utils.icons[botType])
             canvas.printImage(bot,
-                canvas.setTextFont('43px Whitney Bold, arial unicode ms').measureText(name).width + canvas.measureText('#' + discrim).width + (botType === 'VERIFIED_BOT' ? 50 : 35),
+                canvas.setTextFont('43px Whitney Bold, Arial Unicode').measureText(name).width + canvas.measureText('#' + discrim).width + (botType === 'VERIFIED_BOT' ? 50 : 35),
                 (height === 512 ? 256 : 384) - 10, 80, 80)
         }
         for (let n = badges0.length; n > 7; n--) { badges1.push(badges0.pop()) }
