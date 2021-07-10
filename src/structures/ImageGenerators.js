@@ -5,8 +5,8 @@ const RegExpURL = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,
     { registerFont } = require('canvas'),
     { extractColors } = require("extract-colors")
 
-registerFont("src/assets/fonts/Whitney Regular.ttf", { family: "Whitney Regular" })
-registerFont("src/assets/fonts/Whitney Bold.ttf", { family: "Whitney Bold" })
+registerFont("src/assets/fonts/Whitney_Regular.ttf", { family: "Whitney Regular" })
+registerFont("src/assets/fonts/Whitney_Bold.ttf", { family: "Whitney Bold" })
 registerFont("src/assets/fonts/Arial_Unicode.ttf", { family: "Arial Unicode" })
 
 module.exports = class ImgGenerator {
