@@ -72,6 +72,7 @@ module.exports = class ProofCommand extends Command {
                 if (interaction.user.id !== author.id) return interaction.reply({ content: this.client.locale(lang, 'ERROR_AUTHOR_ONLY'), ephemeral: true })
                 interaction.deferUpdate()
                 "witness" === interaction.customID && sent.delete();
+                imgCollector.stop()
                 proofEmbed.addField(proofLocale[lang], witnessLocale[lang], false)
                 let ch = await this.client.guildConfig.get(`${guild.id}.proofsChannel`)
                 if (typeof ch === 'string') {
