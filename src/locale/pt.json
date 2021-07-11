@@ -57,6 +57,9 @@
     "CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_CREATE": "```ini\n[ Cria um canal de logs de moderação para uso ]```",
     "CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_SET": "```ini\n[ Declare um canal de logs de moderação neste servidor ]```",
     "CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_DISABLE": "```ini\n[ Desabilita os logs de moderação no servidor ]```",
+    "CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_CREATE": "```ini\n[ Cria um canal de provas da moderação para uso ]```",
+    "CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_SET": "```ini\n[ Declare um canal de provas da moderação neste servidor ]```",
+    "CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_DISABLE": "```ini\n[ Desabilita o comando de provas no servidor ]```",
     "HELP_COMMAND":{
         "EMBED_TITLE": "Comandos",
         "EMBED_SUBTITLE": "Comando",

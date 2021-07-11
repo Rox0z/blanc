@@ -17,6 +17,7 @@ module.exports = class ConfigCommand extends Command {
         let embedauthor = this.client.locale(lang, 'CONFIG_COMMAND_EMBED_TITLE'),
             embedcatdesc = this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_DESCRIPTION', { custom: ['prefix', prefix] }),
             embedstaticdesc = this.client.locale(lang, 'CONFIG_COMMAND_STATIC_DESC', { custom: ['prefix', prefix] });
+        proofLocale = { pt: 'Prova', en: 'Proof' }
         const menu = new MessageEmbed()
             .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841518870958964736.png")
             .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_LIST_TITLE'))
@@ -27,6 +28,7 @@ module.exports = class ConfigCommand extends Command {
                 { name: '\u200B', value: '\u200B', inline: 0 },
                 { name: 'Logs', value: '```md\n* create\n* set <logCH channelID>\n* disable```', inline: true },
                 { name: 'ModLogs', value: '```md\n* create\n* set <logCH channelID>\n* disable```', inline: true },
+                { name: proofLocale[lang], value: '```md\n* create\n* set <logCH channelID>\n* disable```', inline: false },
             ]),
             prefixMenu = new MessageEmbed()
                 .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841519978397040640.png")
@@ -63,17 +65,28 @@ module.exports = class ConfigCommand extends Command {
                     { name: "Create", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_CREATE'), inline: 0 },
                     { name: "Set", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_SET'), inline: 0 },
                     { name: "Disable", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_DISABLE'), inline: 0 },
-                ])
+                ]),
+            proofMenu = new MessageEmbed()
+                .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841519512678432778.png")
+                .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_TITLE', { custom: ['category', `${proofLocale[lang]}s`] }))
+                .setDescription(embedcatdesc)
+                .addFields([
+                    { name: "Create", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_CREATE'), inline: 0 },
+                    { name: "Set", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_SET'), inline: 0 },
+                    { name: "Disable", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_DISABLE'), inline: 0 },
+                ]);
         let color = 'SECONDARY',
             logs = new MessageButton().setCustomID('logs').setLabel('LOGS').setStyle(color).setEmoji('841742410337091594'),
             mlog = new MessageButton().setCustomID('mlog').setLabel('MOD LOGS').setStyle(color).setEmoji('841519512678432778'),
             pref = new MessageButton().setCustomID('pref').setLabel('PREFIX').setStyle(color).setEmoji('841519978397040640'),
             mute = new MessageButton().setCustomID('mute').setLabel('MUTE').setStyle(color).setEmoji('841519038974656522'),
+            prof = new MessageButton().setCustomID('proof').setLabel(proofLocale[lang].toUpperCase()).setStyle(color).setEmoji('860982546811715595'),
             volt = new MessageButton().setCustomID('back').setStyle('PRIMARY').setEmoji('841742417783029822'),
-            home = new MessageActionRow().addComponents([pref, mute, logs, mlog]),
+            home = new MessageActionRow().addComponents([pref, mute, logs, mlog, prof]),
             back = new MessageActionRow().addComponents([volt])
 
         switch (args[0]?.toLowerCase()) {
+            case 'log':
             case 'logs':
                 switch (args[1]) {
                     case 'create':
@@ -107,6 +120,7 @@ module.exports = class ConfigCommand extends Command {
                         break;
                 }
                 break;
+            case 'modlog':
             case 'modlogs':
                 switch (args[1]) {
                     case 'create':
@@ -204,6 +218,40 @@ module.exports = class ConfigCommand extends Command {
                         break;
                     default:
                         message.nmReply({ embeds: [muteMenu.setDescription(embedstaticdesc)] })
+                        break;
+                }
+                break;
+            case 'proof':
+            case 'prova':
+                switch (args[1]) {
+                    case 'create':
+                        if (typeof await this.client.guildConfig.get(`${guild.id}.proofsChannel`) === 'string') return message.nmReply(this.client.locale(lang, 'RESPONSES_ALREADY_CHANNEL', { custom: ['prefix', prefix] }))
+                        let proofchannel = await guild.channels.create(`${proofLocale[lang]}s`, { type: 'text', permissionOverwrites: [{ id: guild.roles.everyone, deny: 'VIEW_CHANNEL' }] }).catch(() => null)
+                        if (!proofchannel) return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOW'))
+                        await this.client.guildConfig.set(`${guild.id}.proofsChannel`, proofchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CREATED_CHANNEL', { channel: proofchannel }))
+                        break;
+                    case 'set':
+                        if (args[2]) {
+                            proofchannel = await this.client.utils.resolveChannel(guild, args[2])
+                            if (!proofchannel) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_CHANNEL'))
+                            await this.client.guildConfig.set(`${guild.id}.proofsChannel`, proofchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_CHANNEL', { channel: proofchannel }))
+                        }
+                        else {
+                            let filter = (m) => m.author.id === author.id;
+                            message.nmReply(this.client.locale(lang, 'CHOOSE_CHANNEL'))
+                            let col = channel.createMessageCollector({ filter, time: 60000, max: 1 })
+                            col.on('collect', async (msg) => {
+                                let proofchannel = await this.client.utils.resolveChannel(guild, `${msg.content.trim().split(/ +/g)[0]}`)
+                                if (!proofchannel) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_CHANNEL'))
+                                await this.client.guildConfig.set(`${guild.id}.proofsChannel`, proofchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_CHANNEL', { channel: proofchannel }))
+                            })
+                        }
+                        break;
+                    case 'disable':
+                        await this.client.guildConfig.set(`${guild.id}.proofsChannel`, null), message.nmReply(this.client.locale(lang, 'RESPONSES_DISABLE', { custom: ['category', proofLocale[lang].toUpperCase()] }))
+                        break;
+                    default:
+                        message.nmReply({ embeds: [proofMenu.setDescription(embedstaticdesc)] })
                         break;
                 }
                 break;

@@ -57,6 +57,9 @@
     "CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_CREATE": "```ini\n[ Create a new mod logs and set as default in this server ]```",
     "CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_SET": "```ini\n[ Set a default mod log channel in this server ]```",
     "CONFIG_COMMAND_CATEGORY_FIELD_MODLOGS_DISABLE": "```ini\n[ Disable mod logs in this server ]```",
+    "CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_CREATE": "```ini\n[ Create a new proofs channel and set as default in this server ]```",
+    "CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_SET": "```ini\n[ Set a default proof channel in this server ]```",
+    "CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_DISABLE": "```ini\n[ Disable the proof command in this server ]```",
     "HELP_COMMAND": {
         "EMBED_TITLE": "Commands",
         "EMBED_SUBTITLE": "Command",
