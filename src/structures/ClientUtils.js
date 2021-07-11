@@ -139,9 +139,12 @@ module.exports = class Util {
      * Resolves a user from a string, such as an ID, a name, or a mention.
      * @param {Message} message - Message of the command.
      * @param {string} text - Text to resolve.
+     * @param {Object} options - Resolve options
+     * @param {Object} [options.author = true] - Return author?
      * @returns {User}
      */
-    async resolveUser(message, text = "null") {
+    async resolveUser(message, text = "null", options = {}) {
+        let { author = true } = options
         if (!message) throw new TypeError("Message wasn't defined");
         text || (text = "null");
         let res,
@@ -149,7 +152,7 @@ module.exports = class Util {
         return (
             "DiscordAPIError" ===
             (res = match ? await this.client.users.fetch(match[1]).catch(() => null) : isNaN(text) ? (message.mentions.users.size > 0 ? message.mentions.users.first() : message.author) : await this.client.users.fetch(text).catch((e) => e)).constructor.name &&
-            (res = message.author),
+            (author ? res = message.author : res = null),
             this.client.users.cache.sweep((e) => e.id !== this.client.user.id),
             res
         );
