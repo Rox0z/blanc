@@ -23,7 +23,7 @@ module.exports = class ProofCommand extends Command {
 
         const proofEmbed = new MessageEmbed()
             .setTitle(proofLocale[lang])
-            .setThumbnail(user.displayAvatarURL({dynamic: true, size: 128}))
+            .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 128 }))
             .addFields([
                 {
                     name: this.client.locale(lang, 'MEMBER'),
@@ -38,18 +38,26 @@ module.exports = class ProofCommand extends Command {
                 { name: `${this.client.emoji['activity']} ${this.client.locale(lang, 'REASON')}`, value: `\`\`\`${reason.length > 0 ? reason : this.client.locale(lang, 'NO_REASON')}\`\`\``, inline: false }
             ])
 
-        if (message?.attachments?.array()[0]) { proofEmbed.setImage(message?.attachments?.array()[0].proxyURL) } else {
+        if (message?.attachments?.array()[0]) {
+            proofEmbed.setImage(message?.attachments?.array()[0].proxyURL)
+            let ch = await this.client.guildConfig.get(`${guild.id}.proofsChannel`)
+            if (typeof ch === 'string') {
+                let logchannel = await this.client.utils.resolveChannel(guild, ch)
+                if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.proofsChannel`, null).catch(() => null)
+                logchannel.send({ embeds: [proofEmbed] }).catch(() => channel.send(this.client.locale(lang, 'ERROR_CANNOT_PROOF')))
+            }
+        } else {
             const button = new MessageButton().setEmoji('841519445226160129').setCustomID('witness').setStyle('SECONDARY'),
                 row = new MessageActionRow().addComponents([button])
 
-            let sent = await channel.send({content:this.client.locale(lang, 'PROOF_COMMAND_IMAGE_ASK'), components: [row]})
+            let sent = await channel.send({ content: this.client.locale(lang, 'PROOF_COMMAND_IMAGE_ASK'), components: [row] })
 
             let filter = (m) => m.author.id === author.id;
             let imgCollector = channel.createMessageCollector({ filter, time: 60000, max: 5 })
             let buttonCollector = new MessageComponentInteractionCollector(sent, { time: 60000 })
             imgCollector.on('collect', async (msg) => {
                 if (msg.attachments.size === 0) return msg.delete(), channel.send(this.client.locale(lang, 'INVALID_PROOF'))
-                if (!msg.attachments.first().contentType.startsWith('image')) return msg.delete(), channel.send(this.client.locale(lang, 'INVALID_PROOF'))
+                if (!msg.attachments.first().contentType.startsWith('image')) return msg.delete(), channel.send(this.client.locale(lang, 'ERROR_INVALID_PROOF'))
                 proofEmbed.setImage(msg.attachments.first().proxyURL)
                 let ch = await this.client.guildConfig.get(`${guild.id}.proofsChannel`)
                 if (typeof ch === 'string') {
