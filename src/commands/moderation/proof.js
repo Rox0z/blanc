@@ -46,7 +46,7 @@ module.exports = class ProofCommand extends Command {
 
             let filter = (m) => m.author.id === author.id;
             let imgCollector = channel.createMessageCollector({ filter, time: 60000, max: 5 })
-            let buttonCollector = MessageComponentInteractionCollector(sent, { time: 60000 })
+            let buttonCollector = new MessageComponentInteractionCollector(sent, { time: 60000 })
             imgCollector.on('collect', async (msg) => {
                 if (msg.attachments.size === 0) return msg.delete(), channel.send(this.client.locale(lang, 'INVALID_PROOF'))
                 if (!msg.attachments.first().contentType.startsWith('image')) return msg.delete(), channel.send(this.client.locale(lang, 'INVALID_PROOF'))
