@@ -16,8 +16,8 @@ module.exports = class ConfigCommand extends Command {
     async run({ message, args, guild, channel, author, prefix, lang }) {
         let embedauthor = this.client.locale(lang, 'CONFIG_COMMAND_EMBED_TITLE'),
             embedcatdesc = this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_DESCRIPTION', { custom: ['prefix', prefix] }),
-            embedstaticdesc = this.client.locale(lang, 'CONFIG_COMMAND_STATIC_DESC', { custom: ['prefix', prefix] });
-        proofLocale = { pt: 'Prova', en: 'Proof' }
+            embedstaticdesc = this.client.locale(lang, 'CONFIG_COMMAND_STATIC_DESC', { custom: ['prefix', prefix] }),
+            proofLocale = { pt: 'Prova', en: 'Proof' }
         const menu = new MessageEmbed()
             .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841518870958964736.png")
             .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_LIST_TITLE'))
