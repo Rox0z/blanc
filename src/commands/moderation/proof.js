@@ -39,7 +39,7 @@ module.exports = class ProofCommand extends Command {
             ])
 
         if (message?.attachments?.array()[0]) { proofEmbed.setImage(message?.attachments?.array()[0].proxyURL) } else {
-            const button = new MessageButton().setEmoji('841519445226160129').setCustomID('witness'),
+            const button = new MessageButton().setEmoji('841519445226160129').setCustomID('witness').setStyle('SECONDARY'),
                 row = new MessageActionRow().addComponents([button])
 
             let sent = await channel.send({content:this.client.locale(lang, 'PROOF_COMMAND_IMAGE_ASK'), components: [row]})
