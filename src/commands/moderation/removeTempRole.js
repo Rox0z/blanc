@@ -13,6 +13,7 @@ module.exports = class RemoveTmpRolesCommand extends Command {
         });
     }
     async run({ args, message, guild, lang }) {
+        if (!args[0]) return message.nmReply(this.client.locale(lang, 'ERROR_NO_USER'))
         let user = await this.client.utils.resolveUser(message, args[0])
         let member = await guild.members.fetch(user.id).catch(() => null)
         if (!member) return message.channel.send(this.client.locale(lang, 'ERROR_INVALID_MEMBER'))
