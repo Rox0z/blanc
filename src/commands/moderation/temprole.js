@@ -13,7 +13,7 @@ module.exports = class TemproleCommand extends Command {
             title: { pt: "Cargo temporário", en: 'Temporary role' }
         });
     }
-    async run({ args, message, guild }) {
+    async run({ args, message, guild, lang }) {
         if (!args[2]) return message.channel.send(this.client.locale(lang, 'ERROR_PROVIDE_ROLES', { custom: ['prefix', prefix] }))
         let user = await this.client.utils.resolveUser(message, args[0])
         let member = await guild.members.fetch(user.id).catch(() => null)
