@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageComponentInteractionCollector } = require('discord.js-light')
+const { MessageEmbed, MessageComponentInteractionCollector, MessageButton, MessageActionRow } = require('discord.js-light')
 const Command = require('../../structures/command.js')
 
 module.exports = class ProofCommand extends Command {
@@ -18,7 +18,8 @@ module.exports = class ProofCommand extends Command {
         if (!user) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_USER'))
         if (user.id === message.author.id) return message.channel.send(this.client.locale(lang, 'ERROR_SELFPROOF'))
         let proofLocale = { pt: 'Prova', en: 'Proof' },
-            witnessLocale = { pt: 'Testemunha', en: 'Witness' }
+            witnessLocale = { pt: 'Testemunha', en: 'Witness' },
+            reason = args.slice(1).join('')
 
         const proofEmbed = new MessageEmbed()
             .setTitle(proofLocale[lang])
@@ -38,7 +39,11 @@ module.exports = class ProofCommand extends Command {
             ])
 
         if (message?.attachments?.array()[0]) { proofEmbed.setImage(message?.attachments?.array()[0].proxyURL) } else {
-            let sent = await channel.send(this.client.locale(lang, 'PROOF_COMMAND_IMAGE_ASK'))
+            const button = new MessageButton().setEmoji('841519445226160129').setCustomID('witness'),
+                row = new MessageActionRow().addComponents([button])
+
+            let sent = await channel.send({content:this.client.locale(lang, 'PROOF_COMMAND_IMAGE_ASK'), components: [row]})
+
             let filter = (m) => m.author.id === author.id;
             let imgCollector = channel.createMessageCollector({ filter, time: 60000, max: 5 })
             let buttonCollector = MessageComponentInteractionCollector(sent, { time: 60000 })
