@@ -19,7 +19,7 @@ module.exports = class ProofCommand extends Command {
         if (user.id === message.author.id) return message.channel.send(this.client.locale(lang, 'ERROR_SELFPROOF'))
         let proofLocale = { pt: 'Prova', en: 'Proof' },
             witnessLocale = { pt: 'Testemunha', en: 'Witness' },
-            reason = args.slice(1).join('')
+            reason = args.slice(1).join(' ')
 
         const proofEmbed = new MessageEmbed()
             .setTitle(proofLocale[lang])
