@@ -35,7 +35,7 @@ module.exports = class ProofCommand extends Command {
                     value: `${this.client.emoji.icons['mod']}: \`${author.username}#${author.discriminator}\`\n${this.client.emoji.icons['id']}: \`${author.id}\``,
                     inline: false
                 },
-                { name: `${this.client.emoji['activity']} ${this.client.locale(lang, 'REASON')}`, value: `\`\`\`${reason.length > 0 ? reason : this.client.locale(lang, 'NO_REASON')}\`\`\``, inline: false }
+                { name: `${this.client.emoji.icons['activity']} ${this.client.locale(lang, 'REASON')}`, value: `\`\`\`${reason.length > 0 ? reason : this.client.locale(lang, 'NO_REASON')}\`\`\``, inline: false }
             ])
 
         if (message?.attachments?.array()[0]) {

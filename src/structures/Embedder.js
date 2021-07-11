@@ -40,7 +40,7 @@ module.exports = class Logger {
                     inline: false
                 },
                 {
-                    name: `${this.client.emoji['activity']} ${this.client.locale(lang, 'REASON')}`,
+                    name: `${this.client.emoji.icons['activity']} ${this.client.locale(lang, 'REASON')}`,
                     value: `\`\`\`${reason}\`\`\``,
                     inline: false
                 },
