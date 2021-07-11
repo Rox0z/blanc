@@ -13,7 +13,7 @@ module.exports = class HelpCommand extends Command {
     }
     async run({ message, prefix, author, lang }) {
 
-        let commands = this.client.isOwner(author) ? this.client.commands.map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji }) : this.client.commands.filter(cmd => cmd.category !== 'Owner').map(cmd => cmd = { label: cmd.name, value: cmd.name, description: cmd.category, emoji: cmd.emoji })
+        let commands = this.client.isOwner(author) ? this.client.commands.map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji }) : this.client.commands.filter(cmd => cmd.category !== 'Owner').map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji })
         const strings = this.client.locale(lang, "HELP_COMMAND")
         const embed = new MessageEmbed()
             .setTitle(strings.EMBED_TITLE.toUpperCase())
