@@ -56,9 +56,10 @@ module.exports = class ProofCommand extends Command {
             let imgCollector = channel.createMessageCollector({ filter, time: 60000, max: 5 })
             let buttonCollector = new MessageComponentInteractionCollector(sent, { time: 60000 })
             imgCollector.on('collect', async (msg) => {
-                if (msg.attachments.size === 0) return msg.delete(), channel.send(this.client.locale(lang, 'INVALID_PROOF'))
+                if (msg.attachments.size === 0) return msg.delete(), channel.send(this.client.locale(lang, 'ERROR_INVALID_PROOF'))
                 if (!msg.attachments.first().contentType.startsWith('image')) return msg.delete(), channel.send(this.client.locale(lang, 'ERROR_INVALID_PROOF'))
                 sent.delete()
+                imgCollector.stop()
                 proofEmbed.setImage(msg.attachments.first().proxyURL)
                 let ch = await this.client.guildConfig.get(`${guild.id}.proofsChannel`)
                 if (typeof ch === 'string') {
