@@ -151,7 +151,7 @@ module.exports = class Util {
             match = text.match(/<@!?(\d{17,19})>/);
         return (
             "DiscordAPIError" ===
-            (res = match ? await this.client.users.fetch(match[1]).catch(() => null) : isNaN(text) ? (message.mentions.users.size > 0 ? message.mentions.users.first() : message.author) : await this.client.users.fetch(text).catch((e) => e)).constructor.name &&
+            (res = match ? await this.client.users.fetch(match[1]).catch(() => null) : isNaN(text) ? (message.mentions.users.size > 0 ? message.mentions.users.first() : author ? message.author : null) : await this.client.users.fetch(text).catch((e) => e)).constructor.name &&
             (author ? res = message.author : res = null),
             this.client.users.cache.sweep((e) => e.id !== this.client.user.id),
             res
