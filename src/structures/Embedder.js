@@ -30,12 +30,12 @@ module.exports = class Logger {
             .setTimestamp()
             .addFields([
                 {
-                    name: 'Membro:',
+                    name: this.client.locale(lang, 'MEMBER'),
                     value: `${this.client.emoji.icons['members']}: \`${userMember.username}#${userMember.discriminator}\`\n${this.client.emoji.icons['id']}: \`${userMember.id}\``,
                     inline: false
                 },
                 {
-                    name: 'Moderador:',
+                    name: this.client.locale(lang, 'MODERATOR'),
                     value: `${this.client.emoji.icons['mod']}: \`${author.username}#${author.discriminator}\`\n${this.client.emoji.icons['id']}: \`${author.id}\``,
                     inline: false
                 },

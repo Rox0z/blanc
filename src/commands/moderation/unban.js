@@ -7,13 +7,14 @@ module.exports = class UnbanCommand extends Command {
             description: { pt: "Desbane um usuário.", en: "Unbans a user" },
             category: "Moderation",
             neededPermissions: ['BAN_MEMBERS'],
-            usage: { pt: "unban <usuárioID|@usuário> [motivo]", en: 'unban <userID|@user> [reason]' },
+            usage: { pt: "unban <usuárioID|@usuário> [...motivo]", en: 'unban <userID|@user> [...reason]' },
             title: 'Unban'
         });
     }
     async run({ args, message, guild, author, channel }) {
-        let user = await this.client.utils.resolveUser(message, args[0])
-        if (user.id === message.author.id) return message.channel.send(this.client.locale(lang, 'ERROR_SELFPUNISH'))
+        let user = await this.client.utils.resolveUser(message, args[0], {author: false})
+        if (!user) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_USER'))
+        if (user.id === message.author.id) return message.channel.send('?')
 
         let reason = args.slice(1).join(' ')
         await guild.members
@@ -24,7 +25,7 @@ module.exports = class UnbanCommand extends Command {
         if (typeof ch === 'string') {
             let logchannel = await this.client.utils.resolveChannel(guild, ch)
             if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, null).catch(() => null)
-            logchannel.send({ embeds: [this.client.embedder.modLog(guild, author, user, reason === '' ? this.client.locale(lang, 'NO_REASON') : reason, 'UNBAN', lang)] }).catch(() => channel.send(this.client.locale(lang, 'ERROR_CANNOT_LOG')))
+            logchannel.send({ embeds: [this.client.embedder.modLog(guild, author, user, reason.length > 0 ? this.client.locale(lang, 'NO_REASON') : reason, 'UNBAN', lang)] }).catch(() => channel.send(this.client.locale(lang, 'ERROR_CANNOT_LOG')))
         }
     }
 };

@@ -4,6 +4,8 @@
     "NONE": "None",
     "NO_REASON": "No reason.",
     "REASON": "Reason: ",
+    "MEMBER": "Member: ",
+    "MODERATOR": "Moderator: ",
     "ENDING_IN": "Ends: ",
     "USER_PUNISHED": "`User punished!`",
     "USER_UNMUTED": "`%user.name% was unmuted!`",
@@ -21,12 +23,14 @@
     "ERROR_INVALID_USER": "`Invalid user!`",
     "ERROR_INVALID_ROLE": "`Invalid role!`",
     "ERROR_INVALID_PREFIX": "`Invalid prefix!`",
+    "ERROR_INVALID_PROOF": "`Invalid proof!`",
     "ERROR_NO_GUILD_AVATAR": "`User don't have guild avatar!`",
     "ERROR_NO_GUILD_SPLASH": "`Server don't have a splash image!`",
     "ERROR_NO_GUILD_BANNER": "`Server don't have a banner image!`",
     "ERROR_NO_GUILD_ICON": "`Server don't have a icon!`",
     "ERROR_SELFPUNISH": "`You can't punish yourself!`",
-    "ERROR_CANNOT_LOG": "`I wasn't able to send the log!`",
+    "ERROR_CANNOT_LOG": "`I was unable to send the log!`",
+    "ERROR_CANNOT_PROOF": "`I was unable to send the proof!`",
     "ERROR_MUTE_DISABLED": "`The MUTE command is disable in this server!`",
     "ERROR_MUTE_INVALID": "`the MUTE role is invalid. The mute command is now disable in this server!`",
     "ERROR_ALREADY_UNMUTE": "`%user.name% isn't muted!`",
@@ -35,6 +39,7 @@
     "ERROR_PROVIDE_ROLES": "Specify the role(s)! format: `%prefix%temprole <memberID|@member> <time> <...roles>`",
     "ERROR_ADD_ROLES": "`I couldn't add the roles!`",
     "ERROR_REMOVE_ROLES": "`I couldn't remove the roles!`",
+    "ERROR_SELFPROOF": "`It's not possible to proof against yourself!`",
     "CHOOSE_CHANNEL": "Choose a channel:",
     "CHOOSE_ROLE": "Choose a role:",
     "CHOOSE_PREFIX": "Choose a prefix:",
@@ -112,5 +117,6 @@
         "TOTAL": "Total:",
         "MODS": "Mods:",
         "COMMONS": "Commons:"
-    }
+    },
+    "PROOF_COMMAND_IMAGE_ASK": "Send a image or press the button to set yourself as `witness`"
 }
