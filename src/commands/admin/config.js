@@ -265,12 +265,14 @@ module.exports = class ConfigCommand extends Command {
                     "back" === interaction.customID
                         ? sent.nmEdit({ embeds: [menu], components: [home] })
                         : "pref" === interaction.customID
-                            ? sent.nmEdit({ embeds: [prefixMenu], components: [back] })
-                            : "mute" === interaction.customID
-                                ? sent.nmEdit({ embeds: [muteMenu], components: [back] })
-                                : "logs" === interaction.customID
-                                    ? sent.nmEdit({ embeds: [logsMenu], components: [back] })
-                                    : "mlog" === interaction.customID && sent.nmEdit({ embeds: [modlogsMenu], components: [back] });
+                        ? sent.nmEdit({ embeds: [prefixMenu], components: [back] })
+                        : "mute" === interaction.customID
+                        ? sent.nmEdit({ embeds: [muteMenu], components: [back] })
+                        : "logs" === interaction.customID
+                        ? sent.nmEdit({ embeds: [logsMenu], components: [back] })
+                        : "proof" === interaction.customID
+                        ? sent.nmEdit({ embeds: [proofMenu], components: [back] })
+                        : "mlog" === interaction.customID && sent.nmEdit({ embeds: [modlogsMenu], components: [back] });
                 })
                 collector.on('end', async () => {
                     sent.nmEdit({ embeds: [menu.setDescription(embedstaticdesc)], components: [] })
