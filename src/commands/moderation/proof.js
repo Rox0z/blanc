@@ -58,6 +58,7 @@ module.exports = class ProofCommand extends Command {
             imgCollector.on('collect', async (msg) => {
                 if (msg.attachments.size === 0) return msg.delete(), channel.send(this.client.locale(lang, 'INVALID_PROOF'))
                 if (!msg.attachments.first().contentType.startsWith('image')) return msg.delete(), channel.send(this.client.locale(lang, 'ERROR_INVALID_PROOF'))
+                sent.delete()
                 proofEmbed.setImage(msg.attachments.first().proxyURL)
                 let ch = await this.client.guildConfig.get(`${guild.id}.proofsChannel`)
                 if (typeof ch === 'string') {
