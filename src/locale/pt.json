@@ -21,6 +21,7 @@
     "ERROR_INVALID_CHANNEL": "`Canal inválido!`",
     "ERROR_INVALID_MEMBER": "`Não é um membro!`",
     "ERROR_INVALID_USER": "`Usuário inválido!`",
+    "ERROR_NO_USER": "`Você deve referenciar um usuário!`",
     "ERROR_INVALID_ROLE": "`Cargo inválido!`",
     "ERROR_INVALID_PREFIX": "`Prefixo inválido!`",
     "ERROR_INVALID_PROOF": "`Prova inválida!`",
