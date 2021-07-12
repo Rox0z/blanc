@@ -1,6 +1,6 @@
 const Event = require('../structures/event.js'),
     moment = require('moment');
-    moment.utcOffset("-03:00")
+    moment().utcOffset("-03:00")
 module.exports = class ReadyEvent extends Event {
     constructor(...args) {
         super(...args, {
