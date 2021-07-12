@@ -23,8 +23,9 @@ module.exports = class ProofCommand extends Command {
             reason = args.slice(1).join(' ')
 
         const proofEmbed = new MessageEmbed()
-            .setAuthor(proofLocale[lang], author.displayAvatarURL({ dynamic: true, size: 128 }))
+            .setFooter(`${author.username}#${author.discriminator}`, author.displayAvatarURL({ dynamic: true, size: 128 }))
             .setTimestamp()
+            .setTitle(proofLocale[lang])
             .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 128 }))
             .addFields([
                 {
