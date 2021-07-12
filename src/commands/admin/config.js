@@ -97,7 +97,7 @@ module.exports = class ConfigCommand extends Command {
                         break;
                     case 'set':
                         if (args[2]) {
-                            logchannel = await this.client.utils.resolveChannel(guild, args[2])
+                            let logchannel = await this.client.utils.resolveChannel(guild, args[2])
                             if (!logchannel) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_CHANNEL'))
                             await this.client.guildConfig.set(`${guild.id}.logsChannel`, logchannel.id), message.nmReply(this.client.locale(lang, 'RESPONSES_CHOSED_CHANNEL', { channel: logchannel }))
                         }
