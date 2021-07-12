@@ -19,7 +19,8 @@ module.exports = class ReadyEvent extends Event {
         console.table(this.client.guilds.cache.sort((a,b) => b.memberCount - a.memberCount).map((guild) => ({ name: guild.name, id: guild.id, members: guild.memberCount })).reduce((e, { name, ...i }) => ((e[name] = i), e), {}))
         for (const guild of this.client.guilds.cache.array()) {
             let prefix = await this.client.guildConfig.get(`${guild.id}.guildPrefix`)
-            this.client.prefixes.set(guild.id, prefix)
+            let locale = await this.client.guildConfig.get(`${guild.id}.guildLocale`)
+            this.client.prefixes.set(guild.id, {prefix, locale})
         }
     }
 }
