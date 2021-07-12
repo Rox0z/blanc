@@ -26,7 +26,7 @@ module.exports = class Logger {
             .setTitle(`${userMember.username} | ${type}`)
             .setColor(color)
             .setThumbnail(author.displayAvatarURL({ dynamic: true, size: 256 }))
-            .setFooter(guild.name, guild.iconURL({ dynamic: true, }).catch(()=>null))
+            .setFooter(guild.name, guild.iconURL({ dynamic: true, }))
             .setTimestamp()
             .addFields([
                 {
