@@ -8,6 +8,7 @@ module.exports = class UnbanCommand extends Command {
             category: "Moderation",
             neededPermissions: ['BAN_MEMBERS'],
             usage: { pt: "unban <usuárioID|@usuário> [...motivo]", en: 'unban <userID|@user> [...reason]' },
+            channel: 'text',
             title: 'Unban'
         });
     }

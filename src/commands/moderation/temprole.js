@@ -10,6 +10,7 @@ module.exports = class TemproleCommand extends Command {
             category: "Moderation",
             neededPermissions: ['MANAGE_ROLES'],
             usage: { pt: "temprole <usuáriosID|@usuários> <tempo> <...cargos>", en: 'temprole <userID|@user> <time> <...roles>' },
+            channel: 'text',
             title: { pt: "Cargo temporário", en: 'Temporary role' }
         });
     }

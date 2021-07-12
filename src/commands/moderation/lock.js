@@ -7,6 +7,7 @@ module.exports = class LockCommand extends Command {
             description: { pt: 'Bloqueia o canal atual.', en: "Locks the current channel." },
             neededPermissions: ['MANAGE_CHANNELS'],
             category: 'Moderation',
+            channel: 'text',
             usage: 'lock',
             title: { pt: 'Bloquear', en: "Lock" }
         })

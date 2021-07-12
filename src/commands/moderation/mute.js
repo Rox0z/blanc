@@ -8,6 +8,7 @@ module.exports = class MuteCommand extends Command {
             description: { pt: "Silencia um membro.", en: "Mutes a member." },
             category: "Moderation",
             neededPermissions: ['MANAGE_ROLES'],
+            channel: 'text',
             usage: { pt: "mute <membroID|@membro> <tempo> [...motivo]", en: 'mute <memberID|@member> <time> [...reason]' },
             title: { pt: 'Silenciar', en: "Mute" }
         });

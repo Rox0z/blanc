@@ -8,6 +8,7 @@ module.exports = class BanCommand extends Command {
             category: "Moderation",
             neededPermissions: ['BAN_MEMBERS'],
             usage: { pt: "ban <usuárioID|@usuário> [...motivo]", en: 'ban <userID|@user> [...reason]' },
+            channel: 'text',
             title: 'Ban'
         });
     }

@@ -8,6 +8,7 @@ module.exports = class UnlockCommand extends Command {
             category: 'Moderation',
             neededPermissions: ['MANAGE_CHANNELS'],
             usage: 'unlock',
+            channel: 'text',
             title: { pt: 'Desbloquear', en: "Unlock" },
         })
     }

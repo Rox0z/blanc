@@ -8,6 +8,7 @@ module.exports = class RemoveTmpRolesCommand extends Command {
             description: { pt: "Remove os cargos temporários de um usuário.", en: "Removes any temporary roles from a user." },
             category: "Moderation",
             neededPermissions: ['MANAGE_ROLES'],
+            channel: 'text',
             usage: { pt: "rtemprole <membroID|@membro>", en: 'rtemprole <memberID|@member>' },
             title: { pt: "Remover cargo temporário", en: 'Remove temporary roles' }
         });

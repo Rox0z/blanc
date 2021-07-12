@@ -8,6 +8,7 @@ module.exports = class UnmuteCommand extends Command {
             category: "Moderation",
             neededPermissions: ['MANAGE_ROLES'],
             usage: { pt: "unmute <membroID|@membro> [...motivo]", en: 'unmute <memberID|@member> [...reason]' },
+            channel: 'text',
             title: { pt: 'Des-silenciar', en: "Unmute" }
         });
     }

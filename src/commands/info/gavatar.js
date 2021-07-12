@@ -7,6 +7,7 @@ module.exports = class GAvatarCommand extends Command {
             aliases: ['gav'],
             description: { pt: "Envia o avatar de servidor de um membro", en: "Sends the guild avatar of a member." },
             category: 'Info',
+            channel: 'text',
             usage: { pt: "gavatar [membroID|@membro]", en: "gavatar [memberID|@member]" },
             title: { pt: "Avatar de servidor", en: "Guild avatar" }
         })
