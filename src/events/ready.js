@@ -21,7 +21,8 @@ module.exports = class ReadyEvent extends Event {
         for (const guild of this.client.guilds.cache.array()) {
             let prefix = await this.client.guildConfig.get(`${guild.id}.guildPrefix`)
             let locale = await this.client.guildConfig.get(`${guild.id}.guildLocale`)
-            this.client.prefixes.set(guild.id, {prefix, locale})
+            this.client.prefixes.set(guild.id, prefix)
+            this.client.locales.set(guild.id, locale)
         }
     }
 }

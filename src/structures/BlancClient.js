@@ -24,6 +24,7 @@ class BlancClient extends Client {
         this.events = new Collection();
         this.aliases = new Collection();
         this.prefixes = new Collection();
+        this.locales = new Collection();
         this.utils = new Util(this);
         this.logger = new Logger(this);
         this.embedder = new Embedder(this);

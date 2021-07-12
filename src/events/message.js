@@ -14,12 +14,14 @@ module.exports = class MessageEvent extends Event {
             mentionPrefix = RegExp(`^<@!?${this.client.user.id}> `);
         if (message.author.bot) return;
         let prefix
-        let lang = this.client.isOwner(message.author) ? 'en' : 'pt'
+        let lang 
         if (message.channel.type === 'text') {
-            let dbprefix =  this.client.prefixes.get(message.guild.id).prefix
+            lang = this.client.locales.get(message.guild.id) || message.guild.preferredLocale.split('-')[0] === 'pt' ? 'pt' : 'en'
+            let dbprefix =  this.client.prefixes.get(message.guild.id)
             message.content.match(mention) && message.reply(this.client.locale(lang, 'GUILD_PREFIX', {custom: ['prefix', dbprefix]}));
             prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : (this.client.defaultPrefix !== dbprefix) ? dbprefix : this.client.defaultPrefix;
         } else {
+            lang = 'en'
             message.content.match(mention) && message.reply(this.client.locale(lang, 'BOT_PREFIX', {custom: ['prefix', this.client.defaultPrefix]}))
             prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : this.client.defaultPrefix
         }
