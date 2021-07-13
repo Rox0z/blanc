@@ -20,8 +20,8 @@ module.exports = class RoleInfoCommand extends Command {
         try { role = this.client.utils.resolveRole(args[0], guild.roles.cache) } catch { return message.nmReply('role not found error placeholder') }
         let { color } = role
         //const buffer = Buffer.from(svgcode.replace(/%color%/gi, require('chroma-js')(color).hex()), 'base64')
-        code = Buffer.from(svgcode.replace(/%color%/gi, require('chroma-js')(color).hex()), 'binary')//.toString('base64')
-        let image = await resolveImage(code).catch(e => e)
+        let buffer = Buffer.from(svgcode.replace(/%color%/gi, require('chroma-js')(color).hex()), 'binary')//.toString('base64')
+        let image = await resolveImage(buffer).catch(e => e)
         let canvas = new Canvas(128, 128)
         .printImage(image, 0, 0, 128, 128)
         .toBuffer()
