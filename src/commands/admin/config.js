@@ -186,10 +186,10 @@ module.exports = class ConfigCommand extends Command {
                 switch (args[1]) {
                     case 'create':
                         if (typeof await this.client.guildConfig.get(`${guild.id}.muteRole`) === 'string') return message.nmReply(this.client.locale(lang, 'RESPONSES_ALREADY_ROLE', { custom: ['prefix', prefix] }))
-                        let muterole = await guild.roles.create({ name: 'muted', mentionable: false, color: '#202050', reason: 'Create mute role.' });
+                        let muterole = await guild.roles.create({ name: 'muted', mentionable: false, color: '#202050', reason: 'Create mute role.', permissions: ['VIEW_CHANNELS'] });
                         if (!muterole) return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOW'))
                         guild.channels.cache.filter(ch => ch.type === 'text').forEach(channel => {
-                            channel.permissionOverwrites.edit(muterole, {'SEND_MESSAGES': false, 'ADD_REACTIONS':false}, 'MUTE').catch(()=>null)
+                            channel.updateOverwrite(muterole, { 'SEND_MESSAGES': false, 'ADD_REACTIONS': false }, 'MUTE').catch(() => null)
                         });
                         await this.client.guildConfig.set(`${guild.id}.muteRole`, muterole.id), message.nmReply(this.client.locale(lang, 'RESPONSES_NEW_ROLE', { role: muterole }))
                         break;
@@ -268,14 +268,14 @@ module.exports = class ConfigCommand extends Command {
                     "back" === interaction.customID
                         ? sent.nmEdit({ embeds: [menu], components: [home] })
                         : "pref" === interaction.customID
-                        ? sent.nmEdit({ embeds: [prefixMenu], components: [back] })
-                        : "mute" === interaction.customID
-                        ? sent.nmEdit({ embeds: [muteMenu], components: [back] })
-                        : "logs" === interaction.customID
-                        ? sent.nmEdit({ embeds: [logsMenu], components: [back] })
-                        : "proof" === interaction.customID
-                        ? sent.nmEdit({ embeds: [proofMenu], components: [back] })
-                        : "mlog" === interaction.customID && sent.nmEdit({ embeds: [modlogsMenu], components: [back] });
+                            ? sent.nmEdit({ embeds: [prefixMenu], components: [back] })
+                            : "mute" === interaction.customID
+                                ? sent.nmEdit({ embeds: [muteMenu], components: [back] })
+                                : "logs" === interaction.customID
+                                    ? sent.nmEdit({ embeds: [logsMenu], components: [back] })
+                                    : "proof" === interaction.customID
+                                        ? sent.nmEdit({ embeds: [proofMenu], components: [back] })
+                                        : "mlog" === interaction.customID && sent.nmEdit({ embeds: [modlogsMenu], components: [back] });
                 })
                 collector.on('end', async () => {
                     sent.nmEdit({ embeds: [menu.setDescription(embedstaticdesc)], components: [] })
