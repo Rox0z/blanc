@@ -3,6 +3,10 @@ const { Intents } = require('discord.js-light')
 require("dotenv").config();
 require('./src/structures/prototypes').init()
 
+const http = require('http');
+const server = http.createServer((req, res) => res.end());
+server.listen(process.env.PORT);
+
 class Blanc extends BlancClient {
     constructor() {
         super({
