@@ -29,7 +29,7 @@ module.exports = class RoleInfoCommand extends Command {
             .toBuffer()
 
         const embed = new MessageEmbed()
-            .setTitle(`${this.client.emoji.icons['role']} ${role.name}`)
+            .setAuthor(role.name, 'attachment://role.png')
             .setDescription(`Created <t:${Math.round(role.createdTimestamp/1000)}:f>`)
             .setThumbnail('attachment://role.png')
 
