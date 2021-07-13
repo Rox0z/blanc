@@ -1,4 +1,4 @@
-const { Message, MessagePayload } = require('discord.js-light')
+const { Message, MessagePayload, MessageEmbed } = require('discord.js-light')
 
 module.exports = class Prototypes {
     static init() {
@@ -30,7 +30,11 @@ module.exports = class Prototypes {
             return this;
         }
         Array.prototype.hasAny = function (array) {
-            return this.some(r=> array.indexOf(r) >= 0)
+            return this.some(r => array.indexOf(r) >= 0)
+        }
+        MessageEmbed.prototype.attachFiles = function (files) {
+            this.files = this.files.concat(files);
+            return this;
         }
     }
 }
