@@ -32,9 +32,5 @@ module.exports = class Prototypes {
         Array.prototype.hasAny = function (array) {
             return this.some(r => array.indexOf(r) >= 0)
         }
-        MessageEmbed.prototype.attachFiles = function (files) {
-            this.files = this.files.concat(files);
-            return this;
-        }
     }
 }
