@@ -188,8 +188,8 @@ module.exports = class ConfigCommand extends Command {
                         if (typeof await this.client.guildConfig.get(`${guild.id}.muteRole`) === 'string') return message.nmReply(this.client.locale(lang, 'RESPONSES_ALREADY_ROLE', { custom: ['prefix', prefix] }))
                         let muterole = await guild.roles.create({ name: 'muted', mentionable: false, color: '#202050', reason: 'Create mute role.' });
                         if (!muterole) return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOW'))
-                        guild.channels.cache.forEach(channel => {
-                            channel.updateOverwrite(muterole, {'SEND_MESSAGES': false}, 'MUTE').catch(()=>null)
+                        guild.channels.cache.filter(ch => ch.type === 'text').forEach(channel => {
+                            channel.permissionOverwrites.edit(muterole, {'SEND_MESSAGES': false, 'ADD_REACTIONS':false}, 'MUTE').catch(()=>null)
                         });
                         await this.client.guildConfig.set(`${guild.id}.muteRole`, muterole.id), message.nmReply(this.client.locale(lang, 'RESPONSES_NEW_ROLE', { role: muterole }))
                         break;
