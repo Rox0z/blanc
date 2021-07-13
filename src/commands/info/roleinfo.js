@@ -29,6 +29,8 @@ module.exports = class RoleInfoCommand extends Command {
             .toBuffer()
 
         const embed = new MessageEmbed()
+            .setTitle(`${this.client.emoji.icons['role']} ${role.name}`)
+            .setDescription(`Created <t:${Math.round(role.createdTimestamp/1000)}:f>`)
             .setThumbnail('attachment://role.png')
 
         message.nmReply({ embeds: [embed], files: [this.client.utils.attach(canvas, 'role.png')] })
