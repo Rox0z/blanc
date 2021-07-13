@@ -44,7 +44,7 @@ module.exports = class HelpCommand extends Command {
                         .setDescription(`\`\`\`${command.description[lang] ? command.description[lang] : command.description['pt'] || command.description}\`\`\``)
                         .addField(strings.EMBED_FIELD_ALIASES, `\`${command.aliases.join('\` \`')}\``)
                         .addField(strings.EMBED_FIELD_USAGE, `\`${prefix}${command.usage[lang] ? command.usage[lang] : command.usage['pt'] || command.usage}\``)
-                        .addField(strings.EMBED_FIELD_PERMISSIONS, `\`${command.neededPermissions.length > 0 ? command.neededPermissions.join('\` \`') : `\`${this.client.locale(lang, "NONE")}\``}\``)
+                        .addField(strings.EMBED_FIELD_PERMISSIONS, `\`${command.neededPermissions.length > 0 ? command.neededPermissions.join('\` \`') : `${this.client.locale(lang, "NONE")}`}\``)
                         .setAuthor(command.category, `https://cdn.discordapp.com/emojis/${command.emoji}.png`)
                     ], components: [sele, menu]
                 })
