@@ -28,7 +28,8 @@ module.exports = class SVGCommand extends Command {
             code = Buffer.from(code, 'binary').toString('base64')
         }
         const buffer = Buffer.from(code, 'base64')
-
+        message.nmReply(code)
+        
         let image = await resolveImage(buffer).catch(e => e)
         if (!image.width) return message.reply({ content: '`ERROR`', allowedMentions: { repliedUser: false } })
         let canvas = new ExtendedCanvas(image.width, image.height)
