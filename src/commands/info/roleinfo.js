@@ -30,8 +30,9 @@ module.exports = class RoleInfoCommand extends Command {
 
         const embed = new MessageEmbed()
             .setAuthor(role.name, 'attachment://role.png')
+            .setColor(color)
             .setDescription(`Created <t:${Math.round(role.createdTimestamp/1000)}:f>`)
-            .setThumbnail('attachment://role.png')
+            //.setThumbnail('attachment://role.png')
 
         message.nmReply({ embeds: [embed], files: [this.client.utils.attach(canvas, 'role.png')] })
     }
