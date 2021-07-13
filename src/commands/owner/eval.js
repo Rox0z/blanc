@@ -16,7 +16,7 @@ module.exports = class EvalCommand extends Command {
             title: 'Evaluate'
         })
     }
-    async run({message, args, guild, channel, author, data}) {
+    async run({message, args, guild, channel, author, lang, prefix}) {
         const regExpEsc = (str) => {
             return str.replace(REGEXPESC, '\\$&');
         }
