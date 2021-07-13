@@ -11,7 +11,7 @@ module.exports = class AvatarCommand extends Command {
         })
     }
     async run({ message, args }) {
-        args = args.join('  ').replace(/  branco/gi, '  white').split('  ')
+        args[args.indexOf('branco')] = 'white'
         message.nmReply({ files: [this.client.utils.attach(await this.client.gen.fakeProfile(message, args[0], args[1], args[2]), 'profile.png')] });
     }
 }
