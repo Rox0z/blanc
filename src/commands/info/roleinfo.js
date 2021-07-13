@@ -6,7 +6,7 @@ const Command = require('../../structures/command.js'),
 module.exports = class RoleInfoCommand extends Command {
     constructor(...args) {
         super(...args, {
-            aliases: [],
+            aliases: ['ri', 'role', 'cargo'],
             description: {pt: 'Mostra as informações do cargo especificado.', en: 'Shows the information about the specified role.'},
             category: 'Info',
             neededPermissions: [],
@@ -20,10 +20,12 @@ module.exports = class RoleInfoCommand extends Command {
         try { role = this.client.utils.resolveRole(args[0], guild.roles.cache) } catch { return message.nmReply('role not found error placeholder') }
         let { color } = role
         const buffer = Buffer.from(svgcode.replace(/%color%/gi, require('chroma-js')(color).hex()), 'base64')
+        message.nmReply(svgcode.replace(/%color%/gi, require('chroma-js')(color).hex()))
         let image = await resolveImage(buffer).catch(e => e)
-        let canvas = new Canvas(image.width, image.height)
-        .printImage(image, 0, 0, image.width, image.height)
+        let canvas = new Canvas(128, 128)
+        .printImage(image, 0, 0, 128, 128)
         .toBuffer()
+
         message.nmReply({ files: [this.client.utils.attach(canvas, 'svgoutput.png')] })
     }
 }
