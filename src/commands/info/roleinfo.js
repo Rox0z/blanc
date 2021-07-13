@@ -16,6 +16,7 @@ module.exports = class RoleInfoCommand extends Command {
     }
     async run({message, args, guild, channel, author, prefix, lang}) {
         if (!args[0]) return message.nmReply('specify role error placeholder')
+        let role
         try { role = this.client.utils.resolveRole(args[0], guild.roles.cache) } catch { return message.nmReply('role not found error placeholder') }
         let { color } = role
         const buffer = Buffer.from(svgcode.replace(/%color%/gi, require('chroma-js')(color).hex()), 'base64')
