@@ -29,7 +29,7 @@ module.exports = class RoleInfoCommand extends Command {
             .toBuffer()
 
         const embed = new MessageEmbed()
-            .attachFiles(canvas, 'role.png')
+            .attachFiles(this.client.utils.attach(canvas, 'role.png'))
             .setThumbnail('attachment://role.png')
 
         message.nmReply({ embeds: [embed] })
