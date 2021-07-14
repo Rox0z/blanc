@@ -11,6 +11,7 @@ module.exports = class RoleInfoCommand extends Command {
             aliases: ['ri', 'role', 'cargo'],
             description: { pt: 'Mostra as informações do cargo especificado.', en: 'Shows the information about the specified role.' },
             category: 'Info',
+            channel: 'text',
             neededPermissions: [],
             title: { pt: 'Informação de Cargo', en: 'Role Info' },
             usage: { pt: 'roleinfo <cargoID|@cargo>', en: 'roleinfo <roleID|@role>' },
