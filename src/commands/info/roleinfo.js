@@ -38,7 +38,7 @@ module.exports = class RoleInfoCommand extends Command {
             .addFields([
                 { name: `${this.client.emoji.icons['members']} ${this.client.locale(lang, 'SERVERINFO_COMMAND_FIELDS').MEMBERS}`, value: `\`\`\`${rolesCount}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['integration']} ${this.client.locale(lang, 'INTEGRATION')}`, value: `\`\`\`${role.managed ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['pencil']} ${this.client.locale(lang, 'COLOR')}`, value: `\`\`\`${chroma(color).hex()}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['pencil']} ${this.client.locale(lang, 'COLOR')}`, value: `\`\`\`${chroma(role.color).hex()}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['pin']} ${this.client.locale(lang, 'HOISTED')}`, value: `\`\`\`${role.hoist ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['DMicon']} ${this.client.locale(lang, 'MENTIONABLE')}`, value: `\`\`\`${role.mentionable ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['id']} ID:`, value: `\`\`\`${role.id}\`\`\``, inline: false },
