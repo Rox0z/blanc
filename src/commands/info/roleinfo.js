@@ -41,7 +41,7 @@ module.exports = class RoleInfoCommand extends Command {
                 { name: `${this.client.emoji.icons['pencil']} ${this.client.locale(lang, 'COLOR')}`, value: `\`\`\`${chroma(color).hex()}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['pin']} ${this.client.locale(lang, 'HOISTED')}`, value: `\`\`\`${role.hoist ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['DMicon']} ${this.client.locale(lang, 'MENTIONABLE')}`, value: `\`\`\`${role.mentionable ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['ID']} ID:`, value: `\`\`\`${role.id}\`\`\``, inline: false },
+                { name: `${this.client.emoji.icons['id']} ID:`, value: `\`\`\`${role.id}\`\`\``, inline: false },
                 { name: `${this.client.emoji.icons['education']} ${this.client.locale(lang, 'PERMISSIONS')}`, value: `\`\`\`${role.permissions.toArray().length === 0 ? this.client.locale(lang, 'NONE') : role.permissions.toArray().join(', ')}\`\`\``, inline: false },
 
             ])
