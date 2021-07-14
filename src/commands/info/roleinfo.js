@@ -17,9 +17,10 @@ module.exports = class RoleInfoCommand extends Command {
         })
     }
     async run({ message, args, guild, channel, author, prefix, lang }) {
-        if (!args[0]) return message.nmReply('specify role error placeholder')
+        if (!args[0]) return message.nmReply(this.client.locale(lang, 'CHOOSE_ROLE').replace(/:/gi, '!'))
         let role
-        try { role = this.client.utils.resolveRole(args[0], guild.roles.cache) } catch { return message.nmReply('role not found error placeholder') }
+        try { role = this.client.utils.resolveRole(args[0], guild.roles.cache) } catch { return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOWN')) }
+        if (!role) return message.nmReply(this.client.locale(lang, 'ERROR_NOT_FOUND'))
         let { color } = role
         if (color === 0) color = 12172222
         //const buffer = Buffer.from(svgcode.replace(/%color%/gi, require('chroma-js')(color).hex()), 'base64')
