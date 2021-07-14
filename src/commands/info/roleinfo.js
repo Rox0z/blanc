@@ -24,8 +24,7 @@ module.exports = class RoleInfoCommand extends Command {
         if (!role) return message.nmReply(this.client.locale(lang, 'ERROR_NOT_FOUND'))
         let { color } = role
         if (color === 0) color = 12172222
-        //const buffer = Buffer.from(svgcode.replace(/%color%/gi, require('chroma-js')(color).hex()), 'base64')
-        let buffer = Buffer.from(svgcode.replace(/%color%/gi, chroma(color).hex()), 'binary')//.toString('base64')
+        let buffer = Buffer.from(svgcode.replace(/%color%/gi, chroma(color).hex()), 'binary')
         let image = await resolveImage(buffer).catch(e => e)
         let canvas = new Canvas(128, 128)
             .printImage(image, 0, 0, 128, 128)
@@ -35,7 +34,7 @@ module.exports = class RoleInfoCommand extends Command {
         const embed = new MessageEmbed()
             .setAuthor(role.name, 'attachment://role.png')
             .setColor(color)
-            .setDescription(`${this.client.emoji.icons['calendar']} ${this.client.locale(lang, 'CREATED')} <t:${Math.round(role.createdTimestamp/1000)}:f>`)
+            .setDescription(`${this.client.emoji.icons['calendar']} ${this.client.locale(lang, 'CREATED')} <t:${Math.round(role.createdTimestamp / 1000)}:f>`)
             .addFields([
                 { name: `${this.client.emoji.icons['members']} ${this.client.locale(lang, 'SERVERINFO_COMMAND_FIELDS').MEMBERS}`, value: `\`\`\`${rolesCount}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['integration']} ${this.client.locale(lang, 'INTEGRATION')}`, value: `\`\`\`${role.managed ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
@@ -44,10 +43,7 @@ module.exports = class RoleInfoCommand extends Command {
                 { name: `${this.client.emoji.icons['DMicon']} ${this.client.locale(lang, 'MENTIONABLE')}`, value: `\`\`\`${role.mentionable ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['id']} ID:`, value: `\`\`\`${role.id}\`\`\``, inline: false },
                 { name: `${this.client.emoji.icons['education']} ${this.client.locale(lang, 'PERMISSIONS')}`, value: `\`\`\`${role.permissions.toArray().length === 0 ? this.client.locale(lang, 'NONE') : role.permissions.toArray().join(', ')}\`\`\``, inline: false },
-
             ])
-            //.setThumbnail('attachment://role.png')
-
         message.nmReply({ embeds: [embed], files: [this.client.utils.attach(canvas, 'role.png')] })
     }
 }
