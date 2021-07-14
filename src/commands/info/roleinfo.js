@@ -30,7 +30,7 @@ module.exports = class RoleInfoCommand extends Command {
             .printImage(image, 0, 0, 128, 128)
             .toBuffer()
         let mem
-        let rolesCount = (mem = await guild.members.fetch(false), mem.filter(m => m.roles.cache.has(role))).size
+        let rolesCount = (mem = await guild.members.fetch(false), mem.filter(m => m.roles.cache.has(role.id))).size
         const embed = new MessageEmbed()
             .setAuthor(role.name, 'attachment://role.png')
             .setColor(color)
