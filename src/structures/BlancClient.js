@@ -171,6 +171,9 @@ class BlancClient extends Client {
                 delete: "<:delete:841519603640827914>",
                 owner: "<:owner:841519550348132353>",
                 systemstaff: "<:systemstaff:843939518322573383>",
+                tts:  "<:tts:841519276333465631>",
+                baloon:  "<:baloon:864666558387191811>",
+                DMicon:  "<:DMicon:864666661910609920>",
             },
             status: {
                 online: "<:online:841519636562444318>",
