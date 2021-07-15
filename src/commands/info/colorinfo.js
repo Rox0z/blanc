@@ -30,7 +30,8 @@ module.exports = class ColorinfoCommand extends Command {
         })
     }
     async run({ message, args, guild, channel, author, prefix, lang }) {
-        let color = '#f00'
+        if (!chroma.valid(args[0])) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_COLOR'))
+        let color = args[0]
         let buffer = Buffer.from(svgcode
             .replace(/%color%/gi, chroma(color).hex())
             .replace(/%colordark1%/gi, chroma.scale([color, '#000000'])(.25).hex())
