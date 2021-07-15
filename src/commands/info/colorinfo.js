@@ -2,21 +2,32 @@ const Command = require('../../structures/command.js'),
     { resolveImage } = require("canvas-constructor"),
     Canvas = require('../../extend/ExtendedCanvasC'),
     chroma = require('chroma-js'),
-    svgcode = `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 320"><defs><style>
-    .cls-1{fill:%color%;}    
-    .cls-2{fill:%colordark1%;}
-    .cls-3{fill:%colordark2%;}
-    .cls-4{fill:%colordark3%;}    
-    .cls-5{fill:%colorlight1%;}
-    .cls-6{fill:%colorlight2%;}
-    .cls-7{fill:%colorlight3%;}
-    .cls-8{fill:#ffffff;}
-    .cls-9{fill:%coloranalog1%;}
-    .cls-10{fill:%coloranalog2%;}
-    .cls-11{fill:%colortriadic1%;}
-    .cls-12{fill:%colortriadic2%;}
-    .cls-13{fill:%colorcomplementary%;}
-    </style></defs><path class="cls-1" d="M417.61,36c-.15-.3-.3-.6-.46-.89,0,0,0,0,0-.05A29.74,29.74,0,0,0,366,34.1a29.74,29.74,0,0,0-51.13.91s0,0,0,.05c-.16.29-.31.59-.46.89-7.86,15-23.79,25.47-42.39,26.32,6.52,19.07,25.38,32.86,47.63,32.86,21,0,38.91-12.24,46.37-29.62,7.46,17.38,25.41,29.62,46.37,29.62,22.25,0,41.11-13.79,47.63-32.86C441.4,61.42,425.47,50.93,417.61,36Z" transform="translate(-20 -20)"/><rect class="cls-1" width="64" height="64"/><rect class="cls-2" y="64" width="64" height="64"/><rect class="cls-3" y="128" width="64" height="64"/><rect class="cls-4" y="192" width="64" height="64"/><rect y="256" width="64" height="64"/><rect class="cls-1" x="94" width="64" height="64"/><rect class="cls-5" x="94" y="64" width="64" height="64"/><rect class="cls-6" x="94" y="128" width="64" height="64"/><rect class="cls-7" x="94" y="192" width="64" height="64"/><rect class="cls-8" x="94" y="256" width="64" height="64"/><rect class="cls-9" x="188" y="128" width="64" height="64"/><rect class="cls-1" x="188" y="192" width="64" height="64"/><rect class="cls-10" x="188" y="256" width="64" height="64"/><rect class="cls-11" x="282" y="128" width="64" height="64"/><rect class="cls-1" x="282" y="192" width="64" height="64"/><rect class="cls-12" x="282" y="256" width="64" height="64"/><rect class="cls-1" x="376" y="192" width="64" height="64"/><rect class="cls-13" x="376" y="256" width="64" height="64"/></svg>`
+    svgcode = `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 640 640" style="enable-background:new 0 0 640 640;" xml:space="preserve"><style type="text/css">
+   .st0{fill:%color%;}
+   .st1{fill:%colorsatur4%;}
+   .st2{fill:%colorsatur3%;}
+   .st3{fill:%colorsatur2%;}
+   .st4{fill:%colorsatur1%;}
+   .st5{fill:%colordesatur1%;}
+   .st6{fill:%colordesatur2%;}
+   .st7{fill:%colordesatur3%;}
+   .st8{fill:%colordesatur4%;}
+   .st9{fill:%colorlight1%;}
+   .st10{fill:%colorlight2%;}
+   .st11{fill:%colorlight3%;}
+   .st12{fill:#fff;}
+   .st13{fill:%colordark1%;}
+   .st14{fill:%colordark2%;}
+   .st15{fill:%colordark3%;}
+   .st16{fill:#000;}
+   .st17{fill:%coloranalog1%;}
+   .st18{fill:%coloranalog2%;}
+   .st19{fill:%colortriadic1%;}
+   .st20{fill:%colortriadic2%;}
+   .st21{fill:%colorcomplementary%;}
+   </style>
+   <g><rect x="0" y="50" class="st0" width="64" height="128"/><rect x="64" y="114" class="st1" width="64" height="64"/><rect x="128" y="114" class="st2" width="64" height="64"/><rect x="192" y="114" class="st3" width="64" height="64"/><rect x="256" y="114" class="st4" width="64" height="64"/><rect x="64" y="50" class="st5" width="64" height="64"/><rect x="128" y="50" class="st6" width="64" height="64"/><rect x="192" y="50" class="st7" width="64" height="64"/><rect x="256" y="50" class="st8" width="64" height="64"/>   </g><g><rect x="0" y="201.2" class="st0" width="64" height="128"/><rect x="64" y="265.2" class="st9" width="64" height="64"/><rect x="128" y="265.2" class="st10" width="64" height="64"/><rect x="192" y="265.2" class="st11" width="64" height="64"/><rect x="256" y="265.2" class="st12" width="64" height="64"/><rect x="64" y="201.2" class="st13" width="64" height="64"/><rect x="128" y="201.2" class="st14" width="64" height="64"/><rect x="192" y="201.2" class="st15" width="64" height="64"/><rect x="256" y="201.2" class="st16" width="64" height="64"/>   </g><g><g><rect y="352.1" class="st17" width="64" height="64"/></g><g><rect x="64" y="352.1" class="st0" width="64" height="64"/></g><g><rect x="128" y="352.1" class="st18" width="64" height="64"/></g></g><g><g><rect x="1" y="439.1" class="st19" width="64" height="64"/></g><g><rect x="65" y="439.1" class="st0" width="64" height="64"/></g><g><rect x="129" y="439.1" class="st20" width="64" height="64"/></g></g><g><g><rect y="526" class="st0" width="64" height="64"/></g><g><rect x="64" y="526" class="st21" width="64" height="64"/></g></g><path class="st0" d="M542.2,422.7c-0.2-0.4-0.4-0.8-0.6-1.2c0,0,0,0,0-0.1c-11-19.5-35.8-26.3-55.2-15.2c-5.9,3.4-10.9,8.1-14.4,13.9c-11.8-19-36.7-24.9-55.7-13.1c-5.8,3.6-10.5,8.5-13.9,14.4c0,0,0,0,0,0.1c-0.2,0.4-0.4,0.8-0.6,1.2c-10.7,20.4-32.4,34.7-57.7,35.8c8.9,26,34.6,44.8,64.9,44.8c28.6,0,53-16.7,63.1-40.3c10.2,23.7,34.6,40.3,63.1,40.3c30.3,0,56-18.8,64.9-44.8C574.6,457.3,552.9,443,542.2,422.7z"/>
+   </svg>`
 
 module.exports = class ColorinfoCommand extends Command {
     constructor(...args) {
@@ -44,6 +55,14 @@ module.exports = class ColorinfoCommand extends Command {
             .replace(/%coloranalog2%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') - 30) % 360}`))
             .replace(/%colortriadic1%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') + 120) % 360}`))
             .replace(/%colortriadic2%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') - 120) % 360}`))
+            .replace(/%colorsatur1%/gi, chroma.scale([color, chroma(color).set('hsv.s',1).hex()])(1).hex())
+            .replace(/%colorsatur2%/gi, chroma.scale([color, chroma(color).set('hsv.s',1).hex()])(.75).hex())
+            .replace(/%colorsatur3%/gi, chroma.scale([color, chroma(color).set('hsv.s',1).hex()])(.5).hex())
+            .replace(/%colorsatur4%/gi, chroma.scale([color, chroma(color).set('hsv.s',1).hex()])(.25).hex())
+            .replace(/%colordesatur1%/gi, chroma.scale([color, chroma(color).desaturate(10).hex()])(.25).hex())
+            .replace(/%colordesatur2%/gi, chroma.scale([color, chroma(color).desaturate(10).hex()])(.5).hex())
+            .replace(/%colordesatur3%/gi, chroma.scale([color, chroma(color).desaturate(10).hex()])(.75).hex())
+            .replace(/%colordesatur4%/gi, chroma.scale([color, chroma(color).desaturate(10).hex()])(1).hex())
             .replace(/%colorcomplementary%/gi, chroma(16777215 - chroma(color).num()).alpha(chroma(color).get('rgba.a')).hex())
             , 'binary')
         let image = await resolveImage(buffer).catch(e => e)
