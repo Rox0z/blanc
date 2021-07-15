@@ -31,20 +31,20 @@ module.exports = class ColorinfoCommand extends Command {
     }
     async run({ message, args, guild, channel, author, prefix, lang }) {
         if (!chroma.valid(args[0])) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_COLOR'))
-        let color = args[0]
+        let color = chroma(args[0]).hex()
         let buffer = Buffer.from(svgcode
             .replace(/%color%/gi, chroma(color).hex())
-            .replace(/%colordark1%/gi, chroma.scale([color, '#000000'])(.25).hex())
-            .replace(/%colordark2%/gi, chroma.scale([color, '#000000'])(.5).hex())
-            .replace(/%colordark3%/gi, chroma.scale([color, '#000000'])(.75).hex())
-            .replace(/%colorlight1%/gi, chroma.scale([color, '#ffffff'])(.25).hex())
-            .replace(/%colorlight2%/gi, chroma.scale([color, '#ffffff'])(.5).hex())
-            .replace(/%colorlight3%/gi, chroma.scale([color, '#ffffff'])(.75).hex())
+            .replace(/%colordark1%/gi, chroma.scale([color, chroma(color).darken(100)])(.25).hex())
+            .replace(/%colordark2%/gi, chroma.scale([color, chroma(color).darken(100)])(.5).hex())
+            .replace(/%colordark3%/gi, chroma.scale([color, chroma(color).darken(100)])(.75).hex())
+            .replace(/%colorlight1%/gi, chroma.scale([color, chroma(color).brighten(100)])(.25).hex())
+            .replace(/%colorlight2%/gi, chroma.scale([color, chroma(color).brighten(100)])(.5).hex())
+            .replace(/%colorlight3%/gi, chroma.scale([color, chroma(color).brighten(100)])(.75).hex())
             .replace(/%coloranalog1%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') + 30) % 360}`))
             .replace(/%coloranalog2%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') - 30) % 360}`))
             .replace(/%colortriadic1%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') + 120) % 360}`))
             .replace(/%colortriadic2%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') - 120) % 360}`))
-            .replace(/%colorcomplementary%/gi, chroma(16777215 - chroma(color).num()).hex())
+            .replace(/%colorcomplementary%/gi, chroma(16777215 - chroma(color).num()).set('rgba.a', chroma(color).get('rgba.a')).hex())
             , 'binary')
         let image = await resolveImage(buffer).catch(e => e)
         let canvas = new Canvas(440, 320)
