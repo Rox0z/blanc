@@ -35,7 +35,7 @@ module.exports = class ColorinfoCommand extends Command {
         })
     }
     async run({ message, args, guild, channel, author, prefix, lang }) {
-        color = '#f00'
+        let color = '#f00'
         let buffer = Buffer.from(svgcode
             .replace(/%color%/gi, chroma(color).hex())
             .replace(/%colordark1%/gi, chroma.scale([color, '#000000'])(.25).hex())
