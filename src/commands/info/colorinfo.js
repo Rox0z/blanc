@@ -44,7 +44,7 @@ module.exports = class ColorinfoCommand extends Command {
             .replace(/%coloranalog2%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') - 30) % 360}`))
             .replace(/%colortriadic1%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') + 120) % 360}`))
             .replace(/%colortriadic2%/gi, chroma(color).set('hsl.h', `${(chroma(color).get('hsl.h') - 120) % 360}`))
-            .replace(/%colorcomplementary%/gi, chroma(16777215 - chroma(color).num()).set('rgba.a', chroma(color).get('rgba.a')).hex())
+            .replace(/%colorcomplementary%/gi, chroma(16777215 - chroma(color).num()).alpha(chroma(color).get('rgba.a')).hex())
             , 'binary')
         let image = await resolveImage(buffer).catch(e => e)
         let canvas = new Canvas(440, 320)
