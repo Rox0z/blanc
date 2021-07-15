@@ -9,6 +9,7 @@ module.exports = class Logger {
         this.client.on('messageDelete', (async (message) => {
             const { guild, author, content, channel } = message
             if (!content) return
+            if (author.bot) return
             let ch = await this.client.guildConfig.get(`${guild.id}.logsChannel`).catch(() => null)
             if (typeof ch === 'string') {
                 let logchannel = await this.client.utils.resolveChannel(guild, ch)
@@ -28,6 +29,7 @@ module.exports = class Logger {
             if (!oldMessage || !oldMessage.content || oldMessage.content === newMessage.content) return
             const { guild, author, content: newContent, channel } = newMessage,
                 {content: oldContent} = oldMessage
+            if (author.bot) return
             if (!oldContent) return
             let ch = await this.client.guildConfig.get(`${guild.id}.logsChannel`).catch(() => null)
             if (typeof ch === 'string') {
