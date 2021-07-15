@@ -46,8 +46,8 @@ module.exports = class ColorinfoCommand extends Command {
             .replace(/%colorcomplementary%/gi, chroma(16777215 - chroma(color).num()).hex())
             , 'binary')
         let image = await resolveImage(buffer).catch(e => e)
-        let canvas = new Canvas(image.width, image.heigh)
-            .printImage(image, 0, 0, 128, 128)
+        let canvas = new Canvas(480, 360)
+            .printImage(image, 0, 0, 480, 360)
             .toBuffer()
 
         message.nmReply({ files: [this.client.utils.attach(canvas, 'svgoutput.png')] })
