@@ -45,8 +45,8 @@ module.exports = class ColorinfoCommand extends Command {
         let color = chroma(args[0]).hex()
         let buffer = Buffer.from(svgcode
             .replace(/%color%/gi, chroma(color).hex())
-            .replace(/%black%/gi, chroma(color).alpha(chroma(color).get('rgba.a')).hex())
-            .replace(/%white%/gi, chroma(color).alpha(chroma(color).get('rgba.a')).hex())
+            .replace(/%black%/gi, chroma('black').alpha(chroma(color).get('rgba.a')).hex())
+            .replace(/%white%/gi, chroma('white').alpha(chroma(color).get('rgba.a')).hex())
             .replace(/%colordark1%/gi, chroma.scale([color, chroma(color).darken(100)])(.25).hex())
             .replace(/%colordark2%/gi, chroma.scale([color, chroma(color).darken(100)])(.5).hex())
             .replace(/%colordark3%/gi, chroma.scale([color, chroma(color).darken(100)])(.75).hex())
