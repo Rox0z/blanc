@@ -15,11 +15,11 @@ const Command = require('../../structures/command.js'),
    .st9{fill:%colorlight1%;}
    .st10{fill:%colorlight2%;}
    .st11{fill:%colorlight3%;}
-   .st12{fill:#fff;}
+   .st12{fill:%white%;}
    .st13{fill:%colordark1%;}
    .st14{fill:%colordark2%;}
    .st15{fill:%colordark3%;}
-   .st16{fill:#000;}
+   .st16{fill:%black%;}
    .st17{fill:%coloranalog1%;}
    .st18{fill:%coloranalog2%;}
    .st19{fill:%colortriadic1%;}
@@ -45,6 +45,8 @@ module.exports = class ColorinfoCommand extends Command {
         let color = chroma(args[0]).hex()
         let buffer = Buffer.from(svgcode
             .replace(/%color%/gi, chroma(color).hex())
+            .replace(/%black%/gi, chroma(color).alpha(chroma(color).get('rgba.a')).hex())
+            .replace(/%white%/gi, chroma(color).alpha(chroma(color).get('rgba.a')).hex())
             .replace(/%colordark1%/gi, chroma.scale([color, chroma(color).darken(100)])(.25).hex())
             .replace(/%colordark2%/gi, chroma.scale([color, chroma(color).darken(100)])(.5).hex())
             .replace(/%colordark3%/gi, chroma.scale([color, chroma(color).darken(100)])(.75).hex())
@@ -59,10 +61,10 @@ module.exports = class ColorinfoCommand extends Command {
             .replace(/%colorsatur2%/gi, chroma.scale([color, chroma(color).set('hsv.s',1).hex()])(.75).hex())
             .replace(/%colorsatur3%/gi, chroma.scale([color, chroma(color).set('hsv.s',1).hex()])(.5).hex())
             .replace(/%colorsatur4%/gi, chroma.scale([color, chroma(color).set('hsv.s',1).hex()])(.25).hex())
-            .replace(/%colordesatur1%/gi, chroma.scale([color, chroma(color).desaturate(10).hex()])(.25).hex())
-            .replace(/%colordesatur2%/gi, chroma.scale([color, chroma(color).desaturate(10).hex()])(.5).hex())
-            .replace(/%colordesatur3%/gi, chroma.scale([color, chroma(color).desaturate(10).hex()])(.75).hex())
-            .replace(/%colordesatur4%/gi, chroma.scale([color, chroma(color).desaturate(10).hex()])(1).hex())
+            .replace(/%colordesatur1%/gi, chroma.scale([color, chroma(color).desaturate(10).alpha(chroma(color).get('rgba.a')).hex()])(.25).hex())
+            .replace(/%colordesatur2%/gi, chroma.scale([color, chroma(color).desaturate(10).alpha(chroma(color).get('rgba.a')).hex()])(.5).hex())
+            .replace(/%colordesatur3%/gi, chroma.scale([color, chroma(color).desaturate(10).alpha(chroma(color).get('rgba.a')).hex()])(.75).hex())
+            .replace(/%colordesatur4%/gi, chroma.scale([color, chroma(color).desaturate(10).alpha(chroma(color).get('rgba.a')).hex()])(1).hex())
             .replace(/%colorcomplementary%/gi, chroma(16777215 - chroma(color).num()).alpha(chroma(color).get('rgba.a')).hex())
             , 'binary')
         let image = await resolveImage(buffer).catch(e => e)
