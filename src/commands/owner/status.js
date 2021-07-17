@@ -19,7 +19,7 @@ module.exports = class StatusCommand extends Command {
                 `\`\`\`md
 #Process memory allocated:   ${byteSize(process.memoryUsage().heapTotal, { units: "iec" })}
 #Process memory used:        ${byteSize(process.memoryUsage().heapUsed, { units: "iec" })}
-<Percent: [${this.client.utils.progressBar(percent, { size: 16, dynamic: '▮', static: '▯' })}] ${percent}%\`\`\``
+<Percent: [${this.client.utils.progressBar(percent, { size: 16, dynamic: '▮', fixed: '▯' })}] ${percent}%\`\`\``
         });
     }
 };
