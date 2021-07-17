@@ -17,13 +17,13 @@ module.exports = class UserInfoCommand extends Command {
         let user = await this.client.utils.resolveUser(message, args[0]),
         badges = await this.client.utils.getBadges(user, guild)
         const embed = new MessageEmbed()
-            .setTitle(`User  - ${user.tag}`)
+            .setTitle(`${user.bot ? 'BOT' : this.client.locale(lang, 'USER')}  - ${user.tag}`)
             .setDescription(badges.map(badge => badge = this.client.utils.badgesEmojis[badge]).join(' '))
             .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 256 }))
             .setColor('#fefefe')
             .addFields([
                 {
-                    "name": `${this.client.emoji.icons['members']} Name:`,
+                    "name": `${this.client.emoji.icons['members']} ${this.client.locale(lang, 'NAME')}`,
                     "value": `\`\`\`${user.tag}\`\`\``,
                     "inline": true
                 },
@@ -33,8 +33,8 @@ module.exports = class UserInfoCommand extends Command {
                     "inline": true
                 },
                 {
-                    "name": `${this.client.emoji.icons['calendar']} Created:`,
-                    "value": `<t:${Math.round(user.createdTimestamp / 1000)}:f>`
+                    "name": `${this.client.emoji.icons['calendar']} ${this.client.locale(lang, 'CREATED')}`,
+                    "value": `<t:${Math.round(user.createdTimestamp / 1000)}:f> (<t:${Math.round(user.createdTimestamp / 1000)}:R>)`
                 }
             ])
         message.nmReply({ embeds: [embed] })
