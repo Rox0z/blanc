@@ -14,10 +14,11 @@ module.exports = class UserInfoCommand extends Command {
         })
     }
     async run({ message, args, guild, channel, author, prefix, lang }) {
-        let user = author
+        let user = await this.client.utils.resolveUser(message, args[0]),
+        badges = await this.client.utils.getBadges(user, guild)
         const embed = new MessageEmbed()
             .setTitle(`User  - ${user.username}#${user.usertag}`)
-            .setDescription(await this.client.utils.getBadges(user, guild).map(badge => badge = this.client.utils.badgesEmojis[badge]))
+            .setDescription(badges.map(badge => badge = this.client.utils.badgesEmojis[badge]))
             .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 256 }))
             .setColor('#fefefe')
             .addFields([
