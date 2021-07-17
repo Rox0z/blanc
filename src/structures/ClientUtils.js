@@ -371,11 +371,8 @@ module.exports = class Util {
     attach(file, name) {
         return new MessageAttachment(file, name);
     }
-    progressBar(percent, options) {
-        options = options || {};
-        options.size = options.size || 10;
-        options.dynamic = options.dynamic || "█";
-        options.static = options.static || "░";
+    progressBar(percent, {size = 10, dynamic = "█", static = "░"} = {}) {
+        options = {size, dynamic, static};
 
         var bar = new Array();
 
