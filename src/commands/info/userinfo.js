@@ -34,7 +34,7 @@ module.exports = class UserInfoCommand extends Command {
                 },
                 {
                     "name": `${this.client.emoji.icons['calendar']} Created:`,
-                    "value": `<t:${Math.round(user.createdTimestamp / 1000)}:D>`
+                    "value": `<t:${Math.round(user.createdTimestamp / 1000)}:f>`
                 }
             ])
         message.nmReply({ embeds: [embed] })
