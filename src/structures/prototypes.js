@@ -1,4 +1,4 @@
-const { Message, MessagePayload, MessageEmbed } = require('discord.js-light')
+const { Message, MessagePayload } = require('discord.js-light')
 
 module.exports = class Prototypes {
     static init() {
