@@ -168,11 +168,12 @@ module.exports = class Util {
      * Resolves a user from a string, such as an ID, a name, or a mention.
      * @param {Message} message - Message of the command.
      * @param {string} text - Text to resolve.
-     * @param {ResolveUserOptions} [options = {}] - Options for resolve
+     * @param {Object} options - Resolve options
+     * @param {Object} [options.author = true] - Return author?
      * @returns {User}
      */
-    async resolveUser(message, text = "null", { author } = {}) {
-        let { author = true } = { author }
+    async resolveUser(message, text = "null", options = {}) {
+        let { author = true } = options
         if (!message) throw new TypeError("Message wasn't defined");
         text || (text = "null");
         let res,
@@ -370,8 +371,11 @@ module.exports = class Util {
     attach(file, name) {
         return new MessageAttachment(file, name);
     }
-    progressBar(percent, { size, dynamic, static } = {}) {
-        let { size = 10, dynamic = "█", static = "░" } = { size, dynamic, static }
+    progressBar(percent, options) {
+        options = options || {};
+        options.size = options.size || 10;
+        options.dynamic = options.dynamic || "█";
+        options.static = options.static || "░";
 
         var bar = new Array();
 
@@ -387,11 +391,11 @@ module.exports = class Util {
             setTimeout(resolve, ms);
         });
     }
-    trimArray(arr, maxLen = 10, lang = 'en') {
+    trimArray(arr, maxLen = 10, lang) {
         if (arr.length > maxLen) {
             const len = arr.length - maxLen;
-            arr = arr.slice(0, maxLen);
-            arr.push(`${lang === 'pt' ? 'mais ' : ''}${len}${lang === 'en' ? ' more' : ''}...`);
+            arr = arr.slice(0, maxLen);            
+            arr.push(`${lang === 'pt' ? 'mais ': ''}${len}${lang === 'en' ? 'more' : ''}...`);
         }
         return arr;
     }

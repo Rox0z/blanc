@@ -15,7 +15,7 @@ module.exports = class MuteCommand extends Command {
     }
     async run({ args, message, guild, author, lang, channel, prefix }) {
         if (!args[0]) return message.nmReply(this.client.locale(lang, 'ERROR_NO_USER'))
-        let user = await this.client.utils.resolveUser(message, args[0], {resolveAuthor: false})
+        let user = await this.client.utils.resolveUser(message, args[0], {author: false})
         if (!user) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_USER'))
         if (user.id === message.author.id) return message.channel.send(this.client.locale(lang, 'ERROR_SELFPUNISH'))
         let member = await guild.members.fetch(user.id).catch(() => null)
