@@ -17,8 +17,8 @@ module.exports = class PythonEvalCommand extends Command {
         })
     }
     async run({ message, args, guild, channel, author, prefix, lang }) {
-        if (codeInBlock.test(code)) { code = code.replace(codeInBlock, "$1"); }
         let code = args.join(' ');
+        if (codeInBlock.test(code)) { code = code.replace(codeInBlock, "$1"); }
         let data = await ev.eval("python3", code)
         let embed = new MessageEmbed()
             .setTitle(`Python - Evaluate`)
