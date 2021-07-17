@@ -72,6 +72,35 @@ module.exports = class Util {
             m24: "https://cdn.discordapp.com/emojis/855649947528331274.png",
         }
     }
+    get badgesEmojis() {
+        return {
+            DISCORD_CERTIFIED_MODERATOR: "<:certifiedmod:860987940619419689>",
+            DISCORD_EMPLOYEE: "<:staff:860988140520996915>",
+            PARTNERED_SERVER_OWNER: "<:partnerowner:860987855136620554>",
+            HYPESQUAD_EVENTS: "<:hypersquad:860987814585040896>",
+            BUGHUNTER_LEVEL_1: "<:bughunter1:857729908096630824>",
+            HOUSE_BRAVERY: "<:bravery:860988066373304370>",
+            HOUSE_BRILLIANCE: "<:brilliance:860988038011682816>",
+            HOUSE_BALANCE: "<:balance:860988090506805268>",
+            EARLY_SUPPORTER: "<:earlysupp:860989780950908988>",
+            TEAM_USER: "<:staff:860988140520996915>",
+            BUGHUNTER_LEVEL_2: "<:bughunter2:860987742137614366>",
+            VERIFIED_BOT: "<:verifiedbot:841742417702551632>",
+            EARLY_VERIFIED_BOT_DEVELOPER: "<:dev:841742418017386567>",
+            NITRO: "<:nitro:860987893665366026>",
+            BOT: "<:bot:841742415260811304>",
+            BOT_OWNER: "<:owner:841519550348132353>",
+            m1: "<:m1:855648881076862996>",
+            m2: "<:m2:855649006959722516>",
+            m3: "<:m3:855649103709732925>",
+            m6: "<:m6:855649218369945600>",
+            m9: "<:m9:855649354157129728>",
+            m12: "<:m12:855649566095048704>",
+            m15: "<:m15:855649682521063425>",
+            m18: "<:m18:855649834940760074>",
+            m24: "<:m24:855649947528331274>",
+        }
+    }
     async imageToBase64(urlOrImage) {
         return await fetch(urlOrImage).then((response) => { return response.buffer() }).then((buffer) => { return buffer.toString('base64') })
     }
