@@ -171,8 +171,8 @@ module.exports = class Util {
      * @param {ResolveUserOptions} [options = {}] - Options for resolve
      * @returns {User}
      */
-    async resolveUser(message, text = "null", { resolveAuthor } = {}) {
-        let { author = true } = { resolveAuthor }
+    async resolveUser(message, text = "null", { author } = {}) {
+        let { author = true } = { author }
         if (!message) throw new TypeError("Message wasn't defined");
         text || (text = "null");
         let res,
@@ -370,8 +370,8 @@ module.exports = class Util {
     attach(file, name) {
         return new MessageAttachment(file, name);
     }
-    progressBar(percent, { size = 10, dynamic = "█", static = "░" } = {}) {
-        options = { size, dynamic, static }
+    progressBar(percent, { size, dynamic, static } = {}) {
+        let { size = 10, dynamic = "█", static = "░" } = { size, dynamic, static }
 
         var bar = new Array();
 
