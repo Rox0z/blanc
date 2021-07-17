@@ -14,7 +14,7 @@ module.exports = class UnmuteCommand extends Command {
     }
     async run({ author, args, message, guild, data, channel, lang }) {
         if (!args[0]) return message.nmReply(this.client.locale(lang, 'ERROR_NO_USER'))
-        let user = await this.client.utils.resolveUser(message, args[0], {author: false})
+        let user = await this.client.utils.resolveUser(message, args[0], {resolveAuthor: false})
         if (!user) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_USER'))
         if (user.id === message.author.id) return message.channel.send(`?`)
         let member = await guild.members.fetch(user.id)

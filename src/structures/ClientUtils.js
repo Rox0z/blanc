@@ -145,7 +145,7 @@ module.exports = class Util {
 
             member && badges.push(this.premiumSince(member))
         }
-        return badges.filter(bad => bad !== undefined).filter(bad => bad !== 'VERIFIED_BOT')
+        return (badges.filter(bad => bad !== undefined).filter(bad => bad !== 'VERIFIED_BOT'))
     }
     async hasNitro(user, guild = null) {
         if (!user) { throw new Error("No user was provided") }
@@ -168,12 +168,11 @@ module.exports = class Util {
      * Resolves a user from a string, such as an ID, a name, or a mention.
      * @param {Message} message - Message of the command.
      * @param {string} text - Text to resolve.
-     * @param {Object} options - Resolve options
-     * @param {Object} [options.author = true] - Return author?
+     * @param {ResolveUserOptions} [options = {}] - Options for resolve
      * @returns {User}
      */
-    async resolveUser(message, text = "null", options = {}) {
-        let { author = true } = options
+    async resolveUser(message, text = "null", { resolveAuthor } = {}) {
+        let { author = true } = { resolveAuthor }
         if (!message) throw new TypeError("Message wasn't defined");
         text || (text = "null");
         let res,
@@ -371,11 +370,8 @@ module.exports = class Util {
     attach(file, name) {
         return new MessageAttachment(file, name);
     }
-    progressBar(percent, options) {
-        options = options || {};
-        options.size = options.size || 10;
-        options.dynamic = options.dynamic || "█";
-        options.static = options.static || "░";
+    progressBar(percent, { size = 10, dynamic = "█", static = "░" } = {}) {
+        options = { size, dynamic, static }
 
         var bar = new Array();
 
@@ -391,112 +387,12 @@ module.exports = class Util {
             setTimeout(resolve, ms);
         });
     }
-    trimArray(arr, maxLen = 10) {
+    trimArray(arr, maxLen = 10, lang = 'en') {
         if (arr.length > maxLen) {
             const len = arr.length - maxLen;
             arr = arr.slice(0, maxLen);
-            arr.push(`${len} more...`);
+            arr.push(`${lang === 'pt' ? 'mais ' : ''}${len}${lang === 'en' ? ' more' : ''}...`);
         }
         return arr;
     }
 }
-/*
-async resolveUser(message, text = 'null') {
-        if (!message) throw new TypeError('Message wasn\'t defined')
-        if (!text) text = 'null'
-        let result,
-            regExp = /<@!?(\d{17,19})>/,
-            match = text.match(regExp);
-
-        if (match) { result = await this.client.users.fetch(match[1]).catch(err => err) }
-        else if (!isNaN(text)) { result = await this.client.users.fetch(text).catch(err => err) }
-        else if (message.mentions.users.size > 0) { result = message.mentions.users.first() }
-        else { result = message.author }
-        if (result.constructor.name === 'DiscordAPIError') { result = message.author }
-        this.client.users.cache.sweep(user => user.id !== this.client.user.id)
-        return result
-    }
-
-        async fakeProfile(message, user, bannerURL = null, background = '#18191c') {
-        "white" === user ? ((background = "white"), (user = null))
-            : "white" === bannerURL && ((background = "white"), (bannerURL = null))
-        user?.match(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/)
-            ? (bannerURL = user)
-            : user?.match(/<a?:[a-zA-Z0-9_]+:(\d{17,19})>/) && (bannerURL = `https://cdn.discordapp.com/emojis/${user?.match(/<a?:[a-zA-Z0-9_]+:(\d{17,19})>/)[1]}.png?v=1`),
-
-            this.user = await this.resolveUser(message, user)
-        this.banner = this.getImage(message, bannerURL)
-
-        let avatarURL = this.user.displayAvatarURL({ size: 512, dynamic: true, format: 'png' }),
-            name = this.user.username,
-            discrim = this.user.discriminator,
-            statusType = this.getStatus(this.user),
-            isbot = this.user.bot,
-            custom_status = this.user.presence.activities.filter(act => act.type === 'CUSTOM_STATUS')[0],
-            emojiText = '',
-            customStatus = '',
-            width = 640,
-            height = 512,
-            big = !!this.banner,
-            banner = null,
-            botType = isbot ? this.user.flags.toArray().includes('VERIFIED_BOT') ? 'VERIFIED_BOT' : 'BOT' : null,
-            bot = null,
-            res = await extractColors(avatarURL),
-            badges0 = await this.getBadges(this.user, message.channel.guild),
-            badges1 = [];
-
-        custom_status && ((emojiText = custom_status?.emoji?.id
-            ? `<${custom_status?.emoji?.animated ? "a" : ""}:${custom_status?.emoji?.name}:${custom_status?.emoji?.id}>`
-            : custom_status?.emoji?.name || ""), (customStatus = custom_status?.state || ""))
-
-        let avatar = await resolveImage(avatarURL),
-            status = await resolveImage(this.icons[statusType])
-
-        if (big) { height += 128; banner = await resolveImage(this.banner) }
-
-        const canvas = new ExtendedCanvas(width, height).createRoundedClip(0, 0, width, height, 10);
-
-        if (banner) { canvas.setColor(res.sort((a, b) => b.area - a.area)[0].hex).printRectangle(0, 0, width, height === 512 ? 128 : 256).printImage(banner, 0, (128 - (width / (banner.width / banner.height)) / 2), width, width / (banner.width / banner.height)) }
-        else { canvas.setColor(res.sort((a, b) => b.area - a.area)[0].hex).printRectangle(0, 0, width, height === 512 ? 128 : 256) };
-
-        await canvas
-            .setColor(background)
-            .printRectangle(0, height === 512 ? 128 : 256, width, 384)
-            .printCircle(135, height === 512 ? 128 : 256, 100)
-            .printCircularImage(avatar, 135, height === 512 ? 128 : 256, 86)
-            .printCircle(188.5, height === 512 ? 191.5 : 319.5, 27.5)
-            .printImage(status, 171, height === 512 ? 174 : 302, 35, 35)
-            .setColor('white')
-            .setTextFont('43px Whitney Bold, arial unicode ms')
-            .setTextBaseline('top')
-            .setColor(background === 'white' ? '#060607' : '#fff')
-            .printEmojiText(name, 35, height === 512 ? 256 : 384);
-        await canvas
-            .setColor(background === 'white' ? '#4f5660' : '#b9bbbe')
-            .printText('#' + discrim, canvas.measureText(name).width + 35, height === 512 ? 256 : 384)
-            .setTextFont(`${customStatus?.length > 0 ? 38 : 80}px arial unicode ms`)
-            .printEmojiText(emojiText, 35, height === 512 ? 256 + 64 : 384 + 64);
-        await canvas
-            .setColor(background === 'white' ? '#2e3338' : '#fff')
-            .setTextFont('30px Whitney Regular, arial unicode ms')
-            .printEmojiText(`${emojiText?.length > 0 ? ' ' : ''}`.repeat(7) + customStatus, 35, height === 512 ? 256 + 64 + 8 : 384 + 64 + 8, 640 - 90);
-        if (botType) {
-            bot = await resolveImage(this.icons[botType])
-            canvas.printImage(bot, canvas.setTextFont('43px Whitney Bold, arial unicode ms').measureText(name).width + canvas.measureText('#' + discrim).width + (botType === 'VERIFIED_BOT' ? 50 : 35), (height === 512 ? 256 : 384) - 10, 80, 80);
-        }
-        for (let n = badges0.length; n > 7; n--) {
-            badges1.push(badges0.pop())
-        }
-        badges0.reverse()
-        badges1.reverse()
-        for (let i = 0; i < badges0.length; i++) {
-            let badge = await resolveImage(this.icons[badges0[i]])
-            canvas.printImage(badge, canvas.width - 64 - (50 * i), height === 512 ? 128 + 30 : 256 + 30, 36, 36)
-        }
-        for (let i = 0; i < badges1.length; i++) {
-            let badge = await resolveImage(this.icons[badges1[i]])
-            canvas.printImage(badge, canvas.width - 64 - (50 * i), height === 512 ? 128 + 76 : 256 + 76, 36, 36)
-        }
-        return canvas.toBuffer()
-    }
-    */
