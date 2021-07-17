@@ -31,12 +31,12 @@ module.exports = class Logger {
             .addFields([
                 {
                     name: this.client.locale(lang, 'MEMBER'),
-                    value: `${this.client.emoji.icons['members']}: \`${userMember.username}#${userMember.discriminator}\`\n${this.client.emoji.icons['id']}: \`${userMember.id}\``,
+                    value: `${this.client.emoji.icons['members']}: \`${userMember.tag}\`\n${this.client.emoji.icons['id']}: \`${userMember.id}\``,
                     inline: false
                 },
                 {
                     name: this.client.locale(lang, 'MODERATOR'),
-                    value: `${this.client.emoji.icons['mod']}: \`${author.username}#${author.discriminator}\`\n${this.client.emoji.icons['id']}: \`${author.id}\``,
+                    value: `${this.client.emoji.icons['mod']}: \`${author.tag}\`\n${this.client.emoji.icons['id']}: \`${author.id}\``,
                     inline: false
                 },
                 {

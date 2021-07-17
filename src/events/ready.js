@@ -10,7 +10,7 @@ module.exports = class ReadyEvent extends Event {
     }
     async run() {
         console.log(moment().format('DD/MM/YYYY HH:mm:ss'))
-        console.log("My eyes are open, but everything is blanc..."), console.table({ "Default prefix": this.client.defaultPrefix, "Client name": this.client.user.username, Owners: this.client.ownerID.join(", ") });
+        console.log("My eyes are open, but everything is blanc..."), console.table({ "Default prefix": this.client.defaultPrefix, "Client name": this.client.user.tag, Owners: this.client.ownerID.join(", ") });
         //console.log("Events");
         //console.table(this.client.events.map((event) => ({ name: event.id, description: event.description })).reduce((e, { name, ...i }) => ((e[name] = i), e), {}));
         //console.log("Commands");
