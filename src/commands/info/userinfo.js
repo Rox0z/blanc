@@ -18,7 +18,7 @@ module.exports = class UserInfoCommand extends Command {
         badges = await this.client.utils.getBadges(user, guild)
         const embed = new MessageEmbed()
             .setTitle(`User  - ${user.tag}`)
-            .setDescription(badges.map(badge => badge = this.client.utils.badgesEmojis[badge]))
+            .setDescription(badges.map(badge => badge = this.client.utils.badgesEmojis[badge]).join(' '))
             .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 256 }))
             .setColor('#fefefe')
             .addFields([
