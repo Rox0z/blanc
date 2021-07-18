@@ -63,63 +63,63 @@ const Command = require('../../structures/command.js'),
         "dec": 11,
     },
     names = {
-        "en" : {
-            "0": "January",
-            "1": "February",
-            "2": "March",
-            "3": "April",
-            "4": "May",
-            "5": "June",
-            "6": "July",
-            "7": "August",
-            "8": "September",
-            "9": "October",
-            "10": "November",
-            "11": "December",
-        },
-        "pt" : {
-            "0": "Janeiro",
-            "1": "Fevereiro",
-            "2": "Março",
-            "3": "Abril",
-            "4": "Maio",
-            "5": "Junho",
-            "6": "Julho",
-            "7": "Agosto",
-            "8": "Setembro",
-            "9": "Outubro",
-            "10": "Novembro",
-            "11": "Dezembro",
-        },
+        "en": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ],
+        "pt": [
+            "Janeiro",
+            "Fevereiro",
+            "Março",
+            "Abril",
+            "Maio",
+            "Junho",
+            "Julho",
+            "Agosto",
+            "Setembro",
+            "Outubro",
+            "Novembro",
+            "Dezembro",
+        ],
     }
 module.exports = class CalendarCommand extends Command {
     constructor(...args) {
         super(...args, {
             aliases: ['calendario', 'calend'],
-            description: {pt: 'Mostra o calendario pedido.', en: 'Shows the requested calendar.'},
+            description: { pt: 'Mostra o calendario pedido.', en: 'Shows the requested calendar.' },
             category: 'Casual',
             ownerOnly: false,
             typing: true,
             channel: 'both',
             neededPermissions: [],
-            title: {pt: 'Calendário', en: 'Calendar'},
-            usage: {pt: 'calendario [mês] [ano]', en: 'calendar [month] [year]'},
+            title: { pt: 'Calendário', en: 'Calendar' },
+            usage: { pt: 'calendario [mês] [ano]', en: 'calendar [month] [year]' },
         })
     }
-    async run({message, args, guild, channel, author, prefix, lang}) {
+    async run({ message, args, guild, channel, author, prefix, lang }) {
         let now = new Date,
-        month = now.getMonth(),
-        year = now.getFullYear()
+            month = now.getMonth(),
+            year = now.getFullYear()
 
-        if (args[0]){month = months[args[0].toLowerCase()]}
-        if (args[1]) {year = parseInt(args[1], 10)}
-        if (!month) { month = now.getMonth(), year = now.getFullYear()}
+        if (args[0]) { month = months[args[0].toLowerCase()] }
+        if (args[1]) { year = parseInt(args[1], 10) }
+        if (!month) { month = now.getMonth(), year = now.getFullYear() }
         let cal = new Calendar(1)
-        let calend = 'Se Te Qa Qi Sx Sa Do\n--------------------\n'+
-        cal.monthDays(year, month)
-        .map(week => week.map(day => day = day <= 9 ? ` ${day}` : day)
-        .map(day => day = day === ' 0' ? '  ': day).join(' ')).join('\n')
+        let calend = 'Se Te Qa Qi Sx Sa Do\n--------------------\n' +
+            cal.monthDays(year, month)
+                .map(week => week.map(day => day = day <= 9 ? ` ${day}` : day)
+                    .map(day => day = day === ' 0' ? '  ' : day).join(' ')).join('\n')
 
-        message.nmReply({embeds:[new MessageEmbed().setAuthor('Calendário', "https://cdn.discordapp.com/emojis/861254918413352980.png").setTitle(`${names[month]} - ${year}`).setDescription(`\`\`\`md\n${calend}\`\`\``)]})
+        message.nmReply({ embeds: [new MessageEmbed().setAuthor('Calendário').setTitle(`${this.client.emoji.icons["calendar"]} ${names[lang][month]} - ${year}`).setDescription(`\`\`\`md\n${calend}\`\`\``)] })
     }
 }
