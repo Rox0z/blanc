@@ -1,5 +1,6 @@
 const Command = require('../../structures/command.js'),
     { Calendar } = require('calendar'),
+    { MessageEmbed } = require('discord.js'),
     months = {
         "1": 0,
         "2": 1,
@@ -60,8 +61,37 @@ const Command = require('../../structures/command.js'),
         "oct": 9,
         "nov": 10,
         "dec": 11,
+    },
+    names = {
+        "en" : {
+            "0": "January",
+            "1": "February",
+            "2": "March",
+            "3": "April",
+            "4": "May",
+            "5": "June",
+            "6": "July",
+            "7": "August",
+            "8": "September",
+            "9": "October",
+            "10": "November",
+            "11": "December",
+        },
+        "pt" : {
+            "0": "Janeiro",
+            "1": "Fevereiro",
+            "2": "Março",
+            "3": "Abril",
+            "4": "Maio",
+            "5": "Junho",
+            "6": "Julho",
+            "7": "Agosto",
+            "8": "Setembro",
+            "9": "Outubro",
+            "10": "Novembro",
+            "11": "Dezembro",
+        },
     }
-
 module.exports = class CalendarCommand extends Command {
     constructor(...args) {
         super(...args, {
@@ -90,6 +120,6 @@ module.exports = class CalendarCommand extends Command {
         .map(week => week.map(day => day = day <= 9 ? ` ${day}` : day)
         .map(day => day = day === ' 0' ? '  ': day).join(' ')).join('\n')
 
-        message.nmReply(`\`\`\`md\n${calend}\`\`\``)
+        message.nmReply({embeds:[new MessageEmbed().setAuthor('Calendário', "https://cdn.discordapp.com/emojis/861254918413352980.png").setTitle(`${names[month]} - ${year}`).setDescription(`\`\`\`md\n${calend}\`\`\``)]})
     }
 }
