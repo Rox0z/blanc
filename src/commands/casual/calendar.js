@@ -114,6 +114,7 @@ module.exports = class CalendarCommand extends Command {
         if (args[0]) { month = months[args[0].toLowerCase()] }
         if (args[1]) { year = parseInt(args[1], 10) }
         if (!month) { month = now.getMonth(), year = now.getFullYear() }
+        if (year < 1970) year = 1970
         let cal = new Calendar(1)
         let calend = 'Se Te Qa Qi Sx Sa Do\n--------------------\n' +
             cal.monthDays(year, month)
