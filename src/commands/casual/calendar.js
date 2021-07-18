@@ -65,7 +65,7 @@ const Command = require('../../structures/command.js'),
 module.exports = class CalendarCommand extends Command {
     constructor(...args) {
         super(...args, {
-            aliases: [],
+            aliases: ['calendario', 'calend'],
             description: {pt: 'Mostra o calendario pedido.', en: 'Shows the requested calendar.'},
             category: 'Casual',
             ownerOnly: false,
@@ -82,7 +82,7 @@ module.exports = class CalendarCommand extends Command {
         year = now.getFullYear()
 
         if (args[0]){month = months[args[0].toLowerCase()]}
-        if (args[1]) year = args[1]
+        if (args[1]) {year = parseInt(args[1], 10)}
 
         let cal = new Calendar(1)
         let calend = 'Se Te Qa Qi Sx Sa Do\n'+
@@ -90,6 +90,6 @@ module.exports = class CalendarCommand extends Command {
         .map(week => week.map(day => day = day <= 9 ? ` ${day}` : day)
         .map(day => day = day === ' 0' ? '  ': day).join(' ')).join('\n')
 
-        message.nmReply(`\`\`\`${calend}\`\`\``)
+        message.nmReply(`\`\`\`py\n${calend}\`\`\``)
     }
 }
