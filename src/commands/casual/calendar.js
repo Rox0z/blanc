@@ -115,7 +115,7 @@ module.exports = class CalendarCommand extends Command {
         if (args[0]) { month = months[args[0]] }
         if (args[1]) { year = parseInt(args[1], 10) }
         if (month === undefined) { month = now.getMonth(), year = now.getFullYear() }
-        let calend = await ev.eval(`import calendar\nprint(calendar.month(${year}, ${month+1}))`)
+        let calend = await ev.eval('python3', `import calendar\nprint(calendar.month(${year}, ${month+1}))`)
         calend = calend.output.split('\n')
         calend[1] = this.client.locale(lang, 'WEEK_DAYS'+'\n--------------------')
         calend.shift()
