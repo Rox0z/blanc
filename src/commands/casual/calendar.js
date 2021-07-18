@@ -119,7 +119,7 @@ module.exports = class CalendarCommand extends Command {
         import calendar
         print(calendar.month(${year}, ${month+1}))
         `)
-        calend = calend.split('\n')
+        calend = calend.output.split('\n')
         calend[1] = this.client.locale(lang, 'WEEK_DAYS'+'\n--------------------')
         calend.shift()
         message.nmReply({ embeds: [new MessageEmbed().setAuthor(this.client.locale(lang, 'CALENDAR')).setTitle(`${this.client.emoji.icons["calendar"]}┃${names[lang][month]} - ${year}`).setDescription(`\`\`\`md\n${calend}\`\`\``)] })
