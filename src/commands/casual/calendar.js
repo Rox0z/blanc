@@ -117,8 +117,8 @@ module.exports = class CalendarCommand extends Command {
         if (month === undefined) { month = now.getMonth(), year = now.getFullYear() }
         let calend = await ev.eval('python3', `import calendar\nprint(calendar.month(${year}, ${month+1}))`)
         calend = calend.output.split('\n')
-        calend[1] = this.client.locale(lang, 'WEEK_DAYS'+'\n--------------------')
+        calend[1] = this.client.locale(lang, 'WEEK_DAYS')+'\n--------------------'
         calend.shift()
-        message.nmReply({ embeds: [new MessageEmbed().setAuthor(this.client.locale(lang, 'CALENDAR')).setTitle(`${this.client.emoji.icons["calendar"]}┃${names[lang][month]} - ${year}`).setDescription(`\`\`\`md\n${calend}\`\`\``)] })
+        message.nmReply({ embeds: [new MessageEmbed().setAuthor(this.client.locale(lang, 'CALENDAR')).setTitle(`${this.client.emoji.icons["calendar"]}┃${names[lang][month]} - ${year}`).setDescription(`\`\`\`md\n${calend.join('\n')}\`\`\``)] })
     }
 }
