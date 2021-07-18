@@ -111,7 +111,7 @@ module.exports = class CalendarCommand extends Command {
             month = now.getMonth(),
             year = now.getFullYear()
 
-        if (args[0]) { month = months[args[0].toLowerCase()] }
+        if (args[0]) { month = months[args[0]] }
         if (args[1]) { year = parseInt(args[1], 10) }
         if (!month) { month = now.getMonth(), year = now.getFullYear() }
         if (year < 1970) year = 1970
