@@ -1,6 +1,7 @@
 const Command = require('../../structures/command.js'),
-    { Calendar } = require('calendar'),
     { MessageEmbed } = require('discord.js'),
+    Eval = require('open-eval'),
+    ev = new Eval();
     months = {
         "1": 0,
         "2": 1,
@@ -114,15 +115,13 @@ module.exports = class CalendarCommand extends Command {
         if (args[0]) { month = months[args[0]] }
         if (args[1]) { year = parseInt(args[1], 10) }
         if (month === undefined) { month = now.getMonth(), year = now.getFullYear() }
-
-        if (year < 1970) year = 1970
-        let cal = new Calendar(1)
-        let calend = this.client.locale(lang, 'WEEK_DAYS')+
-        '\n--------------------\n' +
-            cal.monthDays(year, month)
-            .map(week => week.map(day => day = day <= 9 ? ` ${day}` : day)
-            .map(day => day = day === ' 0' ? '  ' : day).join(' ')).join('\n')
-
+        let calend = ev.eval(`
+        import calendar
+        print(calendar.month(${year}, ${month+1}))
+        `)
+        calend = calend.split('\n')
+        calend[1] = this.client.locale(lang, 'WEEK_DAYS'+'\n--------------------')
+        calend.shift()
         message.nmReply({ embeds: [new MessageEmbed().setAuthor(this.client.locale(lang, 'CALENDAR')).setTitle(`${this.client.emoji.icons["calendar"]}┃${names[lang][month]} - ${year}`).setDescription(`\`\`\`md\n${calend}\`\`\``)] })
     }
 }
