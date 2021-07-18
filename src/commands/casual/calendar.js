@@ -113,7 +113,8 @@ module.exports = class CalendarCommand extends Command {
 
         if (args[0]) { month = months[args[0]] }
         if (args[1]) { year = parseInt(args[1], 10) }
-        if (!month) { month = now.getMonth(), year = now.getFullYear() }
+        if (month === undefined) { month = now.getMonth(), year = now.getFullYear() }
+
         if (year < 1970) year = 1970
         let cal = new Calendar(1)
         let calend = this.client.locale(lang, 'WEEK_DAYS')+
