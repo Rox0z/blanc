@@ -116,12 +116,12 @@ module.exports = class CalendarCommand extends Command {
         if (!month) { month = now.getMonth(), year = now.getFullYear() }
         if (year < 1970) year = 1970
         let cal = new Calendar(1)
-        let calend = `${lang === 'pt' ? 'Se Te Qa Qi Sx Sa Do' : 'Mo Tu We Th Fr Sa Su'}`+
+        let calend = this.client.locale(lang, 'WEEK_DAYS')+
         '\n--------------------\n' +
             cal.monthDays(year, month)
             .map(week => week.map(day => day = day <= 9 ? ` ${day}` : day)
             .map(day => day = day === ' 0' ? '  ' : day).join(' ')).join('\n')
 
-        message.nmReply({ embeds: [new MessageEmbed().setAuthor('Calendário').setTitle(`${this.client.emoji.icons["calendar"]} ${names[lang][month]} - ${year}`).setDescription(`\`\`\`md\n${calend}\`\`\``)] })
+        message.nmReply({ embeds: [new MessageEmbed().setAuthor(this.client.locale(lang, 'CALENDAR')).setTitle(`${this.client.emoji.icons["calendar"]}┃${names[lang][month]} - ${year}`).setDescription(`\`\`\`md\n${calend}\`\`\``)] })
     }
 }

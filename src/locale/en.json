@@ -6,6 +6,8 @@
     "USER": "User",
     "YES": "Yes",
     "NO": "No",
+    "WEEK_DAYS": "Mo Tu We Th Fr Sa Su",
+    "CALENDAR": "Calendar",
     "INTEGRATION": "Integration: ",
     "COLOR": "Color: ",
     "MENTIONABLE": "Mentionable: ",
