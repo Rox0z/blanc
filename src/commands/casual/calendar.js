@@ -115,7 +115,7 @@ module.exports = class CalendarCommand extends Command {
         if (args[0]) { month = months[args[0]] }
         if (args[1]) { year = parseInt(args[1], 10) }
         if (month === undefined) { month = now.getMonth(), year = now.getFullYear() }
-        let calend = ev.eval(`
+        let calend = await ev.eval(`
         import calendar
         print(calendar.month(${year}, ${month+1}))
         `)
