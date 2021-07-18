@@ -83,13 +83,13 @@ module.exports = class CalendarCommand extends Command {
 
         if (args[0]){month = months[args[0].toLowerCase()]}
         if (args[1]) {year = parseInt(args[1], 10)}
-
+        if (!month) { month = now.getMonth(), year = now.getFullYear()}
         let cal = new Calendar(1)
-        let calend = 'Se Te Qa Qi Sx Sa Do\n'+
+        let calend = 'Se Te Qa Qi Sx Sa Do\n--------------------\n'+
         cal.monthDays(year, month)
         .map(week => week.map(day => day = day <= 9 ? ` ${day}` : day)
         .map(day => day = day === ' 0' ? '  ': day).join(' ')).join('\n')
 
-        message.nmReply(`\`\`\`py\n${calend}\`\`\``)
+        message.nmReply(`\`\`\`md\n${calend}\`\`\``)
     }
 }
