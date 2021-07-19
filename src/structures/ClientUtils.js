@@ -371,16 +371,18 @@ module.exports = class Util {
     attach(file, name) {
         return new MessageAttachment(file, name);
     }
-    progressBar(percent, {size = 10, dynamic = "█", fixed = "░"} = {}) {
+    progressBar(percent, { size = 10, dynamic = "█", fixed = "░", secondary = '▒', secondaryPercentage = 0 } = {}) {
         let bar = new Array();
-
         for (let n = 0; n < size; n++) {
             !(percent < (n + 1) * Math.round(100 / size))
                 ? bar.push(dynamic)
-                : bar.push(fixed);
+                : !(secondaryPercentage < (n + 1) * Math.round(100 / size)) 
+                ? bar.push(secondary) 
+                : bar.push(fixed)
         }
         return bar.join("");
     }
+
     sleep(ms) {
         return new Promise((resolve) => {
             setTimeout(resolve, ms);
@@ -389,8 +391,8 @@ module.exports = class Util {
     trimArray(arr, maxLen = 10, lang) {
         if (arr.length > maxLen) {
             const len = arr.length - maxLen;
-            arr = arr.slice(0, maxLen);            
-            arr.push(`${lang === 'pt' ? 'mais ': ''}${len}${lang === 'en' ? 'more' : ''}...`);
+            arr = arr.slice(0, maxLen);
+            arr.push(`${lang === 'pt' ? 'mais ' : ''}${len}${lang === 'en' ? 'more' : ''}...`);
         }
         return arr;
     }
