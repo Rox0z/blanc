@@ -30,12 +30,12 @@ module.exports = class ProofCommand extends Command {
             .addFields([
                 {
                     name: this.client.locale(lang, 'MEMBER'),
-                    value: `${this.client.emoji.icons['members']}: \`${user.username}#${user.discriminator}\`\n${this.client.emoji.icons['id']}: \`${user.id}\``,
+                    value: `${this.client.emoji.icons['members']}: \`${user.tag}\`\n${this.client.emoji.icons['id']}: \`${user.id}\``,
                     inline: false
                 },
                 {
                     name: this.client.locale(lang, 'MODERATOR'),
-                    value: `${this.client.emoji.icons['mod']}: \`${author.username}#${author.discriminator}\`\n${this.client.emoji.icons['id']}: \`${author.id}\``,
+                    value: `${this.client.emoji.icons['mod']}: \`${author.tag}\`\n${this.client.emoji.icons['id']}: \`${author.id}\``,
                     inline: false
                 },
                 { name: `${this.client.emoji.icons['activity']} ${this.client.locale(lang, 'REASON')}`, value: `\`\`\`${reason.length > 0 ? reason : this.client.locale(lang, 'NO_REASON')}\`\`\``, inline: false }
