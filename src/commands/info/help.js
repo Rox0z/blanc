@@ -15,8 +15,8 @@ module.exports = class HelpCommand extends Command {
 
         let commands = this.client.isOwner(author) ? this.client.commands.map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji }) : this.client.commands.filter(cmd => cmd.category !== 'Owner').map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji })
         const strings = this.client.locale(lang, "HELP_COMMAND")
-        let chunks = commands.chunk(23)
-        if (commands.chunk(25) > 1) {
+        let chunks = [...commands].chunk(23)
+        if (commands.length > 25) {
             chunks.forEach(list => list.push(...[{
                 label: 'Próxima página',
                 value: 'next',
