@@ -14,12 +14,13 @@ module.exports = class StatusCommand extends Command {
     }
     async run({ message }) {
         let percent = Math.round((process.memoryUsage().heapUsed / process.memoryUsage().heapTotal) * 100)
+        let secondaryPercentage = Math.round((process.memoryUsage().heapTotal / 512e6) * 100)
         await message.nmReply({
             content:
                 `\`\`\`md
-#Process memory allocated:   ${byteSize(process.memoryUsage().heapTotal, { units: "iec" })}
-#Process memory used:        ${byteSize(process.memoryUsage().heapUsed, { units: "iec" })}
-<Percent: [${this.client.utils.progressBar(percent, { size: 16, dynamic: '▮', fixed: '▯' })}] ${percent}%\`\`\``
+#Process memory allocated:   ${byteSize(process.memoryUsage().heapTotal)}
+#Process memory used:        ${byteSize(process.memoryUsage().heapUsed)}
+<Percent: [${this.client.utils.progressBar(percent, { size: 20, secondaryPercentage })}] ${percent}% / ${secondaryPercentage}%\`\`\``
         });
     }
 };
