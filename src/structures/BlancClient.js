@@ -174,6 +174,8 @@ class BlancClient extends Client {
                 tts:  "<:tts:841519276333465631>",
                 baloon:  "<:baloon:864666558387191811>",
                 DMicon:  "<:DMicon:864666661910609920>",
+                next: "<:next:866759922896470076>",
+                previous: "<:previous:866759884417662976>",
             },
             status: {
                 online: "<:online:841519636562444318>",
