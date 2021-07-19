@@ -82,6 +82,8 @@
     "HELP_COMMAND": {
         "EMBED_TITLE": "Commands",
         "EMBED_SUBTITLE": "Command",
+        "NEXT_PAGE": "Next page",
+        "PREVIOUS_PAGE": "Previous page",
         "EMBED_DESCRIPTION": ">>> Here you'll find all commands from this BOT, to see them just select one in the menu below and this page will automaticaly change to the command detail.",
         "EMBED_FIELD_LABELS": "Labels:",
         "EMBED_FIELD_QUANTITY": "Quantity:",

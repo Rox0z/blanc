@@ -18,12 +18,12 @@ module.exports = class HelpCommand extends Command {
         let chunks = [...commands].chunk(23)
         if (commands.length > 25) {
             chunks.forEach(list => list.push(...[{
-                label: 'Próxima página',
+                label: strings.NEXT_PAGE,
                 value: 'next',
                 description: 'Menu',
                 emoji: '866759922896470076'
             }, {
-                label: 'Página anterior',
+                label: strings.PREVIOUS_PAGE,
                 value: 'previous',
                 description: 'Menu',
                 emoji: '866759884417662976'
