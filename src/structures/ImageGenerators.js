@@ -17,10 +17,9 @@ module.exports = class ImgGenerator {
         "white" === user ? ((background = "white"), (user = null)) : "white" === bannerURL && ((background = "white"), (bannerURL = null))
         user?.match(RegExpURL) ? (bannerURL = user)
             : user?.match(RegExpEmoji) && (bannerURL = `https: //cdn.discordapp.com/emojis/${user?.match(RegExpEmoji)[1]}.png?v=1`);
-
         this.user = await this.client.utils.resolveUser(message, user)
-        this.banner = this.client.utils.getImage(message, bannerURL)
-
+        let userinfo = await this.client.api.users(this.user.id).get()
+        this.banner = userinfo.banner ? `https://cdn.discordapp.com/banners/${this.user.id}/${userinfo.banner}.png` : this.client.utils.getImage(message, bannerURL)
         let avatarURL = this.user.displayAvatarURL({ size: 512, dynamic: !0, format: 'png' }),
             name = this.user.username,
             discrim = this.user.discriminator,
