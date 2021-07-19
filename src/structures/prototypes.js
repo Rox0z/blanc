@@ -26,8 +26,7 @@ module.exports = class Prototypes {
             return this.channel.messages.edit(this, options);
         }
         Array.prototype.chunk = function (chunkSize) {
-            this.forEach((e, i) => this.splice(i, 0, this.splice(i, chunkSize)));
-            return this;
+            return this.forEach((e, i) => this.splice(i, 0, this.splice(i, chunkSize)));
         }
         Array.prototype.hasAny = function (array) {
             return this.some(r => array.indexOf(r) >= 0)
