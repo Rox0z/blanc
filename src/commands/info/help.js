@@ -15,6 +15,21 @@ module.exports = class HelpCommand extends Command {
 
         let commands = this.client.isOwner(author) ? this.client.commands.map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji }) : this.client.commands.filter(cmd => cmd.category !== 'Owner').map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji })
         const strings = this.client.locale(lang, "HELP_COMMAND")
+        let chunks = commands.chunk(23)
+        if (chunks.length > 1) {
+            chunks.forEach(list => list.push(...[{
+                label: 'Próxima página',
+                value: 'next',
+                description: 'Menu',
+                emoji: '866759922896470076'
+            }, {
+                label: 'Página anterior',
+                value: 'previous',
+                description: 'Menu',
+                emoji: '866759884417662976'
+            },]))
+        }
+        let page = 0
         const embed = new MessageEmbed()
             .setTitle(strings.EMBED_TITLE.toUpperCase())
             .setThumbnail(this.client.user.displayAvatarURL({ size: 512 }))
@@ -22,7 +37,7 @@ module.exports = class HelpCommand extends Command {
             .addField(strings.EMBED_FIELD_LABELS, strings.EMBED_LABELS, true)
             .addField(strings.EMBED_FIELD_QUANTITY, `\`\`\`${commands.length}\`\`\``, true)
             .addField(strings.EMBED_FIELD_CATEGORIES, `\`\`\`md\n* ${[...new Set(commands.map(cmd => cmd = cmd.description))].join('\n* ')}\`\`\``, false),
-            selector = new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(commands),
+            selector = new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[page]),
             del = new MessageButton().setEmoji('841519603640827914').setStyle('SECONDARY').setCustomID('delete'),
             back = new MessageButton().setEmoji('841742417783029822').setStyle('PRIMARY').setCustomID('back'),
             sele = new MessageActionRow().addComponents([selector]),
@@ -36,18 +51,29 @@ module.exports = class HelpCommand extends Command {
             if (interaction.user.id !== author.id) return interaction.reply({ content: this.client.locale(lang, 'ERROR_AUTHOR_ONLY'), ephemeral: true })
             if (interaction.customID === 'help') {
                 interaction.deferUpdate()
-                let command = this.client.commands.filter(cmd => cmd.name === interaction.values[0]).first()
-                command.aliases.includes(command.name) ? null : command.aliases.push(command.name)
-                sent.nmEdit({
-                    embeds: [new MessageEmbed()
-                        .setTitle(`${command.title[lang] ? command.title[lang] : command.title['pt'] || command.title} | ${strings.EMBED_SUBTITLE}`)
-                        .setDescription(`\`\`\`${command.description[lang] ? command.description[lang] : command.description['pt'] || command.description}\`\`\``)
-                        .addField(strings.EMBED_FIELD_ALIASES, `\`${command.aliases.join('\` \`')}\``)
-                        .addField(strings.EMBED_FIELD_USAGE, `\`${prefix}${command.usage[lang] ? command.usage[lang] : command.usage['pt'] || command.usage}\``)
-                        .addField(strings.EMBED_FIELD_PERMISSIONS, `\`${command.neededPermissions.length > 0 ? command.neededPermissions.join('\` \`') : `${this.client.locale(lang, "NONE")}`}\``)
-                        .setAuthor(command.category, `https://cdn.discordapp.com/emojis/${command.emoji}.png`)
-                    ], components: [sele, menu]
-                })
+                if (interaction.values[0] === 'next' || interaction.values[0] === 'previous') {
+                    if (interaction.values[0] === 'next') {
+                        ++page
+                        sent.nmEdit({ embeds: [embed], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[Math.abs(page % chunks.length)])]), home] })
+                    } else if (interaction.values[0] === 'previous') {
+                        --page
+                        sent.nmEdit({ embeds: [embed], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[Math.abs(page % chunks.length)])]), home] })
+                    }
+
+                } else {
+                    let command = this.client.commands.filter(cmd => cmd.name === interaction.values[0]).first()
+                    command.aliases.includes(command.name) ? null : command.aliases.push(command.name)
+                    sent.nmEdit({
+                        embeds: [new MessageEmbed()
+                            .setTitle(`${command.title[lang] ? command.title[lang] : command.title['pt'] || command.title} | ${strings.EMBED_SUBTITLE}`)
+                            .setDescription(`\`\`\`${command.description[lang] ? command.description[lang] : command.description['pt'] || command.description}\`\`\``)
+                            .addField(strings.EMBED_FIELD_ALIASES, `\`${command.aliases.join('\` \`')}\``)
+                            .addField(strings.EMBED_FIELD_USAGE, `\`${prefix}${command.usage[lang] ? command.usage[lang] : command.usage['pt'] || command.usage}\``)
+                            .addField(strings.EMBED_FIELD_PERMISSIONS, `\`${command.neededPermissions.length > 0 ? command.neededPermissions.join('\` \`') : `${this.client.locale(lang, "NONE")}`}\``)
+                            .setAuthor(command.category, `https://cdn.discordapp.com/emojis/${command.emoji}.png`)
+                        ], components: [sele, menu]
+                    })
+                }
             } else if (interaction.customID === 'back') {
                 interaction.deferUpdate()
                 sent.nmEdit({ embeds: [embed], components: [sele, home] })
