@@ -16,7 +16,7 @@ module.exports = class HelpCommand extends Command {
         let commands = this.client.isOwner(author) ? this.client.commands.map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji }) : this.client.commands.filter(cmd => cmd.category !== 'Owner').map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji })
         const strings = this.client.locale(lang, "HELP_COMMAND")
         let chunks = commands.chunk(23)
-        if (chunks.length > 1) {
+        if (commands.chunk(25) > 1) {
             chunks.forEach(list => list.push(...[{
                 label: 'Próxima página',
                 value: 'next',
@@ -28,6 +28,8 @@ module.exports = class HelpCommand extends Command {
                 description: 'Menu',
                 emoji: '866759884417662976'
             },]))
+        } else {
+            chunks = [commands]
         }
         let page = 0
         const embed = new MessageEmbed()
@@ -54,10 +56,10 @@ module.exports = class HelpCommand extends Command {
                 if (interaction.values[0] === 'next' || interaction.values[0] === 'previous') {
                     if (interaction.values[0] === 'next') {
                         ++page
-                        sent.nmEdit({ embeds: [embed], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[Math.abs(page % chunks.length)])]), home] })
+                        sent.nmEdit({ embeds: [sent.embeds[0]], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length - page) % chunks.length])]), home] })
                     } else if (interaction.values[0] === 'previous') {
                         --page
-                        sent.nmEdit({ embeds: [embed], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[Math.abs(page % chunks.length)])]), home] })
+                        sent.nmEdit({ embeds: [sent.embeds[0]], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length - page) % chunks.length])]), home] })
                     }
 
                 } else {
