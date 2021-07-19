@@ -31,7 +31,10 @@ module.exports = class HelpCommand extends Command {
         } else {
             chunks = [commands]
         }
-        let page = 0
+        let page = 0,
+        currentEmbed,
+        currentButton;
+        
         const embed = new MessageEmbed()
             .setTitle(strings.EMBED_TITLE.toUpperCase())
             .setThumbnail(this.client.user.displayAvatarURL({ size: 512 }))
@@ -54,8 +57,8 @@ module.exports = class HelpCommand extends Command {
             if (interaction.customID === 'help') {
                 interaction.deferUpdate()
                 if (interaction.values[0] === 'next' || interaction.values[0] === 'previous') {
-                    let currentEmbed = sent.embeds[0],
-                    currentButton = sent.embeds[0] === embed ? home : menu
+                    currentEmbed = sent.embeds[0]
+                    currentButton = sent.embeds[0].title === embed.title ? home : menu
                     if (interaction.values[0] === 'next') {
                         ++page
                         sent.nmEdit({ embeds: [currentEmbed], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), currentButton] })
