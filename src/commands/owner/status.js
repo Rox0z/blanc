@@ -13,7 +13,7 @@ module.exports = class StatusCommand extends Command {
         });
     }
     async run({ message }) {
-        let percent = Math.round((process.memoryUsage().heapUsed / process.memoryUsage().heapTotal) * 100)
+        let percent = Math.round((process.memoryUsage().heapUsed / 512e6) * 100)
         let secondaryPercentage = Math.round((process.memoryUsage().heapTotal / 512e6) * 100)
         await message.nmReply({
             content:
