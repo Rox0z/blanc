@@ -56,10 +56,10 @@ module.exports = class HelpCommand extends Command {
                 if (interaction.values[0] === 'next' || interaction.values[0] === 'previous') {
                     if (interaction.values[0] === 'next') {
                         ++page
-                        sent.nmEdit({ embeds: [sent.embeds[0]], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length - page) % chunks.length])]), home] })
+                        sent.nmEdit({ embeds: [sent.embeds[0]], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), home] })
                     } else if (interaction.values[0] === 'previous') {
                         --page
-                        sent.nmEdit({ embeds: [sent.embeds[0]], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length - page) % chunks.length])]), home] })
+                        sent.nmEdit({ embeds: [sent.embeds[0]], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), home] })
                     }
 
                 } else {
