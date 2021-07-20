@@ -15,7 +15,7 @@ module.exports = class HelpCommand extends Command {
 
         let commands = this.client.isOwner(author) ? this.client.commands.map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji }) : this.client.commands.filter(cmd => cmd.category !== 'Owner').map(cmd => cmd = { label: cmd.title[lang] ? cmd.title[lang] : cmd.title['pt'] || cmd.title, value: cmd.name, description: cmd.category, emoji: cmd.emoji })
         const strings = this.client.locale(lang, "HELP_COMMAND")
-        let chunks = [...commands].chunk(23)
+        let chunks = commands.chunk(23)
         if (commands.length > 25) {
             chunks.forEach(list => list.push(...[{
                 label: strings.NEXT_PAGE,
@@ -78,7 +78,7 @@ module.exports = class HelpCommand extends Command {
                             .addField(strings.EMBED_FIELD_USAGE, `\`${prefix}${command.usage[lang] ? command.usage[lang] : command.usage['pt'] || command.usage}\``)
                             .addField(strings.EMBED_FIELD_PERMISSIONS, `\`${command.neededPermissions.length > 0 ? command.neededPermissions.join('\` \`') : `${this.client.locale(lang, "NONE")}`}\``)
                             .setAuthor(command.category, `https://cdn.discordapp.com/emojis/${command.emoji}.png`)
-                        ], components: [sele, menu]
+                        ], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), menu]
                     })
                 }
             } else if (interaction.customID === 'back') {
