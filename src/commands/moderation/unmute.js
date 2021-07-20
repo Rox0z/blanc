@@ -12,13 +12,13 @@ module.exports = class UnmuteCommand extends Command {
             title: { pt: 'Des-silenciar', en: "Unmute" }
         });
     }
-    async run({ author, args, message, guild, data, channel, lang }) {
+    async run({ author, args, message, guild, channel, lang }) {
         if (!args[0]) return message.nmReply(this.client.locale(lang, 'ERROR_NO_USER'))
         let user = await this.client.utils.resolveUser(message, args[0], {author: false})
         if (!user) return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_USER'))
         if (user.id === message.author.id) return message.channel.send(`?`)
         let member = await guild.members.fetch(user.id)
-        let muterole = data.muteRole
+        let muterole = await this.client.guildConfig.get(`${guild.id}.muteRole`)
         if ( muterole === null) return message.nmReply(this.client.locale(lang, 'ERROR_MUTE_DISABLED'))
         if (!member.roles.cache.has(muterole)) return message.nmReply(this.client.locale(lang, 'ERROR_ALREADY_UNMUTE', {user}))
         await member.roles.remove(muterole)
