@@ -1,5 +1,5 @@
 const Command = require('../../structures/command.js'),
-    { MessageEmbed } = require('discord.js-light');
+    { MessageEmbed } = require('discord.js-light'),
     channelType = {
         "text": "841517547588550676",
         "private_text": "841517614765310012",
@@ -13,12 +13,12 @@ const Command = require('../../structures/command.js'),
         "private_stage": "841518036548845578",
         "rules": "841517958126764052",
         "store": "861456501238530078",
-        "public_thread": "841517829886705725",
-        "private_thread": "841517899700502545",
-        "nsfw_thread": "843230764543377518",
-        "public_news_thread": "841517829886705725",
-        "private_news_thread": "841517899700502545",
-        "nsfw_news_thread": "843230764543377518",
+        "public_thread": "860982806955687946",
+        "private_thread": "860983134102093834",
+        "nsfw_thread": "860982935385014293",
+        "public_news_thread": "860982877859348480",
+        "private_news_thread": "860983287139794964",
+        "nsfw_news_thread": "860983038376673290",
     }
 module.exports = class ChannelInfoCommand extends Command {
     constructor(...args) {
