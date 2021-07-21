@@ -1,4 +1,5 @@
 const Command = require('../../structures/command.js'),
+    { MessageEmbed } = require('discord.js-light');
     channelType = {
         "text": "841517547588550676",
         "private_text": "841517614765310012",
@@ -44,6 +45,6 @@ module.exports = class ChannelInfoCommand extends Command {
                 { name: `${this.client.emoji.icons['cross']} NSFW:`, value: `\`\`\`${ichannel.nsfw ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['activity']} ${this.client.locale(lang, 'TOPIC')}:`, value: `\`\`\`${ichannel.topic ? channel.topic : this.client.locale(lang, 'NONE')}\`\`\``, inline: false },
             ])
-        message.nmReply({ embeds: [embed], files: [this.client.utils.attach(canvas, 'role.png')] })
+        message.nmReply({ embeds: [embed] })
     }
 }
