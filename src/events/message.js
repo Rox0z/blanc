@@ -15,7 +15,7 @@ module.exports = class MessageEvent extends Event {
         if (message.author.bot) return;
         let prefix
         let lang 
-        if (message.channel.type === 'text') {
+        if (message.channel.type !== 'dm') {
             if (this.client.locales.get(message.guild.id) === null) lang = message.guild.preferredLocale.split('-')[0] === 'pt' ? 'pt' : 'en'
             else lang = this.client.locales.get(message.guild.id) 
             let dbprefix =  this.client.prefixes.get(message.guild.id)
