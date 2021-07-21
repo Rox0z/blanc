@@ -36,7 +36,7 @@ module.exports = class ChannelInfoCommand extends Command {
         if (args[0]) try { ichannel = await this.client.utils.resolveChannel(guild, args[0]) } catch { return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOWN')) }
         if (!args[0]) ichannel = channel
         const embed = new MessageEmbed()
-            .setTitle(`${this.client.emoji.icons[channelType[this.client.utils.channelType(ichannel)]]} ${ichannel.name}`)
+            .setTitle(`${this.client.emoji.channels[channelType[this.client.utils.channelType(ichannel)]]} ${ichannel.name}`)
             .setColor('#fefefe')
             .setDescription(`${this.client.emoji.icons['calendar']} ${this.client.locale(lang, 'CREATED')} <t:${Math.round(ichannel.createdTimestamp / 1000)}:f>`)
             .addFields([
