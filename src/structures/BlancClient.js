@@ -85,7 +85,7 @@ class BlancClient extends Client {
                 rules: '<:rules:841517958126764052>',
                 news: '<:news:841517829886705725>',
                 newslock: '<:newslock:841517899700502545>',
-                announcensfw: '<:announcensfw:843230764543377518>',
+                newsnsfw: '<:newsnsfw:843230764543377518>',
                 lock: '<:lock:841518092261261312>',
                 dm: '<:DM:841742418138759228>',
                 store: '<:store:861456501238530078>',
