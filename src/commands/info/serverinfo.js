@@ -30,7 +30,7 @@ module.exports = class ServerInfoCommand extends Command {
         const strings = this.client.locale(lang, 'SERVERINFO_COMMAND_FIELDS')
         const embed = new MessageEmbed()
             .setColor('#fefefe')
-            .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}    ${localeEmoji(server.preferredLocale)}`)
+            .setTitle(`${badges[this.client.utils.guildBadge(server)]}${server.name}    ${localeEmoji(server.preferredLocale)}`)
             .setThumbnail(server.iconURL({ dynamic: true }))
             .setDescription(`${this.client.emoji.icons['calendar']} **${strings.SINCE}** <t:${Math.round(server.createdTimestamp / 1000)}:F>`)
             .addFields([
@@ -43,7 +43,7 @@ module.exports = class ServerInfoCommand extends Command {
                 { name: `${this.client.emoji.icons['id']} ${strings.SERVER_ID}`, value: `\`\`\`${server.id}\`\`\``, inline: false },
             ]),
             embedchannels = new MessageEmbed()
-                .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}    ${localeEmoji(server.preferredLocale)}`)
+                .setTitle(`${badges[this.client.utils.guildBadge(server)]}${server.name}    ${localeEmoji(server.preferredLocale)}`)
                 .setColor('#fefefe')
                 .setThumbnail(server.iconURL({ dynamic: true }))
                 .addFields([
@@ -57,7 +57,7 @@ module.exports = class ServerInfoCommand extends Command {
                     { name: `${this.client.emoji.channels['voice']} AFK:`, value: `${server.afkChannel || this.client.locale(lang, 'NONE')}`, inline: true },
                 ]),
             embedroles = new MessageEmbed()
-                .setTitle(`${badges[this.client.utils.guildBadge(guild)]}${guild.name}    ${localeEmoji(server.preferredLocale)}`)
+                .setTitle(`${badges[this.client.utils.guildBadge(server)]}${server.name}    ${localeEmoji(server.preferredLocale)}`)
                 .setColor('#fefefe')
                 .setThumbnail(server.iconURL({ dynamic: true }))
                 .addFields([
@@ -75,12 +75,12 @@ module.exports = class ServerInfoCommand extends Command {
 
         if (server.channels.cache.filter(c => (c.type === 'public_thread' || c.type === 'private_thread' || c.type === 'news_thread') && !c.archived).size > 0) {
             let threads = server.channels.cache.filter(c => c.type === 'public_thread' || c.type === 'private_thread' || c.type === 'news_thread'),
-                putext = threads.filter(t => t.type === 'public_thread' && !guild.channels.forge(t.parentID).nsfw).size,
+                putext = threads.filter(t => t.type === 'public_thread' && !server.channels.forge(t.parentID).nsfw).size,
                 prtext = threads.filter(t => t.type === 'private_thread').size,
-                nsftext = threads.filter(t => t.type === 'public_thread' && guild.channels.forge(t.parentID).nsfw).size,
-                punews = threads.filter(t => t.type === 'news_thread' && !guild.channels.forge(t.parentID).nsfw && !!channel.permissionOverwrites.filter(r => r.id === guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL') === false).size,
-                prnews = threads.filter(t => t.type === 'news_thread' && !!channel.permissionOverwrites.filter(r => r.id === guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')).size,
-                nsfnews = threads.filter(t => t.type === 'news_thread' && guild.channels.forge(t.parentID).nsfw).size,
+                nsftext = threads.filter(t => t.type === 'public_thread' && server.channels.forge(t.parentID).nsfw).size,
+                punews = threads.filter(t => t.type === 'news_thread' && !server.channels.forge(t.parentID).nsfw && !!channel.permissionOverwrites.filter(r => r.id === server.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL') === false).size,
+                prnews = threads.filter(t => t.type === 'news_thread' && !!channel.permissionOverwrites.filter(r => r.id === server.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')).size,
+                nsfnews = threads.filter(t => t.type === 'news_thread' && server.channels.forge(t.parentID).nsfw).size,
                 field = {
                     name: this.client.emoji.channels['start'],
                     value: [
