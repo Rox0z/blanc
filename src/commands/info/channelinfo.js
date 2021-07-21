@@ -41,7 +41,7 @@ module.exports = class ChannelInfoCommand extends Command {
             .setDescription(`${this.client.emoji.icons['calendar']} ${this.client.locale(lang, 'CREATED')} <t:${Math.round(ichannel.createdTimestamp / 1000)}:f>`)
             .addFields([
                 { name: `${this.client.emoji.icons['id']} ID:`, value: `\`\`\`${ichannel.id}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['cross']} NSFW:`, value: `\`\`\`${ichannel.nsfw ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['cross']} NSFW:`, value: `\`\`\`${this.client.utils.channelType(ichannel).includes('nsfw') ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['activity']} ${this.client.locale(lang, 'TOPIC')}`, value: `\`\`\`${ichannel.topic ? channel.topic : this.client.locale(lang, 'NONE')}\`\`\``, inline: false },
             ])
         message.nmReply({ embeds: [embed] })
