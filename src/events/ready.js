@@ -1,5 +1,6 @@
 const Event = require('../structures/event.js'),
-    moment = require('moment');
+    moment = require('moment'),
+    boxen = require('boxen');
 module.exports = class ReadyEvent extends Event {
     constructor(...args) {
         super(...args, {
@@ -10,13 +11,14 @@ module.exports = class ReadyEvent extends Event {
     }
     async run() {
         console.log(moment().format('DD/MM/YYYY HH:mm:ss'))
-        console.log("My eyes are open, but everything is blanc..."), console.table({ "Default prefix": this.client.defaultPrefix, "Client name": this.client.user.tag, Owners: this.client.ownerID.join(", ") });
+        console.log("My eyes are open, but everything is blanc...")
+        console.log(boxen(`Prefix: "${this.client.defaultPrefix}"\nName:   ${this.client.user.tag}\nOwners: ${this.client.ownerID.join(', ')}`, { align: 'left', borderColor: "greenBright", dimBorder: false, padding: 1, margin: 1, borderStyle: 'round' }))
         //console.log("Events");
         //console.table(this.client.events.map((event) => ({ name: event.id, description: event.description })).reduce((e, { name, ...i }) => ((e[name] = i), e), {}));
         //console.log("Commands");
         //console.table(this.client.commands.map((cmd) => ({ name: cmd.name, description: cmd.description, category: cmd.category })).reduce((e, { name, ...i }) => ((e[name] = i), e), {}));
-        console.log("Guilds");
-        console.table(this.client.guilds.cache.sort((a,b) => b.memberCount - a.memberCount).map((guild) => ({ name: guild.name, id: guild.id, members: guild.memberCount })).reduce((e, { name, ...i }) => ((e[name] = i), e), {}))
+        //console.log("Guilds");
+        //console.table(this.client.guilds.cache.sort((a,b) => b.memberCount - a.memberCount).map((guild) => ({ name: guild.name, id: guild.id, members: guild.memberCount })).reduce((e, { name, ...i }) => ((e[name] = i), e), {}))
         for (const guild of this.client.guilds.cache.array()) {
             let prefix = await this.client.guildConfig.get(`${guild.id}.guildPrefix`)
             let locale = await this.client.guildConfig.get(`${guild.id}.guildLocale`)
