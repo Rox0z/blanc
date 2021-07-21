@@ -230,6 +230,7 @@ module.exports = class Util {
             || name === text.replace(/^@/, '');
     }
     channelType(channel){
+        let type
         if (channel.type === 'text' && channel.guild.rulesChannel.id === channel.id) type = 'rules'
         else if (channel.type === 'store') type = 'store'
         else if (channel.type === 'text' && !channel.nsfw && !!!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'text'
@@ -248,6 +249,7 @@ module.exports = class Util {
         else if (channel.type === 'news_thread' && channel.guild.channels.forge(channel.parentID).nsfw) type = 'nsfw_news_thread'
         else if (channel.type === 'news_thread' && !channel.guild.channels.forge(channel.parentID).nsfw) type = 'public_news_thread'
         else if (channel.type === 'news_thread' && !!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_news_thread'
+        return type
     }
     /**
      * //Message: Message => get image from attach
