@@ -33,9 +33,8 @@ module.exports = class ChannelInfoCommand extends Command {
     }
     async run({message, args, guild, channel, author, prefix, lang}) {
         let ichannel
+        if (args[0]) try { ichannel = await this.client.utils.resolveChannel(guild, args[0]) } catch { return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOWN')) }
         if (!args[0]) ichannel = channel
-        try { ichannel = this.client.utils.resolveChannel(guild, args[0]) } catch { return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOWN')) }
-        if (!ichannel) ichannel = channel
         const embed = new MessageEmbed()
             .setAuthor(`${ichannel.name}`, `https://cdn.discordapp.com/emojis/${channelType[this.client.utils.channelType(ichannel)]}.png`)
             .setColor('#fefefe')
@@ -43,7 +42,7 @@ module.exports = class ChannelInfoCommand extends Command {
             .addFields([
                 { name: `${this.client.emoji.icons['id']} ID:`, value: `\`\`\`${ichannel.id}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['cross']} NSFW:`, value: `\`\`\`${ichannel.nsfw ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['activity']} ${this.client.locale(lang, 'TOPIC')}:`, value: `\`\`\`${ichannel.topic ? channel.topic : this.client.locale(lang, 'NONE')}\`\`\``, inline: false },
+                { name: `${this.client.emoji.icons['activity']} ${this.client.locale(lang, 'TOPIC')}`, value: `\`\`\`${ichannel.topic ? channel.topic : this.client.locale(lang, 'NONE')}\`\`\``, inline: false },
             ])
         message.nmReply({ embeds: [embed] })
     }
