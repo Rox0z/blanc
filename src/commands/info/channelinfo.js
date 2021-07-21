@@ -37,7 +37,7 @@ module.exports = class ChannelInfoCommand extends Command {
         try { ichannel = this.client.utils.resolveChannel(guild, args[0]) } catch { return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOWN')) }
         if (!ichannel) ichannel = channel
         const embed = new MessageEmbed()
-            .setAuthor(ichannel.name, `https://cdn.discordapp.com/emojis/${channelType[this.client.utils.channelType(ichannel)]}.png`)
+            .setAuthor(`${ichannel.name}`, `https://cdn.discordapp.com/emojis/${channelType[this.client.utils.channelType(ichannel)]}.png`)
             .setColor('#fefefe')
             .setDescription(`${this.client.emoji.icons['calendar']} ${this.client.locale(lang, 'CREATED')} <t:${Math.round(ichannel.createdTimestamp / 1000)}:f>`)
             .addFields([
