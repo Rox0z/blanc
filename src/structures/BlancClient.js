@@ -273,13 +273,13 @@ class BlancClient extends Client {
             }
             if (options.author) {
                 string = string
-                    .replace(/%author%/gi, options.user)
-                    .replace(/%@author%/gi, options.user)
-                    .replace(/%author(\.name)?%/gi, options.user.username)
-                    .replace(/%authorTag%/gi, `${options.user.tag}`)
-                    .replace(/%author\.id%/gi, options.user.id)
-                    .replace(/%author\.discrim%/gi, options.user.discriminator)
-                    .replace(/%author\.avatar%/gi, options.user.displayAvatarURL({ dynamic: true, size: 512 }))
+                    .replace(/%author%/gi, options.author)
+                    .replace(/%@author%/gi, options.author)
+                    .replace(/%author(\.name)?%/gi, options.author.username)
+                    .replace(/%authorTag%/gi, `${options.author.tag}`)
+                    .replace(/%author\.id%/gi, options.author.id)
+                    .replace(/%author\.discrim%/gi, options.author.discriminator)
+                    .replace(/%author\.avatar%/gi, options.author.displayAvatarURL({ dynamic: true, size: 512 }))
             }
             if (options.channel) {
                 string = string
