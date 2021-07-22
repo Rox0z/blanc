@@ -10,15 +10,17 @@ module.exports = class Logger {
             const { guild, author, content, channel } = message
             if (!content) return
             if (author.bot) return
+            let lang
+            if (this.client.locales.get(guild.id) === null) lang = guild.preferredLocale.split('-')[0] === 'pt' ? 'pt' : 'en'
             let ch = await this.client.guildConfig.get(`${guild.id}.logsChannel`).catch(() => null)
             if (typeof ch === 'string') {
                 let logchannel = await this.client.utils.resolveChannel(guild, ch)
                 if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.logsChannel`, null).catch(() => null)
                 const embed = new MessageEmbed().setTimestamp()
                 .setColor('#ff5533')
-                .setTitle(`Deleted message in ${channel.name}`)
+                .setTitle(this.client.locale(lang, 'DELETED_MESSAGE', {channel}))
                 .setAuthor(author.username, author.displayAvatarURL({dynamic:true}))
-                .setFooter(`Author: ${author.id}`)
+                .setFooter(this.client.locale(lang, 'AUTHOR', {author}))
                 .setDescription(`\`\`\`${content}\`\`\``)
 
                 logchannel.send({embeds: [embed]})
@@ -37,10 +39,13 @@ module.exports = class Logger {
                 if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.logsChannel`, null).catch(() => null)
                 const embed = new MessageEmbed().setTimestamp()
                 .setColor('#ffff55')
-                .setTitle(`Updated message in ${channel.name}`)
-                .setAuthor(author.username, author.displayAvatarURL({dynamic:true}))
-                .setFooter(`Author: ${author.id}`)
-                .setDescription(`Before:\`\`\`${oldContent}\`\`\`After:\`\`\`${newContent}\`\`\``)
+                .setTitle(this.client.locale(lang, 'EDITED_MESSAGE', {channel}))
+                .setAuthor(author.username, author.displayAvatarURL({dynamic:true}), newMessage.url)
+                .setFooter(this.client.locale(lang, 'AUTHOR', {author}))
+                .addFields([
+                    {name:this.client.locale(lang, 'BEFORE'), value: `\`\`\`${oldContent}\`\`\``,inline: false},
+                    {name:this.client.locale(lang, 'AFTER'), value: `\`\`\`${newContent}\`\`\``,inline: false}
+                ])
 
                 logchannel.send({embeds: [embed]})
             }
@@ -56,9 +61,9 @@ module.exports = class Logger {
                 if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.logsChannel`, null).catch(() => null)
                 const embed = new MessageEmbed().setTimestamp()
                 .setColor('#ff5555')
-                .setTitle(`User banned`)
+                .setTitle(this.client.locale(lang, 'BANNED'))
                 .setAuthor(ban.user.username, ban.user.displayAvatarURL({dynamic:true}))
-                .setFooter(`User ID: ${ban.user.id}`)
+                .setFooter(`ID: ${ban.user.id}`)
 
                 logchannel.send({embeds: [embed]})
             }
@@ -74,9 +79,9 @@ module.exports = class Logger {
                 if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.logsChannel`, null).catch(() => null)
                 const embed = new MessageEmbed().setTimestamp()
                 .setColor('#33cc55')
-                .setTitle(`User unbanned`)
+                .setTitle(this.client.locale(lang, 'UNBANNED'))
                 .setAuthor(ban.user.username, ban.user.displayAvatarURL({dynamic:true}))
-                .setFooter(`User ID: ${ban.user.id}`)
+                .setFooter(`ID: ${ban.user.id}`)
 
                 logchannel.send({embeds: [embed]})
             }
