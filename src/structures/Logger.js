@@ -33,6 +33,8 @@ module.exports = class Logger {
                 {content: oldContent} = oldMessage
             if (author.bot) return
             if (!oldContent) return
+            let lang
+            if (this.client.locales.get(guild.id) === null) lang = guild.preferredLocale.split('-')[0] === 'pt' ? 'pt' : 'en'
             let ch = await this.client.guildConfig.get(`${guild.id}.logsChannel`).catch(() => null)
             if (typeof ch === 'string') {
                 let logchannel = await this.client.utils.resolveChannel(guild, ch)
