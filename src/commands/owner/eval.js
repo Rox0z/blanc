@@ -47,7 +47,7 @@ module.exports = class EvalCommand extends Command {
                 .setTitle(`Evaluate`)
                 .setDescription(
                     `Output ↓` +
-                    `\`\`\`js\n${`${beautify(out, { format: 'js' })}`.length > 0 ? `${beautify(out, { format: 'js' })}` : "void"}`.slice(0, 1800) +
+                    `\`\`\`js\n${`${out}`.length > 0 ? `${out}` : "void"}`.slice(0, 1800) +
                     `\n\`\`\``
                 )
                 .addFields([
