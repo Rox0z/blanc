@@ -3,7 +3,6 @@ const codeInBlock = /^```(?:js)?\s(.+[^\\])```$/is;
 const { MessageEmbed } = require('discord.js')
 const REGEXPESC = /[-/\\^$*+?.()|[\]{}]/g;
 const zws = String.fromCharCode(8203);
-const beautify = require('beautify');
 
 module.exports = class EvalCommand extends Command {
     constructor(...args) {
@@ -56,7 +55,7 @@ module.exports = class EvalCommand extends Command {
                 ])
 
             if (out.length > 1800 || code.includes('JSON.stringify')) {
-                var attach = this.client.utils.attach(Buffer.from(beautify(out, { format: 'js' }), 'utf-8'), 'output.js')
+                var attach = this.client.utils.attach(Buffer.from(out, 'utf-8'), 'output.js')
                 message.nmReply({ files: [attach], allowedMentions: { repliedUser: false } })
             }
             message.nmReply({ embeds: [embed], allowedMentions: { repliedUser: false } })
