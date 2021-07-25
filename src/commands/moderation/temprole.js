@@ -1,6 +1,5 @@
 const Command = require("../../structures/command.js"),
-    ms = require("../../util/millisecond.js"),
-    moment = require('moment');
+    ms = require("../../util/millisecond.js");
 
 module.exports = class TemproleCommand extends Command {
     constructor(...args) {

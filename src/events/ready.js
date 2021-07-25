@@ -1,5 +1,4 @@
 const Event = require('../structures/event.js'),
-    moment = require('moment'),
     boxen = require('boxen');
 module.exports = class ReadyEvent extends Event {
     constructor(...args) {
@@ -10,7 +9,6 @@ module.exports = class ReadyEvent extends Event {
         })
     }
     async run() {
-        console.log(moment().format('DD/MM/YYYY HH:mm:ss'))
         console.log("My eyes are open, but everything is blanc...")
         console.log(boxen(`Prefix: ${this.client.defaultPrefix}\nName:   ${this.client.user.tag}\nOwners: ${this.client.ownerID.join(', ')}`, { align: 'left', borderColor: "greenBright", dimBorder: false, padding: 1, margin: 1, borderStyle: 'round' }))
         //console.log("Events");
