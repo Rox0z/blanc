@@ -57,7 +57,8 @@ module.exports = class Logger {
             if (!ban.user) return
             const { guild } = ban
             let ch = await this.client.guildConfig.get(`${guild.id}.logsChannel`).catch(() => null)
-
+            let lang
+            if (this.client.locales.get(guild.id) === null) lang = guild.preferredLocale.split('-')[0] === 'pt' ? 'pt' : 'en'
             if (typeof ch === 'string') {
                 let logchannel = await this.client.utils.resolveChannel(guild, ch)
                 if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.logsChannel`, null).catch(() => null)
@@ -75,7 +76,8 @@ module.exports = class Logger {
             if (!ban.user) return
             const { guild } = ban
             let ch = await this.client.guildConfig.get(`${guild.id}.logsChannel`).catch(() => null)
-
+            let lang
+            if (this.client.locales.get(guild.id) === null) lang = guild.preferredLocale.split('-')[0] === 'pt' ? 'pt' : 'en'
             if (typeof ch === 'string') {
                 let logchannel = await this.client.utils.resolveChannel(guild, ch)
                 if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.logsChannel`, null).catch(() => null)
