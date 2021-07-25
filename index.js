@@ -1,6 +1,5 @@
 const BlancClient = require('./src/structures/BlancClient.js')
 const { Intents } = require('discord.js-light')
-require("dotenv").config();
 require('./src/structures/prototypes').init()
 
 class Blanc extends BlancClient {

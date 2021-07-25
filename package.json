@@ -7,7 +7,8 @@
     "node": "14.x"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "node -r dotenv/config index.js dotenv_config_path=.env"
   },
   "author": "",
   "license": "ISC",
@@ -16,13 +17,11 @@
     "beautify": "^0.0.8",
     "boxen": "^5.0.1",
     "byte-size": "^7.0.1",
-    "calendar": "^0.1.1",
     "canvas": "^2.8.0",
     "canvas-constructor": "^4.1.0",
     "chroma-js": "^2.1.2",
     "discord.js": "github:discordjs/discord.js#master",
     "discord.js-light": "github:timotejroiko/discord.js-light#master",
-    "dotenv": "^10.0.0",
     "extract-colors": "^1.1.18",
     "glob": "^7.1.7",
     "locale-emoji": "^0.3.0",
@@ -31,5 +30,8 @@
     "node-fetch": "^2.6.1",
     "open-eval": "^1.0.0",
     "quickmongo": "^3.0.2"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
   }
 }
