@@ -172,8 +172,7 @@ module.exports = class Util {
      * @param {Object} [options.author = true] - Return author?
      * @returns {User}
      */
-    async resolveUser(message, text = "null", options = {}) {
-        let { author = true } = options
+    async resolveUser(message, text = "null", { author = true } = {}) {
         if (!message) throw new TypeError("Message wasn't defined");
         text || (text = "null");
         let res,
@@ -229,7 +228,7 @@ module.exports = class Util {
         return name === text
             || name === text.replace(/^@/, '');
     }
-    channelType(channel){
+    channelType(channel) {
         let type
         if (channel.type === 'text' && channel.guild.rulesChannel.id === channel.id) type = 'rules'
         else if (channel.type === 'store') type = 'store'
@@ -398,9 +397,9 @@ module.exports = class Util {
         for (let n = 0; n < size; n++) {
             !(percent < (n + 1) * Math.round(100 / size))
                 ? bar.push(dynamic)
-                : !(secondaryPercentage < (n + 1) * Math.round(100 / size)) 
-                ? bar.push(secondary) 
-                : bar.push(fixed)
+                : !(secondaryPercentage < (n + 1) * Math.round(100 / size))
+                    ? bar.push(secondary)
+                    : bar.push(fixed)
         }
         return bar.join("");
     }
