@@ -24,10 +24,12 @@
     "extract-colors": "^1.1.18",
     "glob": "^7.1.7",
     "locale-emoji": "^0.3.0",
+    "moment": "^2.29.1",
     "node-canvas-with-twemoji-and-discord-emoji": "^1.2.1",
     "node-fetch": "^2.6.1",
     "open-eval": "^1.0.0",
-    "quickmongo": "^3.0.2"
+    "quickmongo": "^3.0.2",
+    "sharp": "^0.28.3"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"
