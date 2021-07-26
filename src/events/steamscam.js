@@ -10,6 +10,7 @@ module.exports = class ScamEvent extends Event {
         })
     }
     async run(message) {
+        if (message.guild.id !== '275458197941125121') return 
         if (message?.content?.match(/[(http(s)?):\/\/(www\.)?\w]{2,256}\.ru\//gim)) {
             let content = message.content
             const banned = await message.guild.members
