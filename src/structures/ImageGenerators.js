@@ -3,12 +3,41 @@ const RegExpURL = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,
     { resolveImage } = require("canvas-constructor"),
     ExtendedCanvas = require("../extend/ExtendedCanvasC"),
     { registerFont } = require('canvas'),
-    { extractColors } = require("extract-colors")
+    { extractColors } = require("extract-colors"),
+    moment = require("moment"),
+    sharp = require("sharp");
 
 registerFont("src/assets/fonts/Whitney_Regular.ttf", { family: "Whitney Regular" })
 registerFont("src/assets/fonts/Whitney_Bold.ttf", { family: "Whitney Bold" })
 registerFont("src/assets/fonts/Arial_Unicode.ttf", { family: "Arial Unicode" })
+registerFont('src/assets/fonts/CircularSpotifyTxT-Black.ttf', { family: 'Circular Spotify' })
+registerFont('src/assets/fonts/CircularSpotifyTxT-Light.ttf', { family: 'Circular Spotify L' })
 
+let fitTextOnCanvas = (ccanvas, text, fontface, width, yPosition) => {
+    const Canvas = require("canvas");
+    const canvas = Canvas.createCanvas(512, 512);
+    const ctx = canvas.getContext("2d");
+    // start with a large font size
+    var fontsize = 35;
+
+    // lower the font size until the text fits the canvas
+    do {
+        fontsize--;
+        ctx.font = "700 " + fontsize + "px " + fontface;
+    } while (ctx.measureText(text).width > width);
+
+    // draw the text
+    ccanvas
+        .setTextBaseline('middle')
+        .setTextAlign('center')
+        .setColor('white')
+        .setTextFont("700 " + fontsize + "px " + fontface)
+        .printText(
+            text,
+            width / 2,
+            yPosition
+        );
+}
 module.exports = class ImgGenerator {
     constructor(client) {
         this.client = client
@@ -100,4 +129,46 @@ module.exports = class ImgGenerator {
         }
         return canvas.toBuffer()
     }
+    async spotifyCover(spot) {
+        let progress = Math.round(
+            (Math.abs(new Date() - new Date(spot.timestamps.start)) /
+                Math.abs(new Date(spot.timestamps.end) - new Date(spot.timestamps.start))) *
+            100
+        );
+        let cover = await resolveImage(`https://i.scdn.co/image/${spot.assets.largeImage.slice(8)}`);
+        let bg = new ExtendedCanvas(512, 512)
+            .printImage(cover, 0, 0, 512, 512)
+            .toBuffer()
+
+        bg = await sharp(bg)
+            .blur(10)
+            .linear(.6,0)
+            .png()
+            .toBuffer()
+
+        bg = await resolveImage(bg)
+        
+        let canvas = new ExtendedCanvas(512, 512)
+            .printImage(bg, 0, 0, 512, 512)
+            .setStroke('#fff7')
+            .setStrokeWidth(7.5)
+            .printStrokeRectangle(112, 57.6, 288, 288)
+            .printImage(cover, 112, 57.6, 288, 288)
+            .setTextBaseline('middle')
+            .setTextAlign('center')
+            .setColor('white')
+            .setTextFont('20px Circular Spotify L')
+            .printText(spot.state.split('; ').join(', '), 256, 413)
+            .setTextAlign('end')
+            .printText(moment(Math.abs(new Date() - new Date(spot.timestamps.start))).format("mm:ss"), 86, 452)
+            .setTextAlign('start')
+            .printText(moment(Math.abs(new Date(spot.timestamps.end) - new Date(spot.timestamps.start))).format("mm:ss"), 423, 452)
+            .setColor('#fff8')
+            .printRectangle(96, 452, 320, 3)
+            .setColor('#1db954')
+            .printRectangle(96, 452, 320 / (100 / progress), 3);
+        fitTextOnCanvas(canvas, spot.details, 'Circular Spotify', 512, 376)
+        return canvas.toBuffer()
+    };
+
 }
