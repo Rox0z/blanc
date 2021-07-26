@@ -31,6 +31,7 @@
     "USER_UNMUTED": "`%user.name% foi des-silenciado!`",
     "CHANNEL_STATUS": "Este canal foi `%status%`!",
     "INVITE_DESCRIPTION": ">>> Obrigado por considerar me adicionar em seu servidor!\nCaso precise de suporte você pode me contactar, `DemonN#8180` no servidor do **[Policia Em Ação](https://discord.gg/policia)**",
+    "ERROR_NOT_SPOTIFY": "`O usuário não está usando spotify no momento!`",
     "ERROR_OWNER_ONLY": "`Apenas o dono pode executar esse comando!`",
     "ERROR_AUTHOR_ONLY": "`Apenas o autor pode interagir no comando!`",
     "ERROR_ADMIN_ONLY": "`Apenas um adminstrador pode executar esse comando!`",

@@ -31,6 +31,7 @@
     "USER_UNMUTED": "`%user.name% was unmuted!`",
     "CHANNEL_STATUS": "This channel was `%status%`!",
     "INVITE_DESCRIPTION": ">>> Thanks for consider adding me in your server!\nIf you need support you can contact me, `DemonN#8180`, on **[Policia Em Ação](https://discord.gg/policia)** server.",
+    "ERROR_NOT_SPOTIFY": "`The user is not listening on Spotify!`",
     "ERROR_OWNER_ONLY": "`Only the BOT owner can run this command!`",
     "ERROR_AUTHOR_ONLY": "`Only the author can interact with the command!`",
     "ERROR_ADMIN_ONLY": "`Only an admin can run this command!`",
