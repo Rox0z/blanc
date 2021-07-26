@@ -6,6 +6,7 @@ module.exports = class SelfClearCommand extends Command {
             aliases: ['sc'],
             description: 'Clear this BOT messages.',
             category: 'Owner',
+            typing: false,
             ownerOnly: true,
             channel: 'text',
             neededPermissions: [],
