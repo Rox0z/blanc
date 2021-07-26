@@ -31,6 +31,7 @@ module.exports = class NameCommand extends Command {
             let image = await this.client.gen.spotifyCover(spot);
             const attachment = this.client.utils.attach(image, "spotify.png");
             const spotify = new MessageEmbed()
+                .setAuthor(spot.details, "https://cdn.discordapp.com/emojis/843940256880263178.png", `https://open.spotify.com/track/${spot.syncID}`)
                 .setColor("#1db954")
                 .setImage("attachment://spotify.png");
 
