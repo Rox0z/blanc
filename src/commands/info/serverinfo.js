@@ -52,7 +52,7 @@ module.exports = class ServerInfoCommand extends Command {
                     { name: `${this.client.emoji.channels['stage']} ${strings.STAGE_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'GUILD_STAGE_VOICE').size}\`\`\``, inline: true },
                     { name: `${this.client.emoji.channels['news']} ${strings.NEWS_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'GUILD_NEWS').size}\`\`\``, inline: true },
                     { name: `${this.client.emoji.channels['store']} ${strings.STORE_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'GUILD_STORE').size}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.channels['thread']} ${strings.THREADS_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'GUILD_GUILD_PUBLIC_THREAD' || c.type === 'GUILD_GUILD_PRIVATE_THREAD' || c.type === 'GUILD_GUILD_NEWS_THREAD').size}\`\`\``, inline: true },
+                    { name: `${this.client.emoji.channels['thread']} ${strings.THREADS_CHANNEL}`, value: `\`\`\`${server.channels.cache.filter(c => c.type === 'GUILD_PUBLIC_THREAD' || c.type === 'GUILD_PRIVATE_THREAD' || c.type === 'GUILD_NEWS_THREAD').size}\`\`\``, inline: true },
                     { name: `${this.client.emoji.channels['rules']} ${strings.RULES_CHANNEL}`, value: `${server.rulesChannel || this.client.locale(lang, 'NONE')}`, inline: true },
                     { name: `${this.client.emoji.channels['voice']} AFK:`, value: `${server.afkChannel || this.client.locale(lang, 'NONE')}`, inline: true },
                 ]),
