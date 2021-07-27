@@ -1,8 +1,7 @@
-const { Message, MessagePayload, User, Presence, Base } = require('discord.js')
+const { Message, MessagePayload, User, Presence } = require('discord.js')
 
 module.exports = class Prototypes {
-    static init(client) {
-        this.client = client
+    static init() {
         
         Message.prototype.nmReply = async function (options) {
             let data;
