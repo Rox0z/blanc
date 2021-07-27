@@ -270,6 +270,7 @@ module.exports = class ConfigCommand extends Command {
                         message.nmReply({ embeds: [proofMenu.setDescription(embedstaticdesc)] })
                         break;
                 }
+                break;
             case 'locale':
             case 'lang':
             case 'idioma':
