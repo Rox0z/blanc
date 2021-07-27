@@ -1,6 +1,7 @@
 const BlancClient = require('./src/structures/BlancClient.js')
 const { Intents } = require('discord.js-light')
 require('./src/structures/prototypes').init()
+const { AutoPoster } = require('topgg-autoposter')
 
 class Blanc extends BlancClient {
     constructor() {
@@ -44,6 +45,8 @@ class Blanc extends BlancClient {
 }
 
 const client = new Blanc()
+
+AutoPoster(process.env.TOPGG_TOKEN, client)
 
 client.init()
 

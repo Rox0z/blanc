@@ -29,7 +29,8 @@
     "node-fetch": "^2.6.1",
     "open-eval": "^1.0.0",
     "quickmongo": "^3.0.2",
-    "sharp": "^0.28.3"
+    "sharp": "^0.28.3",
+    "topgg-autoposter": "^2.0.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"
