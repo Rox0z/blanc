@@ -1,8 +1,9 @@
-const { Message, MessagePayload } = require('discord.js-light')
+const { Message, MessagePayload, User, Presence, Base } = require('discord.js')
 
 module.exports = class Prototypes {
-    static init() {
-
+    static init(client) {
+        this.client = client
+        
         Message.prototype.nmReply = async function (options) {
             let data;
             if (options instanceof MessagePayload) {
@@ -33,5 +34,13 @@ module.exports = class Prototypes {
         Array.prototype.hasAny = function (array) {
             return this.some(r => array.indexOf(r) >= 0)
         }
+        Object.defineProperty(User.prototype, "presence", {
+            get: function presence() {
+                for (const guild of this.client.guilds.cache.values()) {
+                    if (guild.presences.cache.has(this.id)) return guild.presences.cache.get(this.id);
+                }
+                return new Presence(this.client, { user: { id: this.id } });
+            }
+        });
     }
 }

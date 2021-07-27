@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js-light')
+const { MessageEmbed } = require('discord.js')
 const Command = require('../../structures/command.js')
 
 module.exports = class SplashCommand extends Command {

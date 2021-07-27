@@ -1,4 +1,4 @@
-const { Client, MessageEmbed } = require('discord.js-light')
+const { Client, MessageEmbed } = require('discord.js')
 module.exports = class Logger {
     /**
      * 

@@ -1,6 +1,5 @@
 const BlancClient = require('./src/structures/BlancClient.js')
-const { Intents } = require('discord.js-light')
-require('./src/structures/prototypes').init()
+const { Intents } = require('discord.js')
 const { AutoPoster } = require('topgg-autoposter')
 
 class Blanc extends BlancClient {
@@ -10,14 +9,7 @@ class Blanc extends BlancClient {
             defaultPrefix: '.',
             token: process.env.TOKEN
         }, {
-            cacheGuilds: true,
-            cacheChannels: true,
-            cacheOverwrites: true,
-            cacheRoles: true,
-            cacheEmojis: true,
-            cachePresences: true,
-            cacheMembers: false,
-            intents: Intents.ALL,
+            intents: Object.values(Intents.FLAGS).reduce((acc, p) => acc | p, 0),
             //properties: { $browser: "Discord iOS" }
             partials: [
                 //'GUILDS',
@@ -46,8 +38,9 @@ class Blanc extends BlancClient {
 
 const client = new Blanc()
 
-AutoPoster(process.env.TOPGG_TOKEN, client)
+//AutoPoster(process.env.TOPGG_TOKEN, client)
 
+require('./src/structures/prototypes').init(client)
 client.init()
 
 

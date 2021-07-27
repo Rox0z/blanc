@@ -20,7 +20,6 @@
     "canvas-constructor": "^4.1.0",
     "chroma-js": "^2.1.2",
     "discord.js": "github:discordjs/discord.js#master",
-    "discord.js-light": "github:timotejroiko/discord.js-light#master",
     "extract-colors": "^1.1.18",
     "glob": "^7.1.7",
     "locale-emoji": "^0.3.0",

@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageButton, MessageActionRow, MessageComponentInteractionCollector } = require('discord.js-light')
+const { MessageEmbed, MessageButton, MessageActionRow, InteractionCollector } = require('discord.js')
 const Command = require('../../structures/command.js')
 
 module.exports = class ConfigCommand extends Command {
@@ -87,13 +87,13 @@ module.exports = class ConfigCommand extends Command {
                     { name: "Set", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_LOCALE_SET'), inline: 0 },
                 ]);
         let color = 'SECONDARY',
-            logs = new MessageButton().setCustomID('logs').setLabel('LOGS').setStyle(color).setEmoji('841742410337091594'),
-            mlog = new MessageButton().setCustomID('mlog').setLabel('MOD LOGS').setStyle(color).setEmoji('841519512678432778'),
-            pref = new MessageButton().setCustomID('pref').setLabel('PREFIX').setStyle(color).setEmoji('841519978397040640'),
-            mute = new MessageButton().setCustomID('mute').setLabel('MUTE').setStyle(color).setEmoji('841519038974656522'),
-            prof = new MessageButton().setCustomID('proof').setLabel(proofLocale[lang].toUpperCase()).setStyle(color).setEmoji('860982546811715595'),
-            locl = new MessageButton().setCustomID('locle').setLabel(localeLocale[lang].toUpperCase()).setStyle(color).setEmoji('841519276333465631'),
-            volt = new MessageButton().setCustomID('back').setStyle('PRIMARY').setEmoji('841742417783029822'),
+            logs = new MessageButton().setCustomId('logs').setLabel('LOGS').setStyle(color).setEmoji('841742410337091594'),
+            mlog = new MessageButton().setCustomId('mlog').setLabel('MOD LOGS').setStyle(color).setEmoji('841519512678432778'),
+            pref = new MessageButton().setCustomId('pref').setLabel('PREFIX').setStyle(color).setEmoji('841519978397040640'),
+            mute = new MessageButton().setCustomId('mute').setLabel('MUTE').setStyle(color).setEmoji('841519038974656522'),
+            prof = new MessageButton().setCustomId('proof').setLabel(proofLocale[lang].toUpperCase()).setStyle(color).setEmoji('860982546811715595'),
+            locl = new MessageButton().setCustomId('locle').setLabel(localeLocale[lang].toUpperCase()).setStyle(color).setEmoji('841519276333465631'),
+            volt = new MessageButton().setCustomId('back').setStyle('PRIMARY').setEmoji('841742417783029822'),
             hom1 = new MessageActionRow().addComponents([pref, mute, logs]),
             hom2 = new MessageActionRow().addComponents([mlog, prof, locl]),
             back = new MessageActionRow().addComponents([volt])
@@ -310,24 +310,24 @@ module.exports = class ConfigCommand extends Command {
                 break;
             default:
                 let sent = await message.nmReply({ embeds: [menu], components: [hom1, hom2] })
-                let collector = new MessageComponentInteractionCollector(sent, { time: 300000 })
+                let collector = new InteractionCollector(this.client, {message: sent, time: 300000 })
 
                 collector.on("collect", async (interaction) => {
                     if (interaction.user.id !== author.id) return interaction.reply({ content: this.client.locale(lang, 'ERROR_AUTHOR_ONLY'), ephemeral: true })
                     interaction.deferUpdate()
-                    "back" === interaction.customID
+                    "back" === interaction.customId
                         ? sent.nmEdit({ embeds: [menu], components: [hom1, hom2] })
-                        : "pref" === interaction.customID
+                        : "pref" === interaction.customId
                             ? sent.nmEdit({ embeds: [prefixMenu], components: [back] })
-                            : "mute" === interaction.customID
+                            : "mute" === interaction.customId
                                 ? sent.nmEdit({ embeds: [muteMenu], components: [back] })
-                                : "logs" === interaction.customID
+                                : "logs" === interaction.customId
                                     ? sent.nmEdit({ embeds: [logsMenu], components: [back] })
-                                    : "proof" === interaction.customID
+                                    : "proof" === interaction.customId
                                         ? sent.nmEdit({ embeds: [proofMenu], components: [back] })
-                                        : "locle" === interaction.customID
+                                        : "locle" === interaction.customId
                                             ? sent.nmEdit({ embeds: [localeMenu], components: [back] })
-                                            : "mlog" === interaction.customID && sent.nmEdit({ embeds: [modlogsMenu], components: [back] });
+                                            : "mlog" === interaction.customId && sent.nmEdit({ embeds: [modlogsMenu], components: [back] });
                 })
                 collector.on('end', async () => {
                     sent.nmEdit({ embeds: [menu.setDescription(embedstaticdesc)], components: [] })

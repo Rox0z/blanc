@@ -1,5 +1,5 @@
 const Command = require('../../structures/command.js'),
-    { MessageEmbed } = require('discord.js-light');
+    { MessageEmbed } = require('discord.js');
 
 module.exports = class UserInfoCommand extends Command {
     constructor(...args) {

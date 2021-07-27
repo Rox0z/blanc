@@ -1,5 +1,5 @@
 const Command = require('../../structures/command.js'),
-    { MessageEmbed } = require('discord.js-light'),
+    { MessageEmbed } = require('discord.js'),
     channelType = {
         "text": "text",
         "private_text": "textlock",
@@ -35,13 +35,14 @@ module.exports = class ChannelInfoCommand extends Command {
         let ichannel
         if (args[0]) try { ichannel = await this.client.utils.resolveChannel(guild, args[0]) } catch { return message.nmReply(this.client.locale(lang, 'ERROR_UNKNOWN')) }
         if (!args[0]) ichannel = channel
+        let chType = await this.client.utils.channelType(ichannel)
         const embed = new MessageEmbed()
-            .setTitle(`${this.client.emoji.channels[channelType[this.client.utils.channelType(ichannel)]]} ${ichannel.name}`)
+            .setTitle(`${this.client.emoji.channels[channelType[chType]]} ${ichannel.name}`)
             .setColor('#fefefe')
             .setDescription(`${this.client.emoji.icons['calendar']} ${this.client.locale(lang, 'CREATED')} <t:${Math.round(ichannel.createdTimestamp / 1000)}:f>`)
             .addFields([
                 { name: `${this.client.emoji.icons['id']} ID:`, value: `\`\`\`${ichannel.id}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['cross']} NSFW:`, value: `\`\`\`${this.client.utils.channelType(ichannel).includes('nsfw') ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
+                { name: `${this.client.emoji.icons['cross']} NSFW:`, value: `\`\`\`${chType.includes('nsfw') ? this.client.locale(lang, 'YES') : this.client.locale(lang, 'NO')}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['activity']} ${this.client.locale(lang, 'TOPIC')}`, value: `\`\`\`${ichannel.topic ? channel.topic : this.client.locale(lang, 'NONE')}\`\`\``, inline: false },
             ])
         message.nmReply({ embeds: [embed] })

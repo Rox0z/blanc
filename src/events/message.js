@@ -3,7 +3,7 @@ const Event = require('../structures/event.js')
 module.exports = class MessageEvent extends Event {
     constructor(...args) {
         super(...args, {
-            event: 'message',
+            event: 'messageCreate',
             once: false,
             description: 'Triggered when a message is received',
         })
@@ -36,11 +36,8 @@ module.exports = class MessageEvent extends Event {
                 if (channel.type !== 'dm' && !this.client.canUse(command.neededPermissions, message?.member?.permissions?.toArray())) return message.channel.send(this.client.locale(lang, 'ERROR_USER_PERM'))
                 if (channel.type !== 'dm' && !this.client.canUse(command.neededPermissions, message?.guild?.me?.permissions?.toArray())) return message.channel.send(this.client.locale(lang, 'ERROR_CLIENT_PERM'))
                 if (!(command.channel === 'both' || !(command.channel === 'text' && channel.type === 'dm'))) return
-                !!command.typing && message.channel.startTyping()
+                !!command.typing && message.channel.sendTyping()
                 command.run({ message, args, guild, channel, author, member: message?.member, prefix, lang });
-                guild?.members?.cache.sweep((e) => e.user.id !== this.client.user.id)
-                this.client.users.cache.sweep((e) => e.id !== this.client.user.id)
-                message.channel.stopTyping()
             }
         }
     }

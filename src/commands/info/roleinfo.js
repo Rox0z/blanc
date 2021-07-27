@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js-light'),
+const { MessageEmbed } = require('discord.js'),
     Command = require('../../structures/command.js'),
     { resolveImage } = require("canvas-constructor"),
     Canvas = require('../../extend/ExtendedCanvasC'),

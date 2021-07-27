@@ -181,7 +181,6 @@ module.exports = class Util {
             "DiscordAPIError" ===
             (res = match ? await this.client.users.fetch(match[1]).catch(() => null) : isNaN(text) ? (message.mentions.users.size > 0 ? message.mentions.users.first() : author ? message.author : null) : await this.client.users.fetch(text).catch((e) => e)).constructor.name &&
             (author ? res = message.author : res = null),
-            this.client.users.cache.sweep((e) => e.id !== this.client.user.id),
             res
         );
     }
@@ -199,7 +198,6 @@ module.exports = class Util {
     }
     async resolveMember(user, guild = null) {
         let member = await guild?.members?.fetch(user.id).catch(() => null)
-        guild?.members?.cache.sweep((e) => e.user.id !== this.client.user.id)
         return member.user ? member : null
     }
     async resolveMemberInfo(id, guild = null) {
@@ -228,26 +226,32 @@ module.exports = class Util {
         return name === text
             || name === text.replace(/^@/, '');
     }
-    channelType(channel) {
+    /**
+     * 
+     * @param {Channel} channel 
+     * @returns {String}
+     */
+    async channelType(channel) {
         let type
-        if (channel.type === 'text' && channel.guild.rulesChannel.id === channel.id) type = 'rules'
-        else if (channel.type === 'store') type = 'store'
-        else if (channel.type === 'text' && !channel.nsfw && !!!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'text'
-        else if (channel.type === 'text' && channel.nsfw) type = 'nsfw_text'
-        else if (channel.type === 'text' && !!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_text'
-        else if (channel.type === 'news' && !channel.nsfw && !!!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'news'
-        else if (channel.type === 'news' && channel.nsfw) type = 'nsfw_news'
-        else if (channel.type === 'news' && !!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_news'
-        else if (channel.type === 'voice' && !!!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'voice'
-        else if (channel.type === 'voice' && !!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_voice'
-        else if (channel.type === 'stage' && !!!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'stage'
-        else if (channel.type === 'stage' && !!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_stage'
-        else if (channel.type === 'public_thread' && !channel.guild.channels.forge(channel.parentID).nsfw) type = 'public_thread'
-        else if (channel.type === 'public_thread' && channel.guild.channels.forge(channel.parentID).nsfw) type = 'nsfw_thread'
-        else if (channel.type === 'private_thread' && channel.guild.channels.forge(channel.parentID).nsfw) type = 'private_thread'
-        else if (channel.type === 'news_thread' && channel.guild.channels.forge(channel.parentID).nsfw) type = 'nsfw_news_thread'
-        else if (channel.type === 'news_thread' && !channel.guild.channels.forge(channel.parentID).nsfw) type = 'public_news_thread'
-        else if (channel.type === 'news_thread' && !!channel.permissionOverwrites.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_news_thread'
+        let parentCH = await channel.guild.channels.fetch(channel.parentId).catch(()=>null)
+        if (channel.type === 'GUILD_TEXT' && channel.guild.rulesChannel.id === channel.id) type = 'rules'
+        else if (channel.type === 'GUILD_STORE') type = 'store'
+        else if (channel.type === 'GUILD_TEXT' && !channel.nsfw && !!!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'text'
+        else if (channel.type === 'GUILD_TEXT' && channel.nsfw) type = 'nsfw_text'
+        else if (channel.type === 'GUILD_TEXT' && !!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_text'
+        else if (channel.type === 'GUILD_NEWS' && !channel.nsfw && !!!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'news'
+        else if (channel.type === 'GUILD_NEWS' && channel.nsfw) type = 'nsfw_news'
+        else if (channel.type === 'GUILD_NEWS' && !!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_news'
+        else if (channel.type === 'GUILD_VOICE' && !!!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'voice'
+        else if (channel.type === 'GUILD_VOICE' && !!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_voice'
+        else if (channel.type === 'GUILD_STAGE_VOICE' && !!!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'stage'
+        else if (channel.type === 'GUILD_STAGE_VOICE' && !!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_stage'
+        else if (channel.type === 'GUILD_PUBLIC_THREAD' && !parentCH.nsfw) type = 'public_thread'
+        else if (channel.type === 'GUILD_PUBLIC_THREAD' && parentCH.nsfw) type = 'nsfw_thread'
+        else if (channel.type === 'GUILD_PRIVATE_THREAD' && parentCH.nsfw) type = 'private_thread'
+        else if (channel.type === 'GUILD_NEWS_THREAD' && parentCH.nsfw) type = 'nsfw_news_thread'
+        else if (channel.type === 'GUILD_NEWS_THREAD' && !parentCH.nsfw) type = 'public_news_thread'
+        else if (channel.type === 'GUILD_NEWS_THREAD' && !!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'private_news_thread'
         return type
     }
     /**
@@ -413,7 +417,7 @@ module.exports = class Util {
         if (arr.length > maxLen) {
             const len = arr.length - maxLen;
             arr = arr.slice(0, maxLen);
-            arr.push(`${lang === 'pt' ? 'mais ' : ''}${len}${lang === 'en' ? 'more' : ''}...`);
+            arr.push(`${lang === 'pt' ? 'mais ' : ''}${len}${lang === 'en' ? ' more' : ''} ...`);
         }
         return arr;
     }

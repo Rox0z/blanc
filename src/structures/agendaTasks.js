@@ -21,7 +21,6 @@ module.exports = class tasks {
                     if (!logchannel) return await this.client.guildConfig.set(`${guild.id}.modLogsChannel`, null).catch(() => null)
                     logchannel.send({ embeds: [this.client.embedder.modLog(guild, this.client.user, member.user, reason[lang], 'UNMUTE', lang)] }).catch(() => null)
                 }
-                guild?.members?.cache.sweep((e) => e.user.id !== this.client.user.id)
                 await job.remove()
             })
         agenda.define('temprole',
@@ -30,7 +29,6 @@ module.exports = class tasks {
                 let guild = this.client.utils.resolveGuild(guildID, this.client.guilds.cache)
                 let member = await guild.members.fetch(memberID)
                 member.roles.remove(rolesID)
-                guild?.members?.cache.sweep((e) => e.user.id !== this.client.user.id)
                 await job.remove()
             })
     }

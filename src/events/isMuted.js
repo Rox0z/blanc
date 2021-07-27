@@ -25,6 +25,5 @@ module.exports = class IsMutedEvent extends Event {
             let fetchedMember = await this.client.utils.resolveMember(member.user, member.guild)
             await fetchedMember.roles.add(muterole)
         } else return
-        this.client.users.cache.sweep((e) => e.id !== this.client.user.id)
     }
 }

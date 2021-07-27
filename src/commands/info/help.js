@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageSelectMenu, MessageActionRow, MessageComponentInteractionCollector, MessageButton } = require('discord.js-light')
+const { MessageEmbed, MessageSelectMenu, MessageActionRow, InteractionCollector, MessageButton } = require('discord.js')
 const Command = require('../../structures/command.js')
 
 module.exports = class HelpCommand extends Command {
@@ -42,29 +42,29 @@ module.exports = class HelpCommand extends Command {
             .addField(strings.EMBED_FIELD_LABELS, strings.EMBED_LABELS, true)
             .addField(strings.EMBED_FIELD_QUANTITY, `\`\`\`${commands.length}\`\`\``, true)
             .addField(strings.EMBED_FIELD_CATEGORIES, `\`\`\`md\n* ${[...new Set(commands.map(cmd => cmd = cmd.description))].join('\n* ')}\`\`\``, false),
-            selector = new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[page]),
-            del = new MessageButton().setEmoji('841519603640827914').setStyle('SECONDARY').setCustomID('delete'),
-            back = new MessageButton().setEmoji('841742417783029822').setStyle('PRIMARY').setCustomID('back'),
+            selector = new MessageSelectMenu().setCustomId('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[page]),
+            del = new MessageButton().setEmoji('841519603640827914').setStyle('SECONDARY').setCustomId('delete'),
+            back = new MessageButton().setEmoji('841742417783029822').setStyle('PRIMARY').setCustomId('back'),
             sele = new MessageActionRow().addComponents([selector]),
             home = new MessageActionRow().addComponents([del]),
             menu = new MessageActionRow().addComponents([back]);
 
         let sent = await message.nmReply({ embeds: [embed], components: [sele, home] })
-        const col = new MessageComponentInteractionCollector(sent, { time: 3e5 })
+        const col = new InteractionCollector(this.client, {message: sent,  time: 3e5 })
 
         col.on('collect', async (interaction) => {
             if (interaction.user.id !== author.id) return interaction.reply({ content: this.client.locale(lang, 'ERROR_AUTHOR_ONLY'), ephemeral: true })
-            if (interaction.customID === 'help') {
+            if (interaction.customId === 'help') {
                 interaction.deferUpdate()
                 if (interaction.values[0] === 'next' || interaction.values[0] === 'previous') {
                     currentEmbed = sent.embeds[0]
                     currentButton = sent.embeds[0].title === embed.title ? home : menu
                     if (interaction.values[0] === 'next') {
                         ++page
-                        sent.nmEdit({ embeds: [currentEmbed], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), currentButton] })
+                        sent.nmEdit({ embeds: [currentEmbed], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomId('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), currentButton] })
                     } else if (interaction.values[0] === 'previous') {
                         --page
-                        sent.nmEdit({ embeds: [currentEmbed], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), currentButton] })
+                        sent.nmEdit({ embeds: [currentEmbed], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomId('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), currentButton] })
                     }
 
                 } else {
@@ -78,13 +78,13 @@ module.exports = class HelpCommand extends Command {
                             .addField(strings.EMBED_FIELD_USAGE, `\`${prefix}${command.usage[lang] ? command.usage[lang] : command.usage['pt'] || command.usage}\``)
                             .addField(strings.EMBED_FIELD_PERMISSIONS, `\`${command.neededPermissions.length > 0 ? command.neededPermissions.join('\` \`') : `${this.client.locale(lang, "NONE")}`}\``)
                             .setAuthor(command.category, `https://cdn.discordapp.com/emojis/${command.emoji}.png`)
-                        ], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomID('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), menu]
+                        ], components: [new MessageActionRow().addComponents([new MessageSelectMenu().setCustomId('help').setPlaceholder(strings.EMBED_TITLE).addOptions(chunks[(chunks.length + (page % chunks.length)) % chunks.length])]), menu]
                     })
                 }
-            } else if (interaction.customID === 'back') {
+            } else if (interaction.customId === 'back') {
                 interaction.deferUpdate()
                 sent.nmEdit({ embeds: [embed], components: [sele, home] })
-            } else if (interaction.customID === 'delete') {
+            } else if (interaction.customId === 'delete') {
                 interaction.deferUpdate()
                 col.stop()
             }

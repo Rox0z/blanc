@@ -1,5 +1,5 @@
 
-const { Client: Client, Collection: Collection, User, Guild, Channel, Role } = require("discord.js-light"),
+const { Client: Client, Collection: Collection, User, Guild, Channel, Role } = require("discord.js"),
     Util = require("./ClientUtils"),
     Tasks = require("./agendaTasks"),
     ImgGenerator = require("./ImageGenerators"),
@@ -53,7 +53,7 @@ class BlancClient extends Client {
     * @returns {boolean}
     */
     isOwner(user) {
-        const id = this.users.resolveID(user);
+        const id = this.users.resolveId(user);
         return Array.isArray(this.ownerID) ? this.ownerID.includes(id) : id === this.ownerID;
     }
     canUse(neededPerms, userPerms) {

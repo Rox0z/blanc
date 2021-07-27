@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageEmbed, MessageButton } = require('discord.js-light')
+const { MessageActionRow, MessageEmbed, MessageButton } = require('discord.js')
 const Command = require('../../structures/command.js')
 
 module.exports = class InviteCommand extends Command {

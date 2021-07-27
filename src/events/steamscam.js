@@ -4,7 +4,7 @@ const Event = require('../structures/event.js')
 module.exports = class ScamEvent extends Event {
     constructor(...args) {
         super(...args, {
-            event: 'message',
+            event: 'messageCreate',
             once: false,
             description: 'Triggered when a .ru URL is received',
         })

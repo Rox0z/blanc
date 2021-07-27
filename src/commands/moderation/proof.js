@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageComponentInteractionCollector, MessageButton, MessageActionRow } = require('discord.js-light')
+const { MessageEmbed, InteractionCollector, MessageButton, MessageActionRow } = require('discord.js')
 const Command = require('../../structures/command.js')
 
 module.exports = class ProofCommand extends Command {
@@ -50,14 +50,14 @@ module.exports = class ProofCommand extends Command {
                 logchannel.send({ embeds: [proofEmbed] }).catch(() => channel.send(this.client.locale(lang, 'ERROR_CANNOT_PROOF')))
             }
         } else {
-            const button = new MessageButton().setEmoji('841519445226160129').setCustomID('witness').setStyle('SECONDARY'),
+            const button = new MessageButton().setEmoji('841519445226160129').setCustomId('witness').setStyle('SECONDARY'),
                 row = new MessageActionRow().addComponents([button])
 
             let sent = await channel.send({ content: this.client.locale(lang, 'PROOF_COMMAND_IMAGE_ASK'), components: [row] })
 
             let filter = (m) => m.author.id === author.id;
             let imgCollector = channel.createMessageCollector({ filter, time: 60000, max: 5 })
-            let buttonCollector = new MessageComponentInteractionCollector(sent, { time: 60000 })
+            let buttonCollector = new InteractionCollector(this.client, {message: sent, time: 60000 })
             imgCollector.on('collect', async (msg) => {
                 if (msg.attachments.size === 0) return msg.delete(), channel.send(this.client.locale(lang, 'ERROR_INVALID_PROOF'))
                 if (!msg.attachments.first().contentType.startsWith('image')) return msg.delete(), channel.send(this.client.locale(lang, 'ERROR_INVALID_PROOF'))
@@ -74,7 +74,7 @@ module.exports = class ProofCommand extends Command {
             buttonCollector.on('collect', async (interaction) => {
                 if (interaction.user.id !== author.id) return interaction.reply({ content: this.client.locale(lang, 'ERROR_AUTHOR_ONLY'), ephemeral: true })
                 interaction.deferUpdate()
-                "witness" === interaction.customID && sent.delete();
+                "witness" === interaction.customId && sent.delete();
                 imgCollector.stop()
                 proofEmbed.addField(proofLocale[lang], witnessLocale[lang], false)
                 let ch = await this.client.guildConfig.get(`${guild.id}.proofsChannel`)
