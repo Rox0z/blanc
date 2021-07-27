@@ -31,4 +31,4 @@
 
 The best way to start is running the `config lang set` to set your preferred locale if necessary.
 
-> You can contact me (`DemonN#8180`) in [Loucademia de Policia](https://discord.gg/policia) if need suppor, or if you want to suggest something, my DMs are open =)
+> You can contact me (`DemonN#8180`) in [Loucademia de Policia](https://discord.gg/policia) if need support, or if you want to suggest something, my DMs are open =)
