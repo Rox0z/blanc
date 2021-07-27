@@ -17,7 +17,8 @@ module.exports = class ConfigCommand extends Command {
         let embedauthor = this.client.locale(lang, 'CONFIG_COMMAND_EMBED_TITLE'),
             embedcatdesc = this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_DESCRIPTION', { custom: ['prefix', prefix] }),
             embedstaticdesc = this.client.locale(lang, 'CONFIG_COMMAND_STATIC_DESC', { custom: ['prefix', prefix] }),
-            proofLocale = { pt: 'Prova', en: 'Proof' }
+            proofLocale = { pt: 'Prova', en: 'Proof' },
+            localeLocale = { pt: 'Idioma', en: 'Locale' }
         const menu = new MessageEmbed()
             .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841518870958964736.png")
             .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_LIST_TITLE'))
@@ -28,7 +29,9 @@ module.exports = class ConfigCommand extends Command {
                 { name: '\u200B', value: '\u200B', inline: 0 },
                 { name: 'Logs', value: '```md\n* create\n* set <logCH channelID>\n* disable```', inline: true },
                 { name: 'ModLogs', value: '```md\n* create\n* set <logCH channelID>\n* disable```', inline: true },
-                { name: proofLocale[lang], value: '```md\n* create\n* set <logCH channelID>\n* disable```', inline: false },
+                { name: '\u200B', value: '\u200B', inline: 0 },
+                { name: proofLocale[lang], value: '```md\n* create\n* set <logCH channelID>\n* disable```', inline: true },
+                { name: localeLocale[lang], value: '```md\n* auto\n* set <en pt>\n ```', inline: true },
             ]),
             prefixMenu = new MessageEmbed()
                 .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841519978397040640.png")
@@ -74,6 +77,14 @@ module.exports = class ConfigCommand extends Command {
                     { name: "Create", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_CREATE'), inline: 0 },
                     { name: "Set", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_SET'), inline: 0 },
                     { name: "Disable", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_PROOFS_DISABLE'), inline: 0 },
+                ]),
+            localeMenu = new MessageEmbed()
+                .setAuthor(embedauthor, "https://cdn.discordapp.com/emojis/841519512678432778.png")
+                .setTitle(this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_TITLE', { custom: ['category', `${localeLocale[lang]}s`] }))
+                .setDescription(embedcatdesc)
+                .addFields([
+                    { name: "Auto", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_LOCALE_AUTO'), inline: 0 },
+                    { name: "Set", value: this.client.locale(lang, 'CONFIG_COMMAND_CATEGORY_FIELD_LOCALE_SET'), inline: 0 },
                 ]);
         let color = 'SECONDARY',
             logs = new MessageButton().setCustomID('logs').setLabel('LOGS').setStyle(color).setEmoji('841742410337091594'),
@@ -81,8 +92,10 @@ module.exports = class ConfigCommand extends Command {
             pref = new MessageButton().setCustomID('pref').setLabel('PREFIX').setStyle(color).setEmoji('841519978397040640'),
             mute = new MessageButton().setCustomID('mute').setLabel('MUTE').setStyle(color).setEmoji('841519038974656522'),
             prof = new MessageButton().setCustomID('proof').setLabel(proofLocale[lang].toUpperCase()).setStyle(color).setEmoji('860982546811715595'),
+            locl = new MessageButton().setCustomID('locle').setLabel(localeLocale[lang].toUpperCase()).setStyle(color).setEmoji('841519276333465631'),
             volt = new MessageButton().setCustomID('back').setStyle('PRIMARY').setEmoji('841742417783029822'),
-            home = new MessageActionRow().addComponents([pref, mute, logs, mlog, prof]),
+            hom1 = new MessageActionRow().addComponents([pref, mute, logs]),
+            hom2 = new MessageActionRow().addComponents([mlog, prof, locl]),
             back = new MessageActionRow().addComponents([volt])
 
         switch (args[0]?.toLowerCase()) {
@@ -257,16 +270,52 @@ module.exports = class ConfigCommand extends Command {
                         message.nmReply({ embeds: [proofMenu.setDescription(embedstaticdesc)] })
                         break;
                 }
+            case 'locale':
+            case 'lang':
+            case 'idioma':
+            case 'idiome':
+            case 'language':
+            case 'lingua':
+                switch (args[1]) {
+                    case 'auto':
+                        await this.client.guildConfig.set(`${guild.id}.guildLocale`, guild.preferredLocale.split('-')[0] === 'pt' ? 'pt' : 'en'),
+                            this.client.locales.set(guild.id, guild.preferredLocale.split('-')[0] === 'pt' ? 'pt' : 'en'),
+                            message.nmReply(this.client.locale(lang, 'RESPONSES_LOCALE_SET'))
+                        break;
+                    case 'set':
+                        if (args[2]) {
+                            if (args[2] !== 'pt' && args[2] !== 'en') return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_LOCALE'))
+                            await this.client.guildConfig.set(`${guild.id}.guildLocale`, args[2]),
+                                this.client.locales.set(guild.id, args[2]),
+                                message.nmReply(this.client.locale(args[2], 'RESPONSES_LOCALE_SET'))
+                        }
+                        else {
+                            let filter = (m) => m.author.id === author.id;
+                            message.nmReply(this.client.locale(lang, 'CHOOSE_LOCALE'))
+                            let col = channel.createMessageCollector({ filter, time: 60000, max: 1 })
+                            col.on('collect', async (msg) => {
+                                let locale = `${msg.content.trim().split(/ +/g)[0]}`
+                                if (locale !== 'pt' && locale !== 'en') return message.nmReply(this.client.locale(lang, 'ERROR_INVALID_LOCALE'))
+                                await this.client.guildConfig.set(`${guild.id}.guildLocale`, locale),
+                                    this.client.locales.set(guild.id, locale),
+                                    message.nmReply(this.client.locale(locale, 'RESPONSES_LOCALE_SET'))
+                            })
+                        }
+                        break;
+                    default:
+                        message.nmReply({ embeds: [localeMenu.setDescription(embedstaticdesc)] })
+                        break;
+                }
                 break;
             default:
-                let sent = await message.nmReply({ embeds: [menu], components: [home] })
+                let sent = await message.nmReply({ embeds: [menu], components: [hom1, hom2] })
                 let collector = new MessageComponentInteractionCollector(sent, { time: 300000 })
 
                 collector.on("collect", async (interaction) => {
                     if (interaction.user.id !== author.id) return interaction.reply({ content: this.client.locale(lang, 'ERROR_AUTHOR_ONLY'), ephemeral: true })
                     interaction.deferUpdate()
                     "back" === interaction.customID
-                        ? sent.nmEdit({ embeds: [menu], components: [home] })
+                        ? sent.nmEdit({ embeds: [menu], components: [hom1, hom2] })
                         : "pref" === interaction.customID
                             ? sent.nmEdit({ embeds: [prefixMenu], components: [back] })
                             : "mute" === interaction.customID
@@ -275,7 +324,9 @@ module.exports = class ConfigCommand extends Command {
                                     ? sent.nmEdit({ embeds: [logsMenu], components: [back] })
                                     : "proof" === interaction.customID
                                         ? sent.nmEdit({ embeds: [proofMenu], components: [back] })
-                                        : "mlog" === interaction.customID && sent.nmEdit({ embeds: [modlogsMenu], components: [back] });
+                                        : "locle" === interaction.customID
+                                            ? sent.nmEdit({ embeds: [localeMenu], components: [back] })
+                                            : "mlog" === interaction.customID && sent.nmEdit({ embeds: [modlogsMenu], components: [back] });
                 })
                 collector.on('end', async () => {
                     sent.nmEdit({ embeds: [menu.setDescription(embedstaticdesc)], components: [] })
