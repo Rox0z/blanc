@@ -39,7 +39,7 @@ module.exports = class ServerInfoCommand extends Command {
                 { name: `${this.client.emoji.icons['sticker']} ${strings.STICKERS}`, value: `\`\`\`${server?.stickers?.cache?.size || '0'}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['members']} ${strings.MEMBERS}`, value: `\`\`\`${server.memberCount}\`\`\``, inline: true },
                 { name: `${this.client.emoji.icons['integration']} ${strings.BOTS}`, value: `\`\`\`${members.filter(m => m.user.bot).size}\`\`\``, inline: true },
-                { name: `${this.client.emoji.icons['owner']} ${owner.username}:`, value: `\`\`\`${server.ownerID}\`\`\``, inline: false },
+                { name: `${this.client.emoji.icons['owner']} ${owner.username}:`, value: `\`\`\`${server.ownerId}\`\`\``, inline: false },
                 { name: `${this.client.emoji.icons['id']} ${strings.SERVER_ID}`, value: `\`\`\`${server.id}\`\`\``, inline: false },
             ]),
             embedchannels = new MessageEmbed()
