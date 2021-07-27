@@ -8,7 +8,7 @@ module.exports = class TemproleCommand extends Command {
             description: { pt: "Atribui ao membro cargos temporários. (Não extende o tempo.)", en: "Gives the target member temporary roles. (Don't extends time.)" },
             category: "Moderation",
             neededPermissions: ['MANAGE_ROLES'],
-            usage: { pt: "temprole <usuáriosID|@usuários> <tempo> <...cargos>", en: 'temprole <userID|@user> <time> <...roles>' },
+            usage: { pt: "temprole <membroID|@membro> <tempo> <...cargos>", en: 'temprole <memberID|@member> <time> <...roles>' },
             channel: 'text',
             title: { pt: "Cargo temporário", en: 'Temporary role' }
         });
