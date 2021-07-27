@@ -172,14 +172,14 @@ module.exports = class Util {
      * @param {Object} [options.author = true] - Return author?
      * @returns {User}
      */
-    async resolveUser(message, text = "null", { author = true } = {}) {
+    async resolveUser(message, text = "null", { author = true, mention = true } = {}) {
         if (!message) throw new TypeError("Message wasn't defined");
         text || (text = "null");
         let res,
             match = text.match(/<@!?(\d{17,19})>/);
         return (
             "DiscordAPIError" ===
-            (res = match ? await this.client.users.fetch(match[1]).catch(() => null) : isNaN(text) ? (message.mentions.users.size > 0 ? message.mentions.users.first() : author ? message.author : null) : await this.client.users.fetch(text).catch((e) => e)).constructor.name &&
+            (res = match ? await this.client.users.fetch(match[1]).catch(() => null) : isNaN(text) ? (message.mentions.users.size > 0 ? mention ? message.mentions.users.first() : null : author ? message.author : null) : await this.client.users.fetch(text).catch((e) => e)).constructor.name &&
             (author ? res = message.author : res = null),
             res
         );
