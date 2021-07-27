@@ -38,6 +38,7 @@ module.exports = class MessageEvent extends Event {
                 if (!(command.channel === 'both' || !(command.channel === 'text' && (channel.type === 'DM' || channel.type === 'GROUP_DM' || channel.type === 'UNKNOWN')))) return
                 !!command.typing && message.channel.sendTyping()
                 command.run({ message, args, guild, channel, author, member: message?.member, prefix, lang });
+                this.client.users.cache.sweep((e) => e.id !== this.client.user.id)
             }
         }
     }
