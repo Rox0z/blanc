@@ -36,9 +36,9 @@ module.exports = class MessageEvent extends Event {
                 if (channel.type !== 'dm' && !this.client.canUse(command.neededPermissions, message?.member?.permissions?.toArray())) return message.channel.send(this.client.locale(lang, 'ERROR_USER_PERM'))
                 if (channel.type !== 'dm' && !this.client.canUse(command.neededPermissions, message?.guild?.me?.permissions?.toArray())) return message.channel.send(this.client.locale(lang, 'ERROR_CLIENT_PERM'))
                 if (!(command.channel === 'both' || !(command.channel === 'text' && (channel.type === 'DM' || channel.type === 'GROUP_DM' || channel.type === 'UNKNOWN')))) return
-                !!command.typing && message.channel.sendTyping()
+                //!!command.typing && message.channel.sendTyping()
                 command.run({ message, args, guild, channel, author, member: message?.member, prefix, lang });
-                this.client.users.cache.sweep((e) => e.id !== this.client.user.id)
+                //this.client.users.cache.sweep((e) => e.id !== this.client.user.id)
             }
         }
     }
