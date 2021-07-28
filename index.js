@@ -38,7 +38,7 @@ class Blanc extends BlancClient {
 
 const client = new Blanc()
 
-//AutoPoster(process.env.TOPGG_TOKEN, client)
+AutoPoster(process.env.TOPGG_TOKEN, client)
 
 require('./src/structures/prototypes').init(client)
 client.init()
