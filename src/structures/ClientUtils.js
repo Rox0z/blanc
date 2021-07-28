@@ -178,8 +178,7 @@ module.exports = class Util {
         let res,
             match = text.match(/<@!?(\d{17,19})>/);
         return (
-            !!(res = match ? await this.client.users.fetch(match[1]).catch(() => null) : isNaN(text) ? (mention ? message.mentions.users.size > 0 ? message.mentions.users.first() : author ? message.author : null : author ? message.author : null) : await this.client.users.fetch(text).catch((e) => e)) === false &&
-            (author ? res = message.author : res = null),
+            res = await this.client.users.fetch(match?.[1]).catch(() => {}) ?? (mention && message.mentions.users.filter(e => (!message.content.startsWith(`<@!${this.client.user.id}>`) || (e.id != this.client.user.id))).first()) ?? (author && message.author) ?? await this.client.users.fetch(text).catch(() => {}),
             res
         );
     }
