@@ -176,9 +176,12 @@ module.exports = class Util {
         if (!message) throw new TypeError("Message wasn't defined");
         text || (text = "null");
         let res,
-            match = text.match(/<@!?(\d{17,19})>/);
+            match = text.match(/<@!?(\d{17,19})>?/);
         return (
-            res = await this.client.users.fetch(match?.[1]).catch(() => {}) ?? (mention && message.mentions.users.filter(e => (!message.content.startsWith(`<@!${this.client.user.id}>`) || (e.id != this.client.user.id))).first()) ?? (author && message.author) ?? await this.client.users.fetch(text).catch(() => {}),
+            res = await this.client.users.fetch(match?.[1]).catch(() => {}) 
+            ?? (mention && message.mentions.users.filter(e => (!message.content.startsWith(`<@!${this.client.user.id}>`) || (e.id != this.client.user.id))).first()) 
+            ?? await this.client.users.fetch(text).catch(() => {}) 
+            ?? (author && message.author),
             res
         );
     }
