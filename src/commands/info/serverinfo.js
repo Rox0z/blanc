@@ -78,8 +78,8 @@ module.exports = class ServerInfoCommand extends Command {
                 putext = threads.filter(t => t.type === 'GUILD_PUBLIC_THREAD' && !server.channels.cache.get(t.parentId).nsfw).size,
                 prtext = threads.filter(t => t.type === 'GUILD_PRIVATE_THREAD').size,
                 nsftext = threads.filter(t => t.type === 'GUILD_PUBLIC_THREAD' && server.channels.cache.get(t.parentId).nsfw).size,
-                punews = threads.filter(t => t.type === 'GUILD_NEWS_THREAD' && !server.channels.cache.get(t.parentId).nsfw && !!channel.permissionOverwrites.filter(r => r.id === server.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL') === false).size,
-                prnews = threads.filter(t => t.type === 'GUILD_NEWS_THREAD' && !!channel.permissionOverwrites.filter(r => r.id === server.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')).size,
+                punews = threads.filter(t => t.type === 'GUILD_NEWS_THREAD' && !server.channels.cache.get(t.parentId).nsfw && !!channel?.permissionOverwrites?.filter(r => r.id === server.roles.everyone.id)?.first()?.deny.toArray().includes('VIEW_CHANNEL') === false).size,
+                prnews = threads.filter(t => t.type === 'GUILD_NEWS_THREAD' && !!channel?.permissionOverwrites?.filter(r => r.id === server.roles.everyone.id)?.first()?.deny.toArray().includes('VIEW_CHANNEL')).size,
                 nsfnews = threads.filter(t => t.type === 'GUILD_NEWS_THREAD' && server.channels.cache.get(t.parentId).nsfw).size,
                 field = {
                     name: this.client.emoji.channels['start']+'\u200b',
