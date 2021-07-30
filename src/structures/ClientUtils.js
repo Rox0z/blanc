@@ -179,8 +179,8 @@ module.exports = class Util {
             res;
         return (
             res = await this.client.users.fetch(match?.[1]).catch(() => {})
-            || (mention && message.mentions.users.filter(e => (!message.content.startsWith(`<@!${this.client.user.id}>`) || (e.id != this.client.user.id))).first())
             || await this.client.users.fetch(text).catch(() => {})
+            || (mention && message.mentions.users.filter(e => (!message.content.startsWith(`<@!${this.client.user.id}>`) || (e.id != this.client.user.id))).first())
             || (author && message.author),
             res
         );
