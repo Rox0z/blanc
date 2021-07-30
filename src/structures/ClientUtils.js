@@ -175,13 +175,13 @@ module.exports = class Util {
     async resolveUser(message, text = "null", { author = true, mention = true } = {}) {
         if (!message) throw new TypeError("Message wasn't defined");
         text || (text = "null");
-        let res,
-            match = text.match(/<@!?(\d{17,19})>?/);
+        let match = text.match(/<@!?(\d{17,19})>?/),
+            res;
         return (
-            res = await this.client.users.fetch(match?.[1]).catch(() => {}) 
-            ?? (mention && message.mentions.users.filter(e => (!message.content.startsWith(`<@!${this.client.user.id}>`) || (e.id != this.client.user.id))).first()) 
-            ?? await this.client.users.fetch(text).catch(() => {}) 
-            ?? (author && message.author),
+            res = await this.client.users.fetch(match?.[1]).catch(() => {})
+            || (mention && message.mentions.users.filter(e => (!message.content.startsWith(`<@!${this.client.user.id}>`) || (e.id != this.client.user.id))).first())
+            || await this.client.users.fetch(text).catch(() => {})
+            || (author && message.author),
             res
         );
     }
