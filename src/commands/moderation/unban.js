@@ -20,7 +20,7 @@ module.exports = class UnbanCommand extends Command {
 
         let reason = args.slice(1).join(' ')
         await guild.members
-            .unban(user.id, { reason: reason })
+            .unban(user.id, { reason: reason.length === 0 ? this.client.locale(lang, 'NO_REASON') : reason })
             .then(message.nmReply(this.client.locale(lang, 'USER_PUNISHED')));
 
             let ch = await this.client.guildConfig.get(`${guild.id}.modLogsChannel`)
