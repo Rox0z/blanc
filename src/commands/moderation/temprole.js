@@ -16,7 +16,7 @@ module.exports = class TemproleCommand extends Command {
     async run({ args, message, guild, lang }) {
         if (!args[0]) return message.nmReply(this.client.locale(lang, 'ERROR_NO_USER'))
         if (!args[2]) return message.channel.send(this.client.locale(lang, 'ERROR_PROVIDE_ROLES', { custom: ['prefix', prefix] }))
-        let user = await this.client.utils.resolveUser(message, args[0])
+        let user = await this.client.utils.resolveUser(message, args[0], {author: false, mention: false})
         let member = await guild.members.fetch(user.id).catch(() => null)
         if (!member) return message.channel.send(this.client.locale(lang, 'ERROR_INVALID_MEMBER'))
         let roles = args.slice(2).map(arg => arg = arg.match(/(<@&)?(\d{17,19})>?/)[2])
