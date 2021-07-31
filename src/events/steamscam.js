@@ -29,7 +29,7 @@ module.exports = class ScamEvent extends Event {
             }
             message.delete()
         }
-        else if (message?.content?.inlcudes('Discord Nitro for Free - Steam Store')) {
+        else if (message?.content?.includes('Discord Nitro for Free - Steam Store')) {
             let content = message.content
             const banned = await message.guild.members
                 .ban(message.author.id, { days: 1, reason: `Scam link for Nitro` })
