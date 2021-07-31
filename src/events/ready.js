@@ -10,7 +10,7 @@ module.exports = class ReadyEvent extends Event {
     }
     async run() {
         console.log("My eyes are open, but everything is blanc...")
-        console.log(boxen(`Prefix: ${this.client.defaultPrefix}\nName:   ${this.client.user.tag}\nOwners: ${this.client.ownerID.join(', ')}`, { align: 'left', borderColor: "greenBright", dimBorder: false, padding: 1, margin: 1, borderStyle: 'round' }))
+        console.log(boxen(`Prefix: ${this.client.defaultPrefix}\nName:   ${this.client.user.tag}\nOwners: ${this.client.ownerID.join(', ')}`, { align: 'left', padding: 1, margin: 1, borderStyle: 'round' }))
         //console.log("Events");
         //console.table(this.client.events.map((event) => ({ name: event.id, description: event.description })).reduce((e, { name, ...i }) => ((e[name] = i), e), {}));
         //console.log("Commands");
