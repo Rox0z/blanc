@@ -10,7 +10,7 @@ module.exports = class ScamEvent extends Event {
         })
     }
     async run(message) {
-        if (message.guild.id !== '275458197941125121') return 
+        if (message.guild.id !== '275458197941125121') return
         if (message?.content?.match(/[(http(s)?):\/\/(www\.)?\w]{2,256}\.ru\//gim)) {
             let content = message.content
             const banned = await message.guild.members
@@ -18,6 +18,24 @@ module.exports = class ScamEvent extends Event {
             if (!banned) return
             const embed = new MessageEmbed()
                 .setTitle(`BANNED - Steam Scam from: ${message.author.username} (${message.author.id})`)
+                .setDescription('```' + content + '```')
+                .setColor('#f00')
+
+            let ch = await this.client.guildConfig.get(`${message.guild.id}.logsChannel`)
+            if (typeof ch === 'string') {
+                let logchannel = await this.client.utils.resolveChannel(message.guild, ch)
+                if (!logchannel) return await this.client.guildConfig.set(`${message.guild.id}.logsChannel`, null).catch(() => null)
+                logchannel.send({ embeds: [embed] })
+            }
+            message.delete()
+        }
+        else if (message?.content?.inlcudes('Discord Nitro for Free - Steam Store')) {
+            let content = message.content
+            const banned = await message.guild.members
+                .ban(message.author.id, { days: 1, reason: `Scam link for Nitro` })
+            if (!banned) return
+            const embed = new MessageEmbed()
+                .setTitle(`BANNED - Nitro Scam from: ${message.author.username} (${message.author.id})`)
                 .setDescription('```' + content + '```')
                 .setColor('#f00')
 
