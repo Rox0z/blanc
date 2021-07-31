@@ -4,11 +4,11 @@ const Command = require("../../structures/command.js"),
 module.exports = class BanCommand extends Command {
     constructor(...args) {
         super(...args, {
-            aliases: ["ban"],
-            description: { pt: "Bane um usuário.", en: "Bans a user" },
+            aliases: ["ban", "forceban"],
+            description: { pt: "Bane um ou vários usuário.", en: "Bans one or more users" },
             category: "Moderation",
             neededPermissions: ['BAN_MEMBERS'],
-            usage: { pt: "ban <usuárioID|@usuário> [...motivo]", en: 'ban <userID|@user> [...reason]' },
+            usage: { pt: "ban <...usuárioID|@usuário> [...motivo]", en: 'ban <...userID|@user> [...reason]' },
             channel: 'text',
             title: 'Ban'
         });
