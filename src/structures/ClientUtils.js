@@ -178,12 +178,36 @@ module.exports = class Util {
         let match = text.match(/<@!?(\d{17,19})>?/),
             res;
         return (
-            res = await this.client.users.fetch(match?.[1]).catch(() => {})
-            || await this.client.users.fetch(text).catch(() => {})
-            || (mention && message.mentions.users.filter(e => (!message.content.startsWith(`<@!${this.client.user.id}>`) || (e.id != this.client.user.id))).first())
+            res = (mention && message.mentions.users.filter(e => (!message.content.startsWith(`<@!${this.client.user.id}>`) || (e.id != this.client.user.id))).first())
+            || await this.client.users.fetch(match?.[1]).catch(() => { })
+            || await this.client.users.fetch(text).catch(() => { })
             || (author && message.author),
             res
         );
+    }
+    async multiResolver(message, args) {
+        let res = {
+            users: new Array(),
+            fails: new Array(),
+            reason: new String()
+        },
+            snowflakeRegExp = /(<@)?!?(\d{17,19})>?/,
+            trigg = true,
+            sliceAt;
+        args = args.join(' ').replace(/(\n)/gm, " ").trim().split(/ +/gm)
+
+        for (let [i, str] of args.entries()) {
+            if (trigg) { trigg = snowflakeRegExp.test(str) }
+            if (!trigg) { break; }
+            sliceAt = ++i
+        }
+        for (let [i, id] of [...new Set(args.slice(0, sliceAt))].entries()) {
+            let u = await this.client.utils.resolveUser(message, id.match(snowflakeRegExp)?.[2], { author: false, mention: false })
+            u ? res.users.push(u) : res.fails.push(id)
+        }
+        args.splice(0, sliceAt)
+        res.reason = args.join(' ').trim()
+        return res
     }
     async resolveChannel(guild, text = "null") {
         if (!guild) throw new TypeError("Guild wasn't defined");
@@ -234,7 +258,7 @@ module.exports = class Util {
      */
     async channelType(channel) {
         let type
-        let parentCH = await channel.guild.channels.fetch(channel.parentId).catch(()=>null)
+        let parentCH = await channel.guild.channels.fetch(channel.parentId).catch(() => null)
         if (channel.type === 'GUILD_TEXT' && channel.guild.rulesChannel.id === channel.id) type = 'rules'
         else if (channel.type === 'GUILD_STORE') type = 'store'
         else if (channel.type === 'GUILD_TEXT' && !channel.nsfw && !!!channel.permissionOverwrites.cache.filter(r => r.id === channel.guild.roles.everyone.id).first()?.deny.toArray().includes('VIEW_CHANNEL')) type = 'text'
