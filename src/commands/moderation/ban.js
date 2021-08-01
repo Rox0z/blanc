@@ -26,15 +26,14 @@ module.exports = class BanCommand extends Command {
         }
         users = users.filter(u => u)
         message.react('841742417303961622')
-        let color
-        if (fails.length >= 1 && banned.length >= 1) {color = '#ff0000'} else if (fails.length >= 1 || banned.length >= 1) {color = '#ff8800'} else {color = '#00ff00'}
+        let color = (fails.length >= 1 && banned.length >= 1 ? "#ff0000" : fails.length >= 1 || banned.length >= 1 ? "#ff8800" : "#00ff00")
         const embed = new MessageEmbed()
             .setColor(color)
             .setTitle(this.client.locale(lang, 'USER_PUNISHED'))
             .addField(this.client.locale(lang, 'REASON'), `\`\`\`${reason.length === 0 ? this.client.locale(lang, 'NO_REASON') : reason}\`\`\``, false)
         if (banned.length >= 1) { embed.addField(this.client.locale(lang, 'ALREADY_BANNED'), `\`\`\`\n${banned.join('\n')}\`\`\``, false) }
         if (fails.length >= 1) { embed.addField(this.client.locale(lang, 'ERROR_FAILED_BANS'), `\`\`\`\n${fails.join('\n')}\`\`\``, false) }
-        message.nmReply({embeds: [embed]})
+        message.nmReply({ embeds: [embed] })
         let ch = await this.client.guildConfig.get(`${guild.id}.modLogsChannel`)
         if (typeof ch === 'string') {
             let logchannel = await this.client.utils.resolveChannel(guild, ch)
