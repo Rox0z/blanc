@@ -186,27 +186,17 @@ module.exports = class Util {
         );
     }
     async multiResolver(message, args) {
-        let res = {
-            users: new Array(),
-            fails: new Array(),
-            reason: new String()
-        },
+        let res = { users: new Array(), fails: new Array(), reason: new String() },
             snowflakeRegExp = /(<@)?!?(\d{17,19})>?/,
             trigg = true,
             sliceAt;
         args = args.join(' ').replace(/(\n)/gm, " ").trim().split(/ +/gm)
-
-        for (let [i, str] of args.entries()) {
-            if (trigg) { trigg = snowflakeRegExp.test(str) }
-            if (!trigg) { break; }
-            sliceAt = ++i
-        }
-        for (let [i, id] of [...new Set(args.slice(0, sliceAt))].entries()) {
+        for (let [i, str] of args.entries()) { if ((trigg && (trigg = snowflakeRegExp.test(str)), !trigg)) break; sliceAt = ++i; }
+        for (let id of [...new Set(args.slice(0, sliceAt))]) {
             let u = await this.client.utils.resolveUser(message, id.match(snowflakeRegExp)?.[2], { author: false, mention: false })
             u ? res.users.push(u) : res.fails.push(id)
         }
-        args.splice(0, sliceAt)
-        res.reason = args.join(' ').trim()
+        args.splice(0, sliceAt), res.reason = args.join(' ').trim()
         return res
     }
     async resolveChannel(guild, text = "null") {
