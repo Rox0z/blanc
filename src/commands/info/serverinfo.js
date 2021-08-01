@@ -9,7 +9,7 @@ const Command = require('../../structures/command.js'),
         "lvl3": "<:lvl3:861001066106322975> ",
         "": ""
     },
-    localeEmoji = require('locale-emoji')
+    {flag} = require('country-emoji')
 
 module.exports = class ServerInfoCommand extends Command {
     constructor(...args) {
@@ -30,7 +30,7 @@ module.exports = class ServerInfoCommand extends Command {
         const strings = this.client.locale(lang, 'SERVERINFO_COMMAND_FIELDS')
         const embed = new MessageEmbed()
             .setColor('#fefefe')
-            .setTitle(`${badges[this.client.utils.guildBadge(server)]}${server.name}    ${localeEmoji(server.preferredLocale)}`)
+            .setTitle(`${badges[this.client.utils.guildBadge(server)]}${server.name}    ${flag(await server.region)}`)
             .setThumbnail(server.iconURL({ dynamic: true }))
             .setDescription(`${this.client.emoji.icons['calendar']} **${strings.SINCE}** <t:${Math.round(server.createdTimestamp / 1000)}:F>`)
             .addFields([
@@ -43,7 +43,7 @@ module.exports = class ServerInfoCommand extends Command {
                 { name: `${this.client.emoji.icons['id']} ${strings.SERVER_ID}`, value: `\`\`\`${server.id}\`\`\``, inline: false },
             ]),
             embedchannels = new MessageEmbed()
-                .setTitle(`${badges[this.client.utils.guildBadge(server)]}${server.name}    ${localeEmoji(server.preferredLocale)}`)
+                .setTitle(`${badges[this.client.utils.guildBadge(server)]}${server.name}    ${flag(await server.region)}`)
                 .setColor('#fefefe')
                 .setThumbnail(server.iconURL({ dynamic: true }))
                 .addFields([
@@ -57,7 +57,7 @@ module.exports = class ServerInfoCommand extends Command {
                     { name: `${this.client.emoji.channels['voice']} AFK:`, value: `${server.afkChannel || this.client.locale(lang, 'NONE')}`, inline: true },
                 ]),
             embedroles = new MessageEmbed()
-                .setTitle(`${badges[this.client.utils.guildBadge(server)]}${server.name}    ${localeEmoji(server.preferredLocale)}`)
+                .setTitle(`${badges[this.client.utils.guildBadge(server)]}${server.name}    ${flag(await server.region)}`)
                 .setColor('#fefefe')
                 .setThumbnail(server.iconURL({ dynamic: true }))
                 .addFields([
