@@ -1,4 +1,4 @@
-const { Message, MessagePayload, User, Presence } = require('discord.js')
+const { Message, MessagePayload, User, Presence, Guild } = require('discord.js')
 
 module.exports = class Prototypes {
     static init() {
@@ -40,6 +40,9 @@ module.exports = class Prototypes {
                 }
                 return new Presence(this.client, { user: { id: this.id } });
             }
+        });
+        Object.defineProperty(Guild.prototype, "region", {
+            get: async function region() {return await this.client.api.guilds(this.id).get().then(g => g.region)}
         });
     }
 }
