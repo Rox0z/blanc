@@ -62,9 +62,9 @@ module.exports = class ServerInfoCommand extends Command {
                 .setThumbnail(server.iconURL({ dynamic: true }))
                 .addFields([
                     { name: `${this.client.emoji.icons['role']} ${strings.TOTAL}`, value: `\`\`\`${server.roles.cache.size - 1}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.icons['mod']} ${strings.MODS}`, value: `\`\`\`${server.roles.cache.array().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.icons['members']} ${strings.COMMONS}`, value: `\`\`\`${(server.roles.cache.size - 1) - (server.roles.cache.array().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length)}\`\`\``, inline: true },
-                    { name: `${this.client.emoji.icons['activity']} ${strings.ROLES}`, value: this.client.utils.trimArray(server.roles.cache.sort((a, b) => b.position - a.position).array().slice(0, -1), 20).join('\n') }
+                    { name: `${this.client.emoji.icons['mod']} ${strings.MODS}`, value: `\`\`\`${server.roles.cache.toJSON().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length}\`\`\``, inline: true },
+                    { name: `${this.client.emoji.icons['members']} ${strings.COMMONS}`, value: `\`\`\`${(server.roles.cache.size - 1) - (server.roles.cache.toJSON().filter(c => c.permissions.toArray().hasAny(this.client.MODPERMS)).length)}\`\`\``, inline: true },
+                    { name: `${this.client.emoji.icons['activity']} ${strings.ROLES}`, value: this.client.utils.trimArray(server.roles.cache.sort((a, b) => b.position - a.position).toJSON().slice(0, -1), 20).join('\n') }
                 ])
             ,
             chan = new MessageButton().setEmoji('841742417514332213').setStyle('SECONDARY').setCustomId('channels').setLabel(this.client.locale(lang, 'BUTTONLABEL_CHANNELS')),

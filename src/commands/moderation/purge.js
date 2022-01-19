@@ -21,12 +21,12 @@ module.exports = class PurgeCommand extends Command {
 
         if (/(<@)?!?(\d{17,19})>?/gmi.test(type)) {
             let user = await this.client.utils.resolveUser(message, type, { author: false, mention: false })
-            messages = (((await channel.messages.fetch({ limit: 100 })).filter(m => !m.pinned).filter(m => m !== message).filter(m => m.author === user)).array()).slice(0, args?.[1] ? args[1] > purgeLimit ? purgeLimit : args[1] : purgeLimit)
+            messages = (((await channel.messages.fetch({ limit: 100 })).filter(m => !m.pinned).filter(m => m !== message).filter(m => m.author === user)).toJSON()).slice(0, args?.[1] ? args[1] > purgeLimit ? purgeLimit : args[1] : purgeLimit)
         } else if (!isNaN(type)) {
-            messages = (((await channel.messages.fetch({ limit: 100 })).filter(m => !m.pinned).filter(m => m !== message)).array()).slice(0, args[0] ? args[0] > purgeLimit ? purgeLimit : args[0] : purgeLimit)
+            messages = (((await channel.messages.fetch({ limit: 100 })).filter(m => !m.pinned).filter(m => m !== message)).toJSON()).slice(0, args[0] ? args[0] > purgeLimit ? purgeLimit : args[0] : purgeLimit)
         } else if ((type === 'text' || type === 'match' || type === 'contem')) {
             if (!args[1]) return channel.send(this.client.locale(lang, 'ERROR_INVALID_TEXT'))
-            messages = (((await channel.messages.fetch({ limit: 100 })).filter(m => !m.pinned).filter(m => m !== message).filter(this.fetchFilter({ type, text: args.slice(1).join(' ') }))).array()).slice(0, args[2] ? args[2] > purgeLimit ? purgeLimit : args[2] : purgeLimit)
+            messages = (((await channel.messages.fetch({ limit: 100 })).filter(m => !m.pinned).filter(m => m !== message).filter(this.fetchFilter({ type, text: args.slice(1).join(' ') }))).toJSON()).slice(0, args[2] ? args[2] > purgeLimit ? purgeLimit : args[2] : purgeLimit)
         } else {
             messages = ((await channel.messages.fetch({ limit: 100 })).filter(m => !m.pinned).filter(m => m !== message).filter(this.fetchFilter({ type })))
         }

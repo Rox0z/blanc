@@ -1,5 +1,5 @@
 const Command = require('../../structures/command.js')
-const codeInBlock = /^```(?:js)?\s(.+[^\\])```$/is;
+const codeInBlock = /```(?:js)?\s(.+[^\\])```$/is;
 const { MessageEmbed } = require('discord.js')
 const REGEXPESC = /[-/\\^$*+?.()|[\]{}]/g;
 const zws = String.fromCharCode(8203);
@@ -20,9 +20,9 @@ module.exports = class EvalCommand extends Command {
             return str.replace(REGEXPESC, '\\$&');
         }
         const clean = (text) => { return text.replace(new RegExp(regExpEsc(this.client.token), 'gi'), '「ｒｅｄａｃｔｅｄ」').replace(/`/g, `\`${zws}`).replace(/@/g, `@${zws}`); }
-        let code = args.join(' '),
+        let code = message.content,
             silent = false
-        if (codeInBlock.test(code)) { code = code.replace(codeInBlock, "$1"); }
+        if (codeInBlock.test(code)) { code = code.match(codeInBlock)[1]; }
         if (!!code.match(/--silent/gmi)) { code = code.replace(/--silent/gmi, '').trim(); silent = true }
         if (code.includes("await")) { code = `async () => {${code}}`; } else { code = `() => {${code}}`; }
         let out = null

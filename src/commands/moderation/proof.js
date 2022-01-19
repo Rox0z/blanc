@@ -41,8 +41,8 @@ module.exports = class ProofCommand extends Command {
                 { name: `${this.client.emoji.icons['activity']} ${this.client.locale(lang, 'REASON')}`, value: `\`\`\`${reason.length > 0 ? reason : this.client.locale(lang, 'NO_REASON')}\`\`\``, inline: false }
             ])
 
-        if (message?.attachments?.array()[0]) {
-            proofEmbed.setImage(message?.attachments?.array()[0].proxyURL)
+        if (message?.attachments?.toJSON()[0]) {
+            proofEmbed.setImage(message?.attachments?.toJSON()[0].proxyURL)
             let ch = await this.client.guildConfig.get(`${guild.id}.proofsChannel`)
             if (typeof ch === 'string') {
                 let logchannel = await this.client.utils.resolveChannel(guild, ch)

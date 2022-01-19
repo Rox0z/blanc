@@ -15,6 +15,6 @@ module.exports = class SelfClearCommand extends Command {
         })
     }
     async run({message, args, guild, channel, author, prefix, lang}) {
-        channel.bulkDelete( ((await channel.messages.fetch()).filter(m => m.author === this.client.user).array()).slice(0,200))
+        channel.bulkDelete( ((await channel.messages.fetch()).filter(m => m.author === this.client.user).toJSON()).slice(0,200))
     }
 }
