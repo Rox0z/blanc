@@ -27,7 +27,7 @@ module.exports = class MessageEvent extends Event {
             prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : this.client.defaultPrefix
         }
         if (message.content.startsWith(prefix)) {
-            const [cmd, ...args] = message.content.slice(prefix.length).trim().split(/ +/g),
+            const [cmd, ...args] = message.content.slice(prefix.length).trim().split(/\s+/g),
                 command = this.client.commands.get(cmd.toLowerCase()) || this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
             if (command) {
                 const { guild, channel, author } = message;
