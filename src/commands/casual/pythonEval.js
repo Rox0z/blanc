@@ -23,7 +23,7 @@ module.exports = class PythonEvalCommand extends Command {
             .setTitle(`Python - Evaluate`)
             .setDescription(
                 `Output ↓` +
-                `\`\`\`py\n${data.output.length > 0 ? data.output : "void"}`.slice(0, 2000) +
+                `\`\`\`py\n${data?.output?.length > 0 ? data.output : "void"}`.slice(0, 2000) +
                 `\n\`\`\``
             )
         message.nmReply({ embeds: [embed] })
