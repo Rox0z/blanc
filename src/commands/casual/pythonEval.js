@@ -1,5 +1,5 @@
 const Command = require('../../structures/command.js'),
-    codeInBlock = /```(?:py)?\s(.+[^\\])```$/is,
+    codeInBlock = /```(?:py)?[\s+]?(.+[^\\])```$/is,
     Eval = require('open-eval'),
     { MessageEmbed } = require('discord.js'),
     ev = new Eval();
