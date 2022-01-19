@@ -1,5 +1,5 @@
 const Command = require('../../structures/command.js'),
-    codeInBlock = /^```(?:py)?\s(.+[^\\])```$/is,
+    codeInBlock = /```(?:py)?\s(.+[^\\])```$/is,
     Eval = require('open-eval'),
     { MessageEmbed } = require('discord.js'),
     ev = new Eval();
@@ -17,7 +17,7 @@ module.exports = class PythonEvalCommand extends Command {
         })
     }
     async run({ message, args, guild, channel, author, prefix, lang }) {
-        let code = args.join(' ');
+        let code = message.content;
         if (codeInBlock.test(code)) { code = code.replace(codeInBlock, "$1"); }
         let data = await ev.eval("python3", code)
         let embed = new MessageEmbed()
