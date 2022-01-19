@@ -8,8 +8,7 @@ module.exports = class PythonEvalCommand extends Command {
         super(...args, {
             aliases: ['pyev', 'pyeval'],
             description: "Evaluate python code externaly.",
-            category: 'Owner',
-            ownerOnly: true,
+            category: 'Casual',
             channel: 'both',
             neededPermissions: [],
             title: "Python Eval",
