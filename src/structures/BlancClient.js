@@ -57,6 +57,7 @@ class BlancClient extends Client {
         return Array.isArray(this.ownerID) ? this.ownerID.includes(id) : id === this.ownerID;
     }
     canUse(neededPerms, userPerms) {
+        if (userPerms.includes('ADMINISTRATOR')) return true;
         return !neededPerms.map(perm => userPerms.includes(perm)).filter(e => e == 0).length > 0
     }
     /**
